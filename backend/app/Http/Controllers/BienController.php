@@ -30,6 +30,19 @@ class BienController extends Controller
             'status'=> 200,
             'biens'=>'le Bien est ajouté',
         ]);
+    }
 
+    function delete($id){
+        $result= Bien::where('code_barre',$id)->delete();
+        if($result){
+            return response()->json([
+                'status'=> 200,
+                'result'=>'le Bien est supprimé',
+            ]);
+        } else {
+            return response()->json([
+                'result'=>'le Bien n est pas supprimé',
+            ]);
+        }
     }
 }

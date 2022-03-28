@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Bien Routes
 Route::get('bien', 'BienController@index')->name('bien');
 Route::post('add-bien', 'BienController@store');
+Route::delete('delete-bien/{id}', 'BienController@delete');
+
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');

@@ -189,7 +189,7 @@ export default function BienList() {
                             {row.duree_de_vie}
                           </TableCell>
                           <TableCell align="left">
-                            <BienMoreMenu />
+                            <BienMoreMenu getBiens={getBiens} codeBarre={row.code_barre} />
                           </TableCell>
                         </TableRow>
                       )

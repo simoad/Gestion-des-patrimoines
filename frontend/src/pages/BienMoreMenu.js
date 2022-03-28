@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
@@ -7,9 +8,15 @@ import Iconify from '../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function UserMoreMenu({codeBarre,getBiens}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const deleteBien = async (id) => {
+    const res = await axios.delete(`http://127.0.0.1:8000/api/delete-bien/${id}`);
+    getBiens();
+    console.log(res.data.result);
+  };
 
   return (
     <>
@@ -27,7 +34,7 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem onClick={() => deleteBien(codeBarre)}  sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
