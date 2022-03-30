@@ -6,20 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Affectation;
 
-class Bien extends Model
+class Bureau extends Model
 {
     use HasFactory;
 
-    protected $table = 'bien';
-
-    protected $fillable = [
-        'code_barre',
-        'id_categorie',
-        'nom',
-        'garantie',
-        'duree_de_vie',
-        'statut'
-    ];
+    protected $table = 'bureau';
 
     public function affectations()
     {

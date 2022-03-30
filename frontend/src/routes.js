@@ -12,6 +12,8 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import BienList from './pages/BienList';
 import AddBien from './pages/AddBien';
+import EditBien from './pages/EditBien';
+
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +25,7 @@ export default function Router() {
       children: [
         { path: 'biens', element: <BienList /> },
         { path: 'addBien', element: <AddBien /> },
+        { path: 'editBien/:id', element: <EditBien /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },

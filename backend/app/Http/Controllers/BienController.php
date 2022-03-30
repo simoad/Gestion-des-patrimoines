@@ -32,6 +32,32 @@ class BienController extends Controller
         ]);
     }
 
+    function edit($id){
+        $bien = Bien::where('code_barre',$id)->get();
+        return response()->json([
+            'status'=> 200,
+            'bien'=>$bien,
+        ]);
+    }
+
+    function update(Request $request){
+        $bien = Bien::where('code_barre',$request->code_barre);
+
+        $bien->update([
+        'id_categorie' => $request->id_categorie,
+        'nom'          => $request->nom_bien,
+        'garantie'     => $request->garantie,
+        'duree_de_vie' => $request->duree_de_vie,
+        'statut'       => $request->statut
+        ]);
+
+        return response()->json([
+            'status'=> 200,
+            'biens'=>'le Bien est mis a jour',
+        ]);
+
+    }
+
     function delete($id){
         $result= Bien::where('code_barre',$id)->delete();
         if($result){

@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('bien', 'BienController@index')->name('bien');
 Route::post('add-bien', 'BienController@store');
 Route::delete('delete-bien/{id}', 'BienController@delete');
+Route::get('edit-bien/{id}', 'BienController@edit');
+Route::put('update-bien/{id}', 'BienController@update');
+
 
 
 // Categorie Routes
