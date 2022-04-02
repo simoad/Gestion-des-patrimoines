@@ -6,8 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
@@ -24,16 +28,22 @@ export default function RegisterForm() {
     password: Yup.string().required('Password is required')
   });
 
+
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      nom: '',
+      prenom: '',
       email: '',
-      password: ''
+      password: '',
+      role: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: async (values) => {
+        await fetch("http://127.0.0.1:8000/api/register", {
+        method: 'POST',
+        headers:{"Content-Type": "application/json"},
+        body: JSON.stringify(values)
+      });
     }
   });
 
@@ -46,20 +56,41 @@ export default function RegisterForm() {
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="First name"
-              {...getFieldProps('firstName')}
+              label="nom"
+              autoComplete="nom"
+              onChange={formik.handleChange}
+            value={formik.values.nom}
+              {...getFieldProps('nom')}
               error={Boolean(touched.firstName && errors.firstName)}
               helperText={touched.firstName && errors.firstName}
             />
 
             <TextField
               fullWidth
-              label="Last name"
-              {...getFieldProps('lastName')}
+              label="prenom"
+              autoComplete="prenom"
+              onChange={formik.handleChange}
+            value={formik.values.prenom}
+              {...getFieldProps('prenom')}
               error={Boolean(touched.lastName && errors.lastName)}
               helperText={touched.lastName && errors.lastName}
             />
           </Stack>
+          <FormControl fullWidth>
+            <InputLabel id="role_label">Role</InputLabel>
+            <Select
+              labelId="role_label"
+              id="role_id"
+              onChange={formik.handleChange}
+              {...getFieldProps('role')}
+              label="Role"
+              
+            >
+              <MenuItem value="employee">employee</MenuItem>
+              <MenuItem value="gestionnaire">gestionnaire</MenuItem>
+              <MenuItem value="service_de_reclamation">service de reclamation</MenuItem>
+            </Select>
+          </FormControl>
 
           <TextField
             fullWidth
@@ -67,6 +98,8 @@ export default function RegisterForm() {
             type="email"
             label="Email address"
             {...getFieldProps('email')}
+            onChange={formik.handleChange}
+            value={formik.values.email}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
@@ -76,6 +109,8 @@ export default function RegisterForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
