@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 
@@ -19,15 +19,15 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string()
+    nom: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('First name required'),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
+    prenom: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().required('Password is required'),
+    role: Yup.string().required('role is required')
   });
-
 
   const formik = useFormik({
     initialValues: {
@@ -39,11 +39,13 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
+      alert(JSON.stringify(values, null, 5));
         await fetch("http://127.0.0.1:8000/api/register", {
         method: 'POST',
         headers:{"Content-Type": "application/json"},
         body: JSON.stringify(values)
       });
+      alert(JSON.stringify(values, null, 5));
     }
   });
 
@@ -58,22 +60,18 @@ export default function RegisterForm() {
               fullWidth
               label="nom"
               autoComplete="nom"
-              onChange={formik.handleChange}
-            value={formik.values.nom}
               {...getFieldProps('nom')}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
+              error={Boolean(touched.nom && errors.nom)}
+              helperText={touched.nom && errors.nom}
             />
 
             <TextField
               fullWidth
               label="prenom"
               autoComplete="prenom"
-              onChange={formik.handleChange}
-            value={formik.values.prenom}
               {...getFieldProps('prenom')}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
+              error={Boolean(touched.prenom && errors.prenom)}
+              helperText={touched.prenom && errors.prenom}
             />
           </Stack>
           <FormControl fullWidth>
@@ -81,7 +79,6 @@ export default function RegisterForm() {
             <Select
               labelId="role_label"
               id="role_id"
-              onChange={formik.handleChange}
               {...getFieldProps('role')}
               label="Role"
               
@@ -98,8 +95,6 @@ export default function RegisterForm() {
             type="email"
             label="Email address"
             {...getFieldProps('email')}
-            onChange={formik.handleChange}
-            value={formik.values.email}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
@@ -109,8 +104,6 @@ export default function RegisterForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
