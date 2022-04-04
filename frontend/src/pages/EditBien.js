@@ -19,10 +19,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
 // component
 import Page from '../components/Page';
+import EditBienForm from './EditBienForm';
 
 // ----------------------------------------------------------------------
 
-export default function EditBienForm() {
+export default function EditBien() {
   const [categories, setCategories] = useState([{
     id_categorie : 1,
     nom_categorie : ''
@@ -94,8 +95,6 @@ export default function EditBienForm() {
     padding: theme.spacing(3, 0)
   }));
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-
   return (
     <Page title="Ajouter votre biens">
       <Container>
@@ -125,80 +124,7 @@ export default function EditBienForm() {
           Votre bien est modifié ! 
         </Alert>
       </Collapse>
-        <FormikProvider value={formik}>
-          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <Stack spacing={3}>
-
-                <TextField
-                  fullWidth
-                  label="Code Barre"
-                  {...getFieldProps('code_barre')}
-                  error={Boolean(touched.code_barre && errors.code_barre)}
-                  helperText={touched.code_barre && errors.code_barre}
-                />
-
-                <TextField  
-                  fullWidth 
-                  label="Nom" 
-                  {...getFieldProps('nom_bien')} 
-                  error={Boolean(touched.nom_bien && errors.nom_bien)}
-                  helperText={touched.nom_bien && errors.nom_bien}
-                />
-
-                <FormControl fullWidth>
-                  <InputLabel id="categorie-input-label">Catégorie</InputLabel>
-                  <Select
-                    labelId="categorie-input-label"
-                    id="categorie-input"
-                    {...getFieldProps('id_categorie')}
-                    onChange={formik.handleChange}
-                    label="Catégorie"
-                    PaperProps={{
-                        style: {
-                          maxHeight: ITEM_HEIGHT * 4.5,
-                          width: '20ch',
-                        },
-                    }}
-                  >
-                  {categories.map((item) => (
-                    <MenuItem key={item.id_categorie} value={item.id_categorie}>{item.nom_categorie}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <TextField  
-                  fullWidth 
-                  label="Garantie" 
-                  {...getFieldProps('garantie')} 
-                  error={Boolean(touched.garantie && errors.garantie)}
-                  helperText={touched.garantie && errors.garantie}
-                />
-
-                <TextField
-                  fullWidth 
-                  label="Durée de vie" 
-                  {...getFieldProps('duree_de_vie')} 
-                  error={Boolean(touched.duree_de_vie && errors.duree_de_vie)}
-                  helperText={touched.duree_de_vie && errors.duree_de_vie}
-                />
-
-                <Field  
-                  hidden
-                  name="statut"
-                  value={bienEdit.statut}
-                />
-
-              <LoadingButton
-                size="large"
-                type="submit"
-                variant="contained"
-                loading={isSubmitting}
-              >
-                Modifier bien
-              </LoadingButton>
-            </Stack>
-          </Form>
-        </FormikProvider>
+        <EditBienForm />
       </ContentStyle>
       </Container>
     </Page>

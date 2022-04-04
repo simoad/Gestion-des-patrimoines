@@ -12,6 +12,7 @@ class Affectation extends Model
     use HasFactory;
 
     protected $table = 'affectation';
+    const CREATED_AT = 'date_affectation';
 
     public function bien()
     {

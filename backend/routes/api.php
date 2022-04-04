@@ -5,10 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\UserController;
-
-
-
-
+use App\Http\Controllers\AffectationController;
+use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\BureauController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -21,6 +20,17 @@ Route::post('add-bien', 'BienController@store');
 Route::delete('delete-bien/{id}', 'BienController@delete');
 Route::get('edit-bien/{id}', 'BienController@edit');
 Route::put('update-bien/{id}', 'BienController@update');
+
+//Affectation Routes
+Route::post('affect-bien', 'AffectationController@affect');
+
+
+//Departement Routes
+Route::get('get-departements', 'DepartementController@index');
+
+
+//Bureau Routes
+Route::get('get-bureaux/{id}', 'BureauController@index');
 
 
 
