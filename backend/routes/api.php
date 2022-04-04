@@ -39,3 +39,5 @@ Route::get('get-categories', 'CategorieController@index')->name('get-categories'
 
 //Authentification Routes
 Route::post('register','UserController@register');
+
+
