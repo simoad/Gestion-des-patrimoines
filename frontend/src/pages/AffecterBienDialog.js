@@ -16,9 +16,10 @@ import {
   Select ,
   InputLabel,
   FormControl,
-  Grid 
+  Grid,
+  Collapse, Alert, IconButton,
  } from '@mui/material';
-
+ import CloseIcon from '@mui/icons-material/Close';
  import { LoadingButton } from '@mui/lab';
 
  export default function AffecterBienDialog({open,setOpen,codeBarre}){
@@ -29,8 +30,12 @@ import {
       }]);
       
     const [bureaux, setBureaux] = useState([{
-      id_bureau : 1,
+      id_bureau : null,
     }]);
+
+    const [showAlert, setshowAlert] = useState(false);
+    const [showAlertError, setshowAlertError] = useState(false);
+
 
     const ITEM_HEIGHT = 48;
     const [maxWidth, setMaxWidth] = useState('md');
@@ -46,11 +51,13 @@ import {
           code_barre : codeBarre,
         },
         onSubmit: async (values) => {
-          await fetch(`http://127.0.0.1:8000/api/affect-bien`, {
+          const res = await fetch(`http://127.0.0.1:8000/api/affect-bien`, {
           method: 'POST',
           headers:{"Content-Type": "application/json"},
           body: JSON.stringify(values)
           });
+          if (res.data.status === 200){setshowAlert(true);}
+          else {setshowAlertError(true);}
         }
       });
     
@@ -71,14 +78,8 @@ import {
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
     const MyComponent = styled('div')({
-      marginTop : '30px',
+      marginTop : '0',
     });
-
-    
-    const MyButton = styled('div')({
-      width : '300px' 
-    }) ;
-
 
     return(
     <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth={fullWidth}>
@@ -87,6 +88,47 @@ import {
           <DialogContentText>
            Veuillez choisir le bureau auquel vous voulez affecté le bien
           </DialogContentText>
+          <Collapse in={showAlertError} sx={{marginTop : '20px'}}>
+            <Alert
+              severity="error"
+              color='error'
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setshowAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              L'affectation du bien a reconnu un problème ! 
+            </Alert>
+          </Collapse>
+          <Collapse in={showAlert} sx={{marginTop : '20px'}}>
+            <Alert
+              color='primary'
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setshowAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              Votre bien est ajouté ! 
+            </Alert>
+          </Collapse>
           <MyComponent>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
