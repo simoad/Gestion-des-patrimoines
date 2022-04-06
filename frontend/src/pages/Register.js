@@ -6,7 +6,7 @@ import { Box, Card, Link, Container, Typography } from '@mui/material';
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
-import  {RegisterForm}  from '../sections/authentication/register';
+import  RegisterForm  from '../sections/authentication/register/RegisterForm';
 import AuthSocial from '../sections/authentication/AuthSocial';
 
 // ----------------------------------------------------------------------

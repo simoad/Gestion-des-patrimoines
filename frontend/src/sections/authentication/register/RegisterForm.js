@@ -39,13 +39,12 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
-      alert(JSON.stringify(values, null, 5));
         await fetch("http://127.0.0.1:8000/api/register", {
         method: 'POST',
         headers:{"Content-Type": "application/json"},
         body: JSON.stringify(values)
       });
-      alert(JSON.stringify(values, null, 5));
+      navigate('/Login', { replace: true });
     }
   });
 

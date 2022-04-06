@@ -13,30 +13,54 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
 // component
+ import CSRFInput from "@ueaweb/laravel-react-csrf-input";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Iconify from '../../../components/Iconify';
+
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+ 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [csrfTokenState, setcsrfTokenState] = useState('');
+  
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().required('Password is required'),
+    role: Yup.string().required('required')
   });
-
+  
+  
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      remember: true
+      role:''
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
-    }
+    onSubmit: async (values) => {
+       await fetch("http://127.0.0.1:8000/api/login", {
+      method: 'POST',
+      headers:{
+              "Accept":"application/json",
+              "Content-Type": "application/json"
+    },
+      body:  JSON.stringify(values)
+
+    });
+
+
+    alert(JSON.stringify(values ,null , 3));
+    navigate('/Register');
+  }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -44,10 +68,10 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
-
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <TextField type="hidden" name="_token" id="token" value="{{ csrfTokenState }}"/>
         <Stack spacing={3}>
           <TextField
             fullWidth
@@ -58,6 +82,21 @@ export default function LoginForm() {
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
+
+          <FormControl fullWidth>
+            <InputLabel id="role_label">Role</InputLabel>
+            <Select
+              labelId="role_label"
+              id="role_id"
+              {...getFieldProps('role')}
+              label="Role"
+              
+            >
+              <MenuItem value="employee">employee</MenuItem>
+              <MenuItem value="gestionnaire">gestionnaire</MenuItem>
+              <MenuItem value="service_de_reclamation">service de reclamation</MenuItem>
+            </Select>
+          </FormControl>
 
           <TextField
             fullWidth
@@ -77,18 +116,9 @@ export default function LoginForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-        </Stack>
+        
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-
-          <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
-            Forgot password?
-          </Link>
-        </Stack>
+        
 
         <LoadingButton
           fullWidth
@@ -99,6 +129,8 @@ export default function LoginForm() {
         >
           Login
         </LoadingButton>
+        </Stack>
+        
       </Form>
     </FormikProvider>
   );

@@ -45,6 +45,7 @@
     "@mui/material": "^5.4.2",
     "@mui/utils": "^5.4.2",
     "@testing-library/jest-dom": "^5.16.2",
+    "@ueaweb/laravel-react-csrf-input": "^0.1.5",
     "apexcharts": "^3.33.1",
     "axios": "^0.26.1",
     "change-case": "^4.1.2",

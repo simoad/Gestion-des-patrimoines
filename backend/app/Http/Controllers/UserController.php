@@ -38,4 +38,28 @@ class UserController extends Controller
             $service_de_reclamation->save();
             return $service_de_reclamation;
         }  
-}}
+}
+
+    function login(Request $req){
+        if($req->input('role') === 'employee' ){
+             $employee= Employee::where('email',$req->input('email'))->get();
+           $req->session()->put('user' , $req->input('nom'));
+        }
+        if($req->input('role') === 'gestionnaire' ){
+            $data= $req->input();
+            echo json_encode($data);
+            // $req->session()->put('email',$data['email']);
+            // echo session('email');
+        }
+        if($req->input('role') === 'service de reclamation' ){
+            $service_de_reclamation = new Service_reclamation();
+           
+            return $service_de_reclamation;
+        }  
+    }
+
+
+
+
+
+}
