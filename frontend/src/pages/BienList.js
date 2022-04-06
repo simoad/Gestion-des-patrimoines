@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -15,7 +16,7 @@ import {
   TableContainer,
   TableSortLabel,
   TableHead, TableFooter,
-  TablePagination 
+  TablePagination, Grid
 } from '@mui/material';
 //
 import PropTypes from 'prop-types';
@@ -28,6 +29,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 // components
 import Page from '../components/Page';
+import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import BienMoreMenu from './BienMoreMenu';
@@ -100,6 +102,7 @@ const TABLE_HEAD = [
   { id: 'categorie', label: 'Categorie', alignRight: false },
   { id: 'garanttie', label: 'Garantie', alignRight: false },
   { id: 'duree_de_vie', label: 'Duree de vie', alignRight: false },
+  { id: 'statut', label: 'Statut', alignRight: false },
   { id: '' }
 ];
 
@@ -185,9 +188,17 @@ export default function BienList() {
                           <TableCell align="left">{row.nom}</TableCell>
                           <TableCell align="left">{row.id_categorie}</TableCell>
                           <TableCell align="left">{row.garantie}</TableCell>
+                          <TableCell align="left">{row.duree_de_vie}</TableCell>
                           <TableCell align="left">
-                            {row.duree_de_vie}
-                          </TableCell>
+                          <Label
+                              variant="ghost"
+                              color={(row.statut === 'non affecté' && 'info') || 
+                              (row.statut === 'affecté' && 'success') || 
+                              (row.statut === 'rébut' && 'error')}
+                            >
+                              {row.statut}
+                            </Label>
+                            </TableCell>
                           <TableCell align="left">
                             <BienMoreMenu getBiens={getBiens} codeBarre={row.code_barre} />
                           </TableCell>
@@ -202,9 +213,12 @@ export default function BienList() {
                     )}
 
                 </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+          <TablePagination
+          sx={{marginRight : "40px"}}
+          component='div'
                       rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                       colSpan={3}
                       count={Biens.length}
@@ -220,11 +234,6 @@ export default function BienList() {
                       onRowsPerPageChange={handleChangeRowsPerPage}
                       ActionsComponent={TablePaginationActions}
                     />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
-          </Scrollbar>
         </Card>
       </Container>
     </Page>

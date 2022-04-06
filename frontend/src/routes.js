@@ -1,6 +1,7 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
+import EmployeeDashboard from './layouts/employeeDashboard/EmployeeDashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
@@ -30,6 +31,13 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
+      ]
+    },
+    {
+      path: '/employee',
+      element: <EmployeeDashboard />,
+      children: [
+        { path: 'biens', element: <BienList /> },
       ]
     },
     {

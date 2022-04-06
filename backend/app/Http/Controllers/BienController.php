@@ -10,6 +10,17 @@ class BienController extends Controller
 {
     function index(){
         $biens = Bien::all();
+        
+        foreach ($biens as $bien) {
+            if($bien->statut===0){
+                $bien->statut = 'non affecté';
+            } else if ($bien->statut===1) {
+                $bien->statut = 'affecté';
+            } else if ($bien->statut===-1) {
+                $bien->statut = 'rébut';
+            }
+        }
+        
         return response()->json([
             'status'=> 200,
             'biens'=>$biens,
