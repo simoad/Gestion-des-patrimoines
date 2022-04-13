@@ -47,9 +47,12 @@ class UserController extends Controller
         }
         if($req->input('role') === 'gestionnaire' ){
             $data= $req->input();
-            echo json_encode($data);
-            // $req->session()->put('email',$data['email']);
-            // echo session('email');
+            // echo json_encode($data);
+
+            session()->put('email',$data['email']);
+            session()->put('password',$data['password']);
+            echo session('email');
+            echo session('password');
         }
         if($req->input('role') === 'service de reclamation' ){
             $service_de_reclamation = new Service_reclamation();

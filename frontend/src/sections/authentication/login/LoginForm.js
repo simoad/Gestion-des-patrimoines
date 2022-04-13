@@ -38,6 +38,9 @@ export default function LoginForm() {
     role: Yup.string().required('required')
   });
   
+  const setSession = (email, password) =>{
+  //
+  }
   
   const formik = useFormik({
     initialValues: {
@@ -59,7 +62,7 @@ export default function LoginForm() {
 
 
     alert(JSON.stringify(values ,null , 3));
-    navigate('/Register');
+    
   }
   });
 
@@ -71,7 +74,6 @@ export default function LoginForm() {
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-      <TextField type="hidden" name="_token" id="token" value="{{ csrfTokenState }}"/>
         <Stack spacing={3}>
           <TextField
             fullWidth

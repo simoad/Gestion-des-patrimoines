@@ -34,14 +34,21 @@ Route::get('get-departements', 'DepartementController@index');
 Route::get('get-bureaux/{id}', 'BureauController@index');
 
 
+Route::post('reclamer', 'ReclamerController@reclamerBien');
+
+
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
 
+
 //Authentification Routes
+Route::post('register','UserController@register');
+Route::post('login','UserController@login');
 
 
-Route::group(['middleware' => ['api']], function () {
-    Route::post('register','UserController@register');
-    Route::post('login','UserController@login');
-});
+
+// Route::group(['middleware' => ['api']], function () {
+//     Route::post('register','UserController@register');
+//     Route::post('login','UserController@login');
+// });

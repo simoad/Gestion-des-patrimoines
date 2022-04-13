@@ -11,9 +11,10 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
-import BienList from './pages/BienList';
+import BienList2 from './layouts/employeeDashboard/BienList2';
 import AddBien from './pages/AddBien';
 import EditBien from './pages/EditBien';
+import BienList from './pages/BienList'
 
 
 // ----------------------------------------------------------------------
@@ -37,7 +38,7 @@ export default function Router() {
       path: '/employee',
       element: <EmployeeDashboard />,
       children: [
-        { path: 'biens', element: <BienList /> },
+        { path: 'biens', element: <BienList2 /> },
       ]
     },
     {
