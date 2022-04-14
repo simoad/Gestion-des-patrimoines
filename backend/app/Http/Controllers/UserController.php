@@ -22,6 +22,7 @@ class UserController extends Controller
             return response()->json([
                 'status'=> 200,
                 'nom'=>$employee->nom,
+                'token'=>$token,
                 'message'=>'Employee Registered successfully'
             ]);
         }
@@ -36,6 +37,7 @@ class UserController extends Controller
             return response()->json([
                 'status'=> 200,
                 'nom'=>$gestionnaire->nom,
+                'token'=>$token,
                 'message'=>'gestionnaire Registered successfully'
             ]);
         }
@@ -50,29 +52,78 @@ class UserController extends Controller
             return response()->json([
                 'status'=> 200,
                 'nom'=>$service_de_reclamation->nom,
+                'token'=>$token,
                 'message'=>'service de reclamation Registered successfully'
             ]);
         }  
 }
 
     function login(Request $req){
-        if($req->input('role') === 'employee' ){
-             $employee= Employee::where('email',$req->input('email'))->get();
-           $req->session()->put('user' , $req->input('nom'));
-        }
-        if($req->input('role') === 'gestionnaire' ){
-            $data= $req->input();
-            // echo json_encode($data);
 
-            session()->put('email',$data['email']);
-            session()->put('password',$data['password']);
-            echo session('email');
-            echo session('password');
+        //Employee
+        if($req->input('role') === 'employee' ){
+            $employee= Employee::where('email',$req->input('email'))->first();
+            if(!$employee || ! Hash::check($req->password, $employee->password))
+            {
+                return response()->json([
+                    'status'=> 401,
+                    'message'=>'Invalid Credentials'
+                ]);
+            } 
+            else 
+            {
+                $token = $employee->createToken($employee->email.'_Token')->plainTextToken;
+                return response()->json([
+                    'status'=> 200,
+                    'nom'=>$employee->nom,
+                    'token'=>$token,
+                    'message'=>'Employee Logged In successfully'
+                ]);
+            }
         }
+
+        // Gestionnaire
+        if($req->input('role') === 'gestionnaire' ){
+            $gestionnaire= Gestionnaire::where('email',$req->input('email'))->first();
+            if(!$gestionnaire || ! Hash::check($req->password, $gestionnaire->password))
+            {
+                return response()->json([
+                    'status'=> 401,
+                    'message'=>'Invalid Credentials'
+                ]);
+            } 
+            else 
+            {
+                $token = $gestionnaire->createToken($gestionnaire->email.'_Token')->plainTextToken;
+                return response()->json([
+                    'status'=> 200,
+                    'nom'=>$gestionnaire->nom,
+                    'token'=>$token,
+                    'message'=>'gestionnaire Logged In successfully'
+                ]);
+            }
+        }
+
+        // Service Reclamation
         if($req->input('role') === 'service de reclamation' ){
-            $service_de_reclamation = new Service_reclamation();
-           
-            return $service_de_reclamation;
+            $service_reclamation= Service_reclamation::where('email',$req->input('email'))->first();
+            if(!$service_reclamation || ! Hash::check($req->password, $service_reclamation->password))
+            {
+                return response()->json([
+                    'status'=> 401,
+                    'message'=>'Invalid Credentials'
+                ]);
+            } 
+            else 
+            {
+                $token = $service_reclamation->createToken($service_reclamation->email.'_Token')->plainTextToken;
+                return response()->json([
+                    'status'=> 200,
+                    'nom'=>$service_reclamation->nom,
+                    'token'=>$token,
+                    'message'=>'service_reclamation Logged In successfully'
+                ]);
+            }
         }  
     }
 

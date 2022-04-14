@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -18,13 +18,14 @@ import Iconify from '../../../components/Iconify';
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [data, setData] = useState({
+
+  const [registerInputs, setRegisterInputs] = useState({
       nom: '',
       prenom: '',
       email: '',
       password: '',
-      role: ''
-    });
+      role: '',
+  })
 
   const RegisterSchema = Yup.object().shape({
     nom: Yup.string()
@@ -43,25 +44,51 @@ export default function RegisterForm() {
       prenom: '',
       email: '',
       password: '',
-      role: ''
+      role: '',
     },
     validationSchema: RegisterSchema,
-    onSubmit: axios.get('/sanctum/csrf-cookie').then(response => {
-                    async (values) => {
-                      await fetch("http://127.0.0.1:8000/api/register", {
+    onSubmit: async (values) => {
+                     const res = await fetch("http://127.0.0.1:8000/api/register", {
                       method: 'POST',
                       headers:{"Content-Type": "application/json"},
                       body: JSON.stringify(values)
                     });
                     navigate('/Login', { replace: true });
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('auth_name', res.data.nom);
                   }
-                })
-
   });
+
+  const handleInput = (e) =>{
+    e.persist();
+    setRegisterInputs({...registerInputs, [e.target.name]: e.target.value});
+  }
 
   const registerSubmit = (e)=>{
     e.preventDefault();
+
+    const data = {
+      nom: registerInputs.nom,
+      prenom: registerInputs.prenom,
+      email: registerInputs.email,
+      password: registerInputs.password,
+      role: registerInputs.role,
+    } 
+
+      axios.post('http://127.0.0.1:8000/api/register', data).then(res => {
+            localStorage.setItem('auth_token', res.data.token);
+            localStorage.setItem('auth_name', res.data.nom);
+    });
   }
+
+  const getToken = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+    console.log(res);
+  }
+
+   useEffect(() => {
+    getToken();
+   },[]);
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 

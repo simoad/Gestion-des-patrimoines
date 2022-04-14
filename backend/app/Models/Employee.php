@@ -15,6 +15,7 @@ class Employee extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'employe';
+    protected $primaryKey = 'id_employe';
     public $timestamps = false;
 
 

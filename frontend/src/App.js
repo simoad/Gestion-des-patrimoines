@@ -9,6 +9,8 @@ import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
 
 axios.defaults.withCredentials = true;
+axios.defaults.headers.post.Accept = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // ----------------------------------------------------------------------
 

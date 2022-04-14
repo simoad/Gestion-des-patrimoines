@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import axios from 'axios';
+
 // material
 import {
   Link,
@@ -29,7 +31,6 @@ export default function LoginForm() {
  
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [csrfTokenState, setcsrfTokenState] = useState('');
   
 
   const LoginSchema = Yup.object().shape({
@@ -50,21 +51,43 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-       await fetch("http://127.0.0.1:8000/api/login", {
+      const res = await fetch("http://127.0.0.1:8000/api/login", {
       method: 'POST',
       headers:{
               "Accept":"application/json",
               "Content-Type": "application/json"
     },
       body:  JSON.stringify(values)
-
     });
-
-
-    alert(JSON.stringify(values ,null , 3));
-    
+    const response = await res.json();
+    if(response.status === 401) 
+    {
+      console.log('different de ');
+    } 
+    else if (values.role==='employee' && response.status === 200) 
+    {
+      navigate('/employee/biens', { replace: true });
+      localStorage.setItem('auth_token', res.data.token);
+      localStorage.setItem('auth_name', res.data.nom);  
+    } 
+    else if (values.role==='gestionnaire' && response.status === 200) 
+    {
+      navigate('/Dashboard/biens', { replace: true });
+      localStorage.setItem('auth_token', res.data.token);
+      localStorage.setItem('auth_name', res.data.nom);  
+    }
+      
   }
   });
+
+  const getToken = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+    console.log(res);
+  }
+
+   useEffect(() => {
+    getToken();
+   },[]);
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
