@@ -36,11 +36,18 @@ Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
 
 //Employee Routes
 Route::get('get-employee/{id}', 'EmployeeController@getById');
+Route::post('reclamer', 'ReclamerController@reclamerBien');
+
+
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
 
+
 //Authentification Routes
+Route::post('register','UserController@register');
+Route::post('login','UserController@login');
+
 
 
 Route::group(['middleware' => ['api']], function () {
