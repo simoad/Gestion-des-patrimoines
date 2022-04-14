@@ -18,7 +18,12 @@ class UserController extends Controller
             $employee->email = $req->input('email');
             $employee->password = Hash::make($req->input('password'));
             $employee->save();
-            return $employee;
+            $token = $employee->createToken($employee->email.'_Token')->plainTextToken;
+            return response()->json([
+                'status'=> 200,
+                'nom'=>$employee->nom,
+                'message'=>'Employee Registered successfully'
+            ]);
         }
         if($req->input('role') === 'gestionnaire' ){
             $gestionnaire = new Gestionnaire();
@@ -27,7 +32,12 @@ class UserController extends Controller
             $gestionnaire->email = $req->input('email');
             $gestionnaire->password = Hash::make($req->input('password'));
             $gestionnaire->save();
-            return $gestionnaire;
+            $token = $gestionnaire->createToken($gestionnaire->email.'_Token')->plainTextToken;
+            return response()->json([
+                'status'=> 200,
+                'nom'=>$gestionnaire->nom,
+                'message'=>'gestionnaire Registered successfully'
+            ]);
         }
         if($req->input('role') === 'service de reclamation' ){
             $service_de_reclamation = new Service_reclamation();
@@ -36,7 +46,12 @@ class UserController extends Controller
             $service_de_reclamation->email = $req->input('email');
             $service_de_reclamation->password = Hash::make($req->input('password'));
             $service_de_reclamation->save();
-            return $service_de_reclamation;
+            $token = $service_de_reclamation->createToken($service_de_reclamation->email.'_Token')->plainTextToken;
+            return response()->json([
+                'status'=> 200,
+                'nom'=>$service_de_reclamation->nom,
+                'message'=>'service de reclamation Registered successfully'
+            ]);
         }  
 }
 

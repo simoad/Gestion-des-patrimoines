@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Bureau;
 
 class Departement extends Model
 {
@@ -14,6 +13,6 @@ class Departement extends Model
 
     public function bureaux()
     {
-        return $this->HasMany(Bureau::class);
+        return $this->HasMany(Bureau::class , 'id_departement', 'id_departement');
     }
 }

@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+
 
 class Employee extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'employe';
+    public $timestamps = false;
+
 
     protected $fillable = [
         'nom',
@@ -18,7 +24,6 @@ class Employee extends Authenticatable
         'email',
         'password'
     ];
-
    
     protected $hidden = [
         'password',
@@ -29,4 +34,9 @@ class Employee extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function bureau()
+    {
+        return $this->belongsTo(Bureau::class, 'id_bureau', 'id_bureau')->with(['affectations','departement']);
+    }
 }

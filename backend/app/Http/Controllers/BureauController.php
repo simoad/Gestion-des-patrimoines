@@ -7,7 +7,7 @@ use App\Models\Bureau;
 
 class BureauController extends Controller
 {
-    function index($id){
+    function getByIdDepartement($id){
         $bureaux = Bureau::where('id_departement',$id)->get();
         return response()->json([
             'status'=> 200,

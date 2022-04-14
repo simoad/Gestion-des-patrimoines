@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 // material
 import { Stack, TextField, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -17,6 +18,13 @@ import Iconify from '../../../components/Iconify';
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [data, setData] = useState({
+      nom: '',
+      prenom: '',
+      email: '',
+      password: '',
+      role: ''
+    });
 
   const RegisterSchema = Yup.object().shape({
     nom: Yup.string()
@@ -38,15 +46,22 @@ export default function RegisterForm() {
       role: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: async (values) => {
-        await fetch("http://127.0.0.1:8000/api/register", {
-        method: 'POST',
-        headers:{"Content-Type": "application/json"},
-        body: JSON.stringify(values)
-      });
-      navigate('/Login', { replace: true });
-    }
+    onSubmit: axios.get('/sanctum/csrf-cookie').then(response => {
+                    async (values) => {
+                      await fetch("http://127.0.0.1:8000/api/register", {
+                      method: 'POST',
+                      headers:{"Content-Type": "application/json"},
+                      body: JSON.stringify(values)
+                    });
+                    navigate('/Login', { replace: true });
+                  }
+                })
+
   });
+
+  const registerSubmit = (e)=>{
+    e.preventDefault();
+  }
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 

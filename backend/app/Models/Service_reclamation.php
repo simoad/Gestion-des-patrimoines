@@ -12,6 +12,10 @@ class Service_reclamation extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'service_reclamation';
+    public $timestamps = false;
+
+
     protected $fillable = [
         'nom',
         'prenom',

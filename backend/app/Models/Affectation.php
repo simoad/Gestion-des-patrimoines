@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Bien;
-use Bureau;
+
 
 class Affectation extends Model
 {
@@ -16,11 +15,11 @@ class Affectation extends Model
 
     public function bien()
     {
-        return $this->belongsTo(Bien::class);
+        return $this->belongsTo(Bien::class, 'code_barre', 'code_barre');
     }
 
     public function bureau()
     {
-        return $this->belongsTo(Bureau::class);
+        return $this->belongsTo(Bureau::class)->with('affectations')->with('departement');
     }
 }

@@ -12,6 +12,10 @@ class Gestionnaire extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'gestionnaire';
+    public $timestamps = false;
+
+
     protected $fillable = [
         'nom',
         'prenom',

@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Affectation;
-use Departement;
 
 class Bureau extends Model
 {
@@ -15,11 +13,16 @@ class Bureau extends Model
 
     public function affectations()
     {
-        return $this->HasMany(Affectation::class);
+        return $this->HasMany(Affectation::class, 'id_bureau', 'id_bureau')->with('bien');
     }
 
-    public function departements()
+    public function departement()
     {
-        return $this->BelongsTo(Departement::class);
+        return $this->BelongsTo(Departement::class, 'id_departement', 'id_departement');
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'id_bureau', 'id_bureau');
     }
 }

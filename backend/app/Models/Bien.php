@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Affectation;
 
 class Bien extends Model
 {
@@ -23,6 +22,6 @@ class Bien extends Model
 
     public function affectations()
     {
-        return $this->HasMany(Affectation::class);
+        return $this->HasMany(Affectation::class, 'code_barre', 'code_barre')->with('bureau');
     }
 }

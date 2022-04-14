@@ -6,9 +6,12 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AffectationController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\BureauController;
+use App\Http\Controllers\EmployeeController;
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -25,15 +28,14 @@ Route::put('update-bien/{id}', 'BienController@update');
 //Affectation Routes
 Route::post('affect-bien', 'AffectationController@affect');
 
-
 //Departement Routes
 Route::get('get-departements', 'DepartementController@index');
 
-
 //Bureau Routes
-Route::get('get-bureaux/{id}', 'BureauController@index');
+Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
 
-
+//Employee Routes
+Route::get('get-employee/{id}', 'EmployeeController@getById');
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
