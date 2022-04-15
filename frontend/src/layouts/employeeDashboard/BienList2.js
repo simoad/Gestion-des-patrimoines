@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 // material
 import {
   Card,
@@ -115,6 +114,7 @@ export default function BienList() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -129,13 +129,15 @@ export default function BienList() {
     setPage(0);
   };
 
-  const getBiens = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/bien');
-    setBiens(res.data.biens);
+  const {id} = useParams();
+
+  const getBiens = async (idEmploye) => {
+    const res = await axios.get(`http://127.0.0.1:8000/api/get-employee/${idEmploye}`);
+    setBiens(res.data.employe.bureau.affectations);
    };
    
    useEffect(() => {
-    getBiens();
+    getBiens(id);
    },[]);
  
 
@@ -144,21 +146,14 @@ export default function BienList() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Biens
+             reclamation des équipement
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/dashboard/addBien"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Ajouter Bien
-          </Button>
+         
         </Stack>
 
         <Card>
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ marginLeft:10 , minWidth: 900 }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -184,16 +179,15 @@ export default function BienList() {
                           key={row.code_barre}
                           tabIndex={-1}
                         >
-                          <TableCell align="left">{row.code_barre}</TableCell>
-                          <TableCell align="left">{row.nom}</TableCell>
-                          <TableCell align="left">{row.id_categorie}</TableCell>
-                          <TableCell align="left">{row.garantie}</TableCell>
-                          <TableCell align="left">{row.duree_de_vie}</TableCell>
+                          <TableCell align="left">{row.bien.code_barre}</TableCell>
+                          <TableCell align="left">{row.bien.nom}</TableCell>
+                          <TableCell align="left">{row.bien.id_categorie}</TableCell>
+                          <TableCell align="left">{row.bien.garantie}</TableCell>
+                          <TableCell align="left">{row.bien.duree_de_vie}</TableCell>
                          
                           <TableCell align="left">
-                            {/* <BienMoreMenu getBiens={getBiens} codeBarre={row.code_barre} /> */}
-                            {/* <Button variant="contained" component={RouterLink} to="/dashboard/addBien"> reclamer </Button> */}
-                            <ReclamationDes getBiens={getBiens} codeBarre={row.code_barre} />
+                           
+                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} id={id} />
                           </TableCell>
                         </TableRow>
                       )
@@ -201,7 +195,7 @@ export default function BienList() {
                   
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={7} />
                       </TableRow>
                     )}
 
@@ -210,7 +204,7 @@ export default function BienList() {
             </TableContainer>
           </Scrollbar>
           <TablePagination
-          sx={{marginRight : "40px"}}
+          sx={{marginRight : "150px"}}
           component='div'
                       rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                       colSpan={3}

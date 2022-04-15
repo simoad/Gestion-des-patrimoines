@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ReclamerController extends Controller
 {
-    function  reclamerBien(Request $req){
+    function  ReclamerBien(Request $req ){
         $reclamation = new reclamation();
         $reclamation->id_employe = $req->input('id_employe');
         $reclamation->code_barre = $req->input('code_barre');

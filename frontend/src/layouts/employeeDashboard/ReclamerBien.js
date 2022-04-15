@@ -25,7 +25,7 @@ import {
 
  import FormReclamation from './FormReclamation';
 
- export default function ReclamerBien({open,setOpen,codeBarre}){
+ export default function ReclamerBien({open,setOpen,codeBarre,id}){
 
   
 
@@ -100,7 +100,7 @@ import {
             </Alert>
           </Collapse>
           <MyComponent>
-               <FormReclamation codeBarre={codeBarre}/>
+               <FormReclamation codeBarre={codeBarre} id={id}/>
           </MyComponent>
         </DialogContent>
         <DialogActions>

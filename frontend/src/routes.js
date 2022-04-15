@@ -38,7 +38,7 @@ export default function Router() {
       path: '/employee',
       element: <EmployeeDashboard />,
       children: [
-        { path: 'biens', element: <BienList2 /> },
+        { path: 'biens/:id', element: <BienList2 /> },
       ]
     },
     {

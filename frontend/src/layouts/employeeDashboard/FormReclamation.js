@@ -25,13 +25,13 @@ import {
 
 
 
-export default function FormReclamerBien({codeBarre}){
+export default function FormReclamerBien({codeBarre,id}){
 
 
 
 const formik = useFormik({
     initialValues: {
-      id_employe : null,
+      id_employe: id,
       code_barre : codeBarre,
       description: null
     },
@@ -47,7 +47,7 @@ const formik = useFormik({
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
 
-
+ 
 
   return(
 
@@ -57,9 +57,11 @@ const formik = useFormik({
        
 
        
+     
        <TextField
            fullWidth
-           label="id_employee"
+           disabled
+           label="id_employe"
            {...getFieldProps('id_employe')}
          />
        <TextField
