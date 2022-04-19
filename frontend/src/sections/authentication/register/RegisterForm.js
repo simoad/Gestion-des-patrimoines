@@ -48,15 +48,20 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
-                     const res = await fetch("http://127.0.0.1:8000/api/register", {
-                      method: 'POST',
-                      headers:{"Content-Type": "application/json"},
-                      body: JSON.stringify(values)
-                    });
-                    navigate('/Login', { replace: true });
-                    localStorage.setItem('auth_token', res.data.token);
-                    localStorage.setItem('auth_name', res.data.nom);
-                  }
+      const res = await fetch("http://127.0.0.1:8000/api/register", {
+      method: 'POST',
+      headers:{"Content-Type": "application/json"},
+      body: JSON.stringify(values)
+    });
+    const response = await res.json();
+    if (response.status === 200) 
+    {
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom);
+        navigate('/Login', { replace: true });  
+      navigate('/employee/biens', { replace: true });
+    }
+  }
   });
 
   const handleInput = (e) =>{

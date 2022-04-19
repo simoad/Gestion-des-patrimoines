@@ -1,5 +1,7 @@
-import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
@@ -21,11 +23,6 @@ const MENU_OPTIONS = [
     label: 'Profile',
     icon: 'eva:person-fill',
     linkTo: '#'
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#'
   }
 ];
 
@@ -33,6 +30,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -41,6 +39,28 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const logoutSubmit = (e) => {
+      e.preventDefault();
+
+      axios.post('http://127.0.0.1:8000/api/logout').then(res => {
+        if (res.data.status === 200) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_name');
+          navigate('/Login', { replace: true });
+        }
+            
+    });
+  };
+
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    console.log(res.data);
+   };
+   
+   useEffect(() => {
+    getUser();
+   },[]);
 
   return (
     <>
@@ -106,7 +126,7 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button onClick={logoutSubmit} fullWidth color="inherit" variant="outlined">
             Logout
           </Button>
         </Box>

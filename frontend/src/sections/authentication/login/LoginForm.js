@@ -66,15 +66,15 @@ export default function LoginForm() {
     } 
     else if (values.role==='employee' && response.status === 200) 
     {
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom);  
       navigate('/employee/biens', { replace: true });
-      localStorage.setItem('auth_token', res.data.token);
-      localStorage.setItem('auth_name', res.data.nom);  
     } 
     else if (values.role==='gestionnaire' && response.status === 200) 
     {
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom);  
       navigate('/Dashboard/biens', { replace: true });
-      localStorage.setItem('auth_token', res.data.token);
-      localStorage.setItem('auth_name', res.data.nom);  
     }
       
   }
