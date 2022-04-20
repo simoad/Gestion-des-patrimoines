@@ -153,7 +153,7 @@ export default function BienList() {
 
         <Card>
           <Scrollbar>
-            <TableContainer sx={{ marginLeft:10 , minWidth: 900 }}>
+            <TableContainer sx={{ marginLeft:10 , minWidth: 800 }}>
               <Table>
                 <TableHead>
                   <TableRow>

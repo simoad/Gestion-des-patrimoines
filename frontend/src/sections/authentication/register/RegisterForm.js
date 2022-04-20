@@ -80,6 +80,7 @@ export default function RegisterForm() {
             localStorage.setItem('auth_name', res.data.nom);
     });
   }
+ 
 
   const getToken = async () => {
     const res = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
