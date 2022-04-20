@@ -57,7 +57,7 @@ export default function UserMoreMenu({codeBarre,getBiens}) {
           <ListItemText primary="Affecter" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <AffecterBienDialog open={open} setOpen={setOpen} codeBarre={codeBarre}/>
+        <AffecterBienDialog getBiens={getBiens} open={open} setOpen={setOpen} codeBarre={codeBarre}/>
 
         <MenuItem component={RouterLink} to={`/dashboard/editBien/${codeBarre}`} sx={{ color: '#0C53B7' }}>
           <ListItemIcon>

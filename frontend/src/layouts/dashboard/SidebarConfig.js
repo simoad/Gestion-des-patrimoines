@@ -8,27 +8,32 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const sidebarConfig = [
   {
     title: 'Biens',
-    path: '/dashboard/biens',
+    path: '/gestionnaire/biens',
+    icon: getIcon('eva:shopping-bag-fill')
+  },
+  {
+    title: 'Catégories',
+    path: '/gestionnaire/categories',
     icon: getIcon('eva:shopping-bag-fill')
   },
   {
     title: 'dashboard',
-    path: '/dashboard/app',
+    path: '/gestionnaire/app',
     icon: getIcon('eva:pie-chart-2-fill')
   },
   {
     title: 'user',
-    path: '/dashboard/user',
+    path: '/gestionnaire/user',
     icon: getIcon('eva:people-fill')
   },
   {
     title: 'product',
-    path: '/dashboard/products',
+    path: '/gestionnaire/products',
     icon: getIcon('eva:shopping-bag-fill')
   },
   {
     title: 'blog',
-    path: '/dashboard/blog',
+    path: '/gestionnaire/blog',
     icon: getIcon('eva:file-text-fill')
   },
   {

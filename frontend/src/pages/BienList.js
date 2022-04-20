@@ -112,6 +112,10 @@ const TABLE_HEAD = [
 export default function BienList() {
 
   const [Biens, setBiens] = useState([]);
+  const [categories, setCategories] = useState([{
+    id_categorie : 1,
+    nom_categorie : ''
+  }]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -133,9 +137,15 @@ export default function BienList() {
     const res = await axios.get('http://127.0.0.1:8000/api/bien');
     setBiens(res.data.biens);
    };
+
+   const getCategories = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/get-categories');
+    setCategories(res.data.categories);
+   };
    
    useEffect(() => {
     getBiens();
+    getCategories();
    },[]);
  
 
@@ -149,7 +159,7 @@ export default function BienList() {
           <Button
             variant="contained"
             component={RouterLink}
-            to="/dashboard/addBien"
+            to="/gestionnaire/addBien"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Ajouter Bien
@@ -186,7 +196,7 @@ export default function BienList() {
                         >
                           <TableCell align="left">{row.code_barre}</TableCell>
                           <TableCell align="left">{row.nom}</TableCell>
-                          <TableCell align="left">{row.id_categorie}</TableCell>
+                          <TableCell align="left">{categories.map((item) => row.id_categorie===item.id_categorie && item.nom_categorie)}</TableCell>
                           <TableCell align="left">{row.garantie}</TableCell>
                           <TableCell align="left">{row.duree_de_vie}</TableCell>
                           <TableCell align="left">

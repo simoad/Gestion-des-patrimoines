@@ -25,7 +25,7 @@ import {
 
 
 
-export default function FormReclamerBien({codeBarre,id}){
+export default function FormReclamerBien({setshowAlert,setshowAlertError,codeBarre,id}){
 
 
 
@@ -41,6 +41,9 @@ const formik = useFormik({
       headers:{"Content-Type": "application/json"},
       body: JSON.stringify(values)
       });
+      const response = await res.json();
+          if (response.status === 200){setshowAlert(true);}
+          else {setshowAlertError(true);}
     }
   });
 

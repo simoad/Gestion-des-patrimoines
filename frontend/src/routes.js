@@ -14,7 +14,9 @@ import NotFound from './pages/Page404';
 import BienList2 from './layouts/employeeDashboard/BienList2';
 import AddBien from './pages/AddBien';
 import EditBien from './pages/EditBien';
-import BienList from './pages/BienList'
+import BienList from './pages/BienList';
+import Categories from './pages/Categories';
+
 
 
 // ----------------------------------------------------------------------
@@ -22,10 +24,11 @@ import BienList from './pages/BienList'
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
+      path: '/gestionnaire',
       element: <DashboardLayout />,
       children: [
         { path: 'biens', element: <BienList /> },
+        { path: 'categories', element: <Categories /> },
         { path: 'addBien', element: <AddBien /> },
         { path: 'editBien/:id', element: <EditBien /> },
         { path: 'app', element: <DashboardApp /> },

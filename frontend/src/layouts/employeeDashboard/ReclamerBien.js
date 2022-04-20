@@ -41,14 +41,8 @@ import {
         setOpen(false);
     };
 
-    
-    
-   
-  
-   
-
     const MyComponent = styled('div')({
-      marginTop : '0',
+      marginTop : '4px',
     });
 
     return(
@@ -58,7 +52,7 @@ import {
           <DialogContentText>
            Veuillez saisir le probleme 
           </DialogContentText>
-          <Collapse in={showAlertError} sx={{marginTop : '20px'}}>
+          <Collapse in={showAlertError} sx={{marginTop : '4px'}}>
             <Alert
               severity="error"
               color='error'
@@ -68,7 +62,7 @@ import {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setshowAlert(false);
+                    setshowAlertError(false);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -76,10 +70,10 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              L'affectation du bien a reconnu un problème ! 
+              L'envoie du reclamation a reconnu un problème ! 
             </Alert>
           </Collapse>
-          <Collapse in={showAlert} sx={{marginTop : '20px'}}>
+          <Collapse in={showAlert} sx={{marginTop : '4px'}}>
             <Alert
               color='primary'
               action={
@@ -96,11 +90,11 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              Votre bien est ajouté ! 
+              Votre reclamation est envoyée ! 
             </Alert>
           </Collapse>
           <MyComponent>
-               <FormReclamation codeBarre={codeBarre} id={id}/>
+               <FormReclamation setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} codeBarre={codeBarre} id={id}/>
           </MyComponent>
         </DialogContent>
         <DialogActions>
