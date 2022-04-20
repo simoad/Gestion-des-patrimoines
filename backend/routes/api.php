@@ -12,10 +12,16 @@ use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\BureauController;
 use App\Http\Controllers\EmployeeController;
 
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+//Authentification Routes
+Route::post('register','UserController@register');
+Route::post('login','UserController@login');
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout','UserController@logout');
 });
 
 // Bien Routes
@@ -42,11 +48,6 @@ Route::post('reclamer', 'ReclamerController@ReclamerBien');
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
-
-
-//Authentification Routes
-// Route::post('register','UserController@register');
-// Route::post('login','UserController@login');
 
 
 
