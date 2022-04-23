@@ -19,14 +19,6 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [registerInputs, setRegisterInputs] = useState({
-      nom: '',
-      prenom: '',
-      email: '',
-      password: '',
-      role: '',
-  })
-
   const RegisterSchema = Yup.object().shape({
     nom: Yup.string()
       .min(2, 'Too Short!')
@@ -64,28 +56,6 @@ export default function RegisterForm() {
   }
   });
 
-  const handleInput = (e) =>{
-    e.persist();
-    setRegisterInputs({...registerInputs, [e.target.name]: e.target.value});
-  }
-
-  const registerSubmit = (e)=>{
-    e.preventDefault();
-
-    const data = {
-      nom: registerInputs.nom,
-      prenom: registerInputs.prenom,
-      email: registerInputs.email,
-      password: registerInputs.password,
-      role: registerInputs.role,
-    } 
-
-      axios.post('http://127.0.0.1:8000/api/register', data).then(res => {
-            localStorage.setItem('auth_token', res.data.token);
-            localStorage.setItem('auth_name', res.data.nom);
-    });
-  }
- 
 
   const getToken = async () => {
     const res = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');

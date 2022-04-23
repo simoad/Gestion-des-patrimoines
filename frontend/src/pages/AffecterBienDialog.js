@@ -22,7 +22,7 @@ import {
  import CloseIcon from '@mui/icons-material/Close';
  import { LoadingButton } from '@mui/lab';
 
- export default function AffecterBienDialog({open,setOpen,codeBarre}){
+ export default function AffecterBienDialog({getBiens,open,setOpen,codeBarre}){
 
     const [departements, setDepartements] = useState([{
         id_departement : 1,
@@ -56,7 +56,9 @@ import {
           headers:{"Content-Type": "application/json"},
           body: JSON.stringify(values)
           });
-          if (res.data.status === 200){setshowAlert(true);}
+          getBiens();
+          const response = await res.json();
+          if (response.status === 200){setshowAlert(true);}
           else {setshowAlertError(true);}
         }
       });
@@ -78,7 +80,7 @@ import {
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
     const MyComponent = styled('div')({
-      marginTop : '0',
+      marginTop : '10px',
     });
 
     return(
@@ -88,7 +90,7 @@ import {
           <DialogContentText>
            Veuillez choisir le bureau auquel vous voulez affecté le bien
           </DialogContentText>
-          <Collapse in={showAlertError} sx={{marginTop : '20px'}}>
+          <Collapse in={showAlertError} sx={{marginTop : '4px'}}>
             <Alert
               severity="error"
               color='error'
@@ -98,7 +100,7 @@ import {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setshowAlert(false);
+                    setshowAlertError(false);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -109,7 +111,7 @@ import {
               L'affectation du bien a reconnu un problème ! 
             </Alert>
           </Collapse>
-          <Collapse in={showAlert} sx={{marginTop : '20px'}}>
+          <Collapse in={showAlert} sx={{marginTop : '4px'}}>
             <Alert
               color='primary'
               action={
@@ -126,7 +128,7 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              Votre bien est ajouté ! 
+              Votre bien est affecté ! 
             </Alert>
           </Collapse>
           <MyComponent>

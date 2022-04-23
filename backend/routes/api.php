@@ -48,6 +48,6 @@ Route::post('reclamer', 'ReclamerController@ReclamerBien');
 
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
-
+Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
 
 
