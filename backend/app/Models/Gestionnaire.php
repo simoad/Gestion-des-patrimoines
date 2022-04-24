@@ -12,7 +12,7 @@ class Gestionnaire extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'gestionnaire';
+    protected $table = 'gestionnaires';
     protected $primaryKey = 'id_gestionnaire';
     public $timestamps = false;
 

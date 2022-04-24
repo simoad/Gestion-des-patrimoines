@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { useState,useEffect } from 'react';
+import { styled } from '@mui/material/styles';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,15 +8,29 @@ import axios from 'axios';
 import { Stack, TextField, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-
+import { isNull, values } from 'lodash';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Iconify from '../../../components/Iconify';
+
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+
+
+  const ITEM_HEIGHT = 48;
+  const [departements, setDepartements] = useState([{
+    id_departement : 1,
+    nom_departement : ''
+  }]);
+  
+const [bureaux, setBureaux] = useState([{
+  id_bureau : null,
+}]);
+
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,6 +52,7 @@ export default function RegisterForm() {
       email: '',
       password: '',
       role: '',
+      id_bureau: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
@@ -56,19 +72,41 @@ export default function RegisterForm() {
   }
   });
 
-
   const getToken = async () => {
     const res = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
     console.log(res);
   }
-
    useEffect(() => {
     getToken();
    },[]);
+ 
+
+  const getDepartements = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/get-departements');
+    setDepartements(res.data.departements);
+    };
+
+    const getBureaux = async (id) => {
+    const res = await axios.get(`http://127.0.0.1:8000/api/get-bureaux/${id}`);
+    setBureaux(res.data.bureaux);
+    };
+    useEffect(() => {
+      getDepartements();
+      },[]);
+
+
+
+  
+   
+ 
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const MyComponent = styled('div')({
+    marginTop : '10px',
+  });
 
   return (
+    <MyComponent>
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
@@ -100,11 +138,59 @@ export default function RegisterForm() {
               label="Role"
               
             >
-              <MenuItem value="employee">employee</MenuItem>
-              <MenuItem value="gestionnaire">gestionnaire</MenuItem>
-              <MenuItem value="service_de_reclamation">service de reclamation</MenuItem>
+              <MenuItem value="employee"  >employee</MenuItem>
+              <MenuItem value="gestionnaire" >gestionnaire</MenuItem>
+              <MenuItem value="service_de_reclamation" >service de reclamation</MenuItem>
             </Select>
           </FormControl>
+          
+       
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <FormControl fullWidth>
+                    <InputLabel id="departement-input-label">Département</InputLabel>
+                    <Select
+                      required
+                      labelId="departement-input-label"
+                      id="departement-input"
+                      {...getFieldProps('id_departement')}
+                      onChange={formik.handleChange}
+                      label="Département"
+                      PaperProps={{
+                          style: {
+                            maxHeight: ITEM_HEIGHT * 4.5,
+                            width: '20ch',
+                          },
+                      }}
+                    >
+                    {departements.map((item) => (
+                      <MenuItem onClick={()=>getBureaux(item.id_departement)} key={item.id_departement} value={item.id_departement}>{item.nom_departement}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl fullWidth>
+                    <InputLabel id="bureaux-input-label">Bureaux</InputLabel>
+                    <Select
+                      labelId="bureaux-input-label"
+                      id="bureaux-input"
+                      {...getFieldProps('id_bureau')}
+                      onChange={formik.handleChange}
+                      label="Bureaux"
+                      PaperProps={{
+                          style: {
+                            maxHeight: ITEM_HEIGHT * 4.5,
+                            width: '20ch',
+                          },
+                      }}
+                    >
+                    {bureaux.map((item) => (
+                      <MenuItem key={item.id_bureau} value={item.id_bureau}>{item.id_bureau}</MenuItem>
+                      ))}
+                      <MenuItem value="Null"  >No One</MenuItem>
+                    </Select>
+                  </FormControl>
+             </Stack>
+         
 
           <TextField
             fullWidth
@@ -147,5 +233,6 @@ export default function RegisterForm() {
         </Stack>
       </Form>
     </FormikProvider>
+    </MyComponent>
   );
 }

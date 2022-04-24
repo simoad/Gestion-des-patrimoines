@@ -35,10 +35,11 @@ Route::put('update-bien/{id}', 'BienController@update');
 Route::post('affect-bien', 'AffectationController@affect');
 
 //Departement Routes
-Route::get('get-departements', 'DepartementController@index');
+Route::get('get-departements', 'DepartementController@index')->name('get-departements');
 
 //Bureau Routes
 Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
+Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
 
 //Employee Routes
 Route::get('get-employee/{id}', 'EmployeeController@getById');
@@ -49,5 +50,6 @@ Route::post('reclamer', 'ReclamerController@ReclamerBien');
 // Categorie Routes
 Route::get('get-categories', 'CategorieController@index')->name('get-categories');
 Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
+
 
 

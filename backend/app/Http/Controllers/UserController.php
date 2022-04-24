@@ -16,6 +16,7 @@ class UserController extends Controller
             $employee->nom = $req->input('nom');
             $employee->prenom = $req->input('prenom');
             $employee->email = $req->input('email');
+            $employee->id_bureau = $req->input('id_bureau');
             $employee->password = Hash::make($req->input('password'));
             $employee->save();
             $token = $employee->createToken($employee->email.'_Token')->plainTextToken;
