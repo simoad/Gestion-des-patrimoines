@@ -22,34 +22,50 @@ Route::post('login','UserController@login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout','UserController@logout');
-});
 
-// Bien Routes
-Route::get('bien', 'BienController@index')->name('bien');
-Route::post('add-bien', 'BienController@store');
-Route::delete('delete-bien/{id}', 'BienController@delete');
-Route::get('edit-bien/{id}', 'BienController@edit');
-Route::put('update-bien/{id}', 'BienController@update');
+    Route::get('chekingAuthenticated', function(){
+        return response()->json([
+            'message' => 'You are authenticated',
+            'status' => 200
+        ], 200);
+    });
 
-//Affectation Routes
-Route::post('affect-bien', 'AffectationController@affect');
-
+<<<<<<< Updated upstream
 //Departement Routes
 Route::get('get-departements', 'DepartementController@index')->name('get-departements');
 
 //Bureau Routes
 Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
 Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
+=======
+    // Bien Routes
+    Route::get('bien', 'BienController@index')->name('bien');
+    Route::post('add-bien', 'BienController@store');
+    Route::delete('delete-bien/{id}', 'BienController@delete');
+    Route::get('edit-bien/{id}', 'BienController@edit');
+    Route::put('update-bien/{id}', 'BienController@update');
 
-//Employee Routes
-Route::get('get-employee/{id}', 'EmployeeController@getById');
-Route::post('reclamer', 'ReclamerController@ReclamerBien');
+    //Affectation Routes
+    Route::post('affect-bien', 'AffectationController@affect');
+>>>>>>> Stashed changes
 
+    //Departement Routes
+    Route::get('get-departements', 'DepartementController@index');
 
+    //Bureau Routes
+    Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
 
-// Categorie Routes
-Route::get('get-categories', 'CategorieController@index')->name('get-categories');
-Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
+    //Employee Routes
+    Route::get('get-employee/{id}', 'EmployeeController@getById');
+    Route::post('reclamer', 'ReclamerController@ReclamerBien');
 
+    // Categorie Routes
+    Route::get('get-categories', 'CategorieController@index')->name('get-categories');
+    Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
+    Route::get('seuilCheck', 'CategorieController@seuilCheck');
 
+<<<<<<< Updated upstream
 
+=======
+});
+>>>>>>> Stashed changes

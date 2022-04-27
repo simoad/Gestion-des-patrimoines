@@ -20,7 +20,9 @@ const formik = useFormik({
     onSubmit: async (values) => {
       const res = await fetch(`http://127.0.0.1:8000/api/modifier-seuil/${values.id_categorie}`, {
       method: 'POST',
-      headers:{"Content-Type": "application/json"},
+      headers:{"Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('auth_token')}`},
       body: JSON.stringify(values)
       });
       getCategories();

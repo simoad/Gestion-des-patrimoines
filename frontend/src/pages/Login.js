@@ -42,7 +42,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Login() {
   return (
-    <RootStyle title="Login | Minimal-UI">
+    <RootStyle title="Login">
       
       <SectionStyle sx={{ display: { xs: 'none', md: 'flex' } }}>
         <img src="/static/illustrations/image.jpg" alt="login" />

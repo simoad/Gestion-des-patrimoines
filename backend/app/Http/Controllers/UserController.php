@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Gestionnaire;
@@ -57,7 +58,7 @@ class UserController extends Controller
                 'message'=>'service de reclamation Registered successfully'
             ]);
         }  
-}
+    }
 
     function login(Request $req){
 
@@ -76,6 +77,7 @@ class UserController extends Controller
                 $token = $employee->createToken($employee->email.'_Token')->plainTextToken;
                 return response()->json([
                     'status'=> 200,
+                    'employee'=>$employee,
                     'nom'=>$employee->nom,
                     'token'=>$token,
                     'message'=>'Employee Logged In successfully'
@@ -98,6 +100,7 @@ class UserController extends Controller
                 $token = $gestionnaire->createToken($gestionnaire->email.'_Token')->plainTextToken;
                 return response()->json([
                     'status'=> 200,
+                    'gestionnaire'=>$gestionnaire,
                     'nom'=>$gestionnaire->nom,
                     'token'=>$token,
                     'message'=>'gestionnaire Logged In successfully'
@@ -120,7 +123,8 @@ class UserController extends Controller
                 $token = $service_reclamation->createToken($service_reclamation->email.'_Token')->plainTextToken;
                 return response()->json([
                     'status'=> 200,
-                    'nom'=>$service_reclamation->nom,
+                    'service_reclamation'=>$service_reclamation,
+                    'nom'=>$service_de_reclamation->nom,
                     'token'=>$token,
                     'message'=>'service_reclamation Logged In successfully'
                 ]);
@@ -137,8 +141,5 @@ class UserController extends Controller
         ]);
     }
 
-
-
-
-
 }
+

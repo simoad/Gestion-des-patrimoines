@@ -9,8 +9,10 @@ import { Stack,
   Select ,
   MenuItem,
   InputLabel,
-  FormControl,
+  FormControl,Collapse, Alert, IconButton,
 } from '@mui/material'; 
+import CloseIcon from '@mui/icons-material/Close';
+
 import { LoadingButton } from '@mui/lab';
 
 
@@ -46,7 +48,11 @@ export default function AddBienForm() {
       onSubmit: async (values) => {
         await fetch("http://127.0.0.1:8000/api/add-bien", {
         method: 'POST',
-        headers:{"Content-Type": "application/json"},
+        headers:{
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('auth_token')}`
+        },
         body: JSON.stringify(values)
         });
         setshowAlert(true);
@@ -76,6 +82,27 @@ export default function AddBienForm() {
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   
     return (
+      <>
+      <Collapse in={showAlert} sx={{marginTop : '4px'}}>
+            <Alert
+              color='primary'
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setshowAlert(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              Votre bien est ajouté ! 
+            </Alert>
+          </Collapse>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Stack spacing={3}>
@@ -156,6 +183,7 @@ export default function AddBienForm() {
               </Stack>
             </Form>
           </FormikProvider>
+          </>
     );
   }
   
