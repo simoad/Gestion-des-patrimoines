@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Categorie;
 use App\Models\Bien;
 use App\Models\Gestionnaire;
@@ -44,12 +45,31 @@ class CategorieController extends Controller
             }
         }
 
+        // $seuilReachedJSON = json_encode($seuilReached);
+        $seuilReached  = (object) $seuilReached;
+        DB::table('notifications')
+        ->where('type', 'App\Notifications\SeuilNotification')
+        ->where('notifiable_type', 'App\Models\Gestionnaire')->delete();
+
         foreach ($gestionnaires as $gestionnaire) {
             $gestionnaire->notify(new SeuilNotification($seuilReached));
           }
 
         return response()->json([
             'seuilReached'=>$seuilReached,
-        ]);;
+        ]);
+    }
+
+    function getSeuilNotifications(){
+        $seuilNotification = DB::table('notifications')
+        ->where('type', 'App\Notifications\SeuilNotification')
+        ->where('notifiable_type', 'App\Models\Gestionnaire')
+        ->latest()
+        ->first();
+
+        return response()->json([
+            'status'=> 200,
+            'seuilNotification'=>$seuilNotification,
+        ]);
     }
 }

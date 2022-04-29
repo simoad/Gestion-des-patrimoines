@@ -30,14 +30,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ], 200);
     });
 
-<<<<<<< Updated upstream
-//Departement Routes
-Route::get('get-departements', 'DepartementController@index')->name('get-departements');
-
-//Bureau Routes
-Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
-Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
-=======
     // Bien Routes
     Route::get('bien', 'BienController@index')->name('bien');
     Route::post('add-bien', 'BienController@store');
@@ -47,13 +39,13 @@ Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
 
     //Affectation Routes
     Route::post('affect-bien', 'AffectationController@affect');
->>>>>>> Stashed changes
 
     //Departement Routes
-    Route::get('get-departements', 'DepartementController@index');
+    Route::get('get-departements', 'DepartementController@index')->name('get-departements');
 
     //Bureau Routes
     Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
+    Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
 
     //Employee Routes
     Route::get('get-employee/{id}', 'EmployeeController@getById');
@@ -63,9 +55,7 @@ Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');
     Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
     Route::get('seuilCheck', 'CategorieController@seuilCheck');
+    Route::get('get-seuil-notifications', 'CategorieController@getSeuilNotifications');
 
-<<<<<<< Updated upstream
 
-=======
 });
->>>>>>> Stashed changes

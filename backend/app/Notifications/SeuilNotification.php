@@ -11,7 +11,7 @@ class SeuilNotification extends Notification
 {
     use Queueable;
 
-    public $seuilReached;
+    public $seuilReached = [];
 
     /**
      * Create a new notification instance.
