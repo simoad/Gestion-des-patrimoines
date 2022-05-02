@@ -12,6 +12,7 @@ class ReclamerController extends Controller
         $reclamation->id_employe = $req->input('id_employe');
         $reclamation->code_barre = $req->input('code_barre');
         $reclamation->description = $req->input('description');
+        $reclamation->status_reponce= $req->input('status');
         $reclamation->save();
         return response()->json([
           'status'=> 200,

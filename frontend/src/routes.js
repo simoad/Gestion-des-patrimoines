@@ -2,6 +2,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import EmployeeDashboard from './layouts/employeeDashboard/EmployeeDashboard';
+import ReclamationDashboard from './layouts/ServiceReclamation/ReclamationNonRepondu/ReclamationDashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
@@ -11,7 +12,9 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
-import BienList2 from './layouts/employeeDashboard/BienList2';
+import BienListToReclamer from './layouts/employeeDashboard/BienListToReclamer';
+import TableOfReclamations from './layouts/ServiceReclamation/ReclamationNonRepondu/TableOfReclamations';
+import TableOfReclamationsRepondu from './layouts/ServiceReclamation/ReclamationRepondu/TableOfReclamationsRepondu';
 import AddBien from './pages/AddBien';
 import EditBien from './pages/EditBien';
 import BienList from './pages/BienList';
@@ -37,11 +40,21 @@ export default function Router() {
         { path: 'blog', element: <Blog /> }
       ]
     },
+
+    
     {
       path: '/employee',
       element: <EmployeeDashboard />,
       children: [
-        { path: 'biens/:id', element: <BienList2 /> },
+        { path: 'biens/:id', element: <BienListToReclamer /> },
+      ]
+    },
+    {
+      path: '/reclamation',
+      element: <ReclamationDashboard />,
+      children: [
+        { path: 'NonRepondu', element: <TableOfReclamations /> },
+        { path: 'Repondu', element: <TableOfReclamationsRepondu /> },
       ]
     },
     {
@@ -52,9 +65,9 @@ export default function Router() {
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '*', element: <Navigate to="/login" /> }
       ]
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <Navigate to="/login" replace /> }
   ]);
 }

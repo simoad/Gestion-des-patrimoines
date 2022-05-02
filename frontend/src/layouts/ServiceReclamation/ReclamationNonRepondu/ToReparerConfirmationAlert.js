@@ -25,30 +25,33 @@ import {
 
 
 
-export default function FormReclamerBien({setshowAlert,setshowAlertError,codeBarre,id}){
+export default function ToReparerConfirmationAlert({setshowAlert,setshowAlertError,codeBarre,idReclamation, getReclamations}){
 
 
 
 const formik = useFormik({
     initialValues: {
-      id_employe: id,
-      code_barre : codeBarre,
-      description: null,
-      status: -1
+      codeBarre,
+      idReclamation,
+      idServiceReclamation: 2,
+      ServiceReponse: 'En Reparation'
     },
     onSubmit: async (values) => {
-      const res = await fetch(`http://127.0.0.1:8000/api/reclamer`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/responceReclamation`, {
       method: 'POST',
       headers:{"Content-Type": "application/json"},
       body: JSON.stringify(values)
       });
       const response = await res.json();
-          if (response.status === 200){setshowAlert(true);}
+          if (response.status === 200){
+            setshowAlert(true);
+            getReclamations();
+        }
           else {setshowAlertError(true);}
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { handleSubmit, isSubmitting } = formik;
 
 
  
@@ -58,32 +61,26 @@ const formik = useFormik({
  <FormikProvider value={formik}>
  <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
    <Stack spacing={3}>
-       
-
-       
-     
-       <TextField
-           fullWidth
-           disabled
-           label="id_employe"
-           {...getFieldProps('id_employe')}
-         />
-       <TextField
-           fullWidth
-           label="description"
-           {...getFieldProps('description')}
-         />
 
      <Grid container justify="center">
        <LoadingButton
-         sx={{ mx: 'auto', width: 200 }}
-         size="large"
+         sx={{ mx: 'auto', width: 100   , 
+         backgroundColor: '#fff',
+         color: '#00ab55',
+         zIndex:0,
+         boxShadow:0,
+         '&:hover': {
+          backgroundColor: '#00ab55',
+          color: '#fff',
+        },
+        }}
+         size="medium"
          width="medium"
          type="submit"
          variant="contained"
          loading={isSubmitting}
        >
-         Reclamer bien
+         Confirmer
        </LoadingButton>
      </Grid>
    </Stack>
@@ -91,4 +88,4 @@ const formik = useFormik({
 </FormikProvider>
 
   );
-  }
+}

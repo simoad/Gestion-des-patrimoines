@@ -101,14 +101,13 @@ const TABLE_HEAD = [
   { id: 'categorie', label: 'Categorie', alignRight: false },
   { id: 'garanttie', label: 'Garantie', alignRight: false },
   { id: 'duree_de_vie', label: 'Duree de vie', alignRight: false },
-  { id: 'reclamation', label: 'reclamation', alignRight: false },
-  { id: '' }
+  { id: 'reclamation', label: 'reclamation', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
 
 
-export default function BienList() {
+export default function BienListToReclamer() {
 
   const [Biens, setBiens] = useState([]);
 
@@ -153,7 +152,7 @@ export default function BienList() {
 
         <Card>
           <Scrollbar>
-            <TableContainer sx={{ marginLeft:10 , minWidth: 800 }}>
+            <TableContainer sx={{  minWidth: 800 }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -195,7 +194,7 @@ export default function BienList() {
                   
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={7} />
+                        <TableCell colSpan={6} />
                       </TableRow>
                     )}
 
@@ -204,7 +203,7 @@ export default function BienList() {
             </TableContainer>
           </Scrollbar>
           <TablePagination
-          sx={{marginRight : "150px"}}
+          sx={{marginRight : "40px"}}
           component='div'
                       rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                       colSpan={3}

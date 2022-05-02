@@ -15,6 +15,8 @@ class reclamation extends Model
         'id_employe',
         'code_barre',
         'description',
-        'date_reclamation'
+        'date_reclamation',
+        'status_reponce'
+
     ];
 }

@@ -101,12 +101,9 @@ const [bureaux, setBureaux] = useState([{
  
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-  const MyComponent = styled('div')({
-    marginTop : '10px',
-  });
+  
 
   return (
-    <MyComponent>
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
@@ -233,6 +230,5 @@ const [bureaux, setBureaux] = useState([{
         </Stack>
       </Form>
     </FormikProvider>
-    </MyComponent>
   );
 }
