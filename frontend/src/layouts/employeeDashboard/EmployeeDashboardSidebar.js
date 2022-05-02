@@ -41,7 +41,7 @@ EmployeeDashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func
 };
 
-export default function EmployeeDashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function EmployeeDashboardSidebar({ user,isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -70,10 +70,10 @@ export default function EmployeeDashboardSidebar({ isOpenSidebar, onCloseSidebar
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user.nom} {user.prenom}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {} 
               </Typography>
             </Box>
           </AccountStyle>

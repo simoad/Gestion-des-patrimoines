@@ -1,24 +1,10 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { styled } from '@mui/material/styles';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 // material
 import { 
-  MenuItem,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Stack,
   TextField,  
-  Select ,
-  InputLabel,
-  FormControl,
   Grid,
-  Collapse, Alert, IconButton,
  } from '@mui/material';
 
  import { LoadingButton } from '@mui/lab';
@@ -39,7 +25,10 @@ const formik = useFormik({
     onSubmit: async (values) => {
       const res = await fetch(`http://127.0.0.1:8000/api/reclamer`, {
       method: 'POST',
-      headers:{"Content-Type": "application/json"},
+      headers:{
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('auth_token')}`},
       body: JSON.stringify(values)
       });
       const response = await res.json();

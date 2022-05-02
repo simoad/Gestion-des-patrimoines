@@ -1,4 +1,7 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+import {
+  Typography
+} from '@mui/material';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import EmployeeDashboard from './layouts/employeeDashboard/EmployeeDashboard';
@@ -26,10 +29,12 @@ import Categories from './pages/Categories';
 
 export default function Router() {
   return useRoutes([
+    (localStorage.getItem('auth_role') === 'gestionnaire') ?
     {
       path: '/gestionnaire',
       element: <DashboardLayout />,
       children: [
+        { path: '/gestionnaire', element: <Navigate to="/gestionnaire/biens" /> },
         { path: 'biens', element: <BienList /> },
         { path: 'categories', element: <Categories /> },
         { path: 'addBien', element: <AddBien /> },
@@ -39,9 +44,11 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
       ]
-    },
+    }
 
     
+     : <Typography variant="h4" gutterBottom> Unauthorized </Typography> 
+    , (localStorage.getItem('auth_role') === 'employee') ?
     {
       path: '/employee',
       element: <EmployeeDashboard />,
@@ -56,12 +63,12 @@ export default function Router() {
         { path: 'NonRepondu', element: <TableOfReclamations /> },
         { path: 'Repondu', element: <TableOfReclamationsRepondu /> },
       ]
-    },
+    } : <Navigate to="/login" />,
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },

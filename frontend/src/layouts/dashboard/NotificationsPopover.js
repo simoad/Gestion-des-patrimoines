@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { set, sub, formatDistanceToNow } from 'date-fns';
 // material
@@ -164,10 +165,34 @@ function NotificationItem({ notification }) {
 }
 
 export default function NotificationsPopover() {
+
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [Seuilnotifications, setSeuilNotifications] = useState([{
+    id: null,
+    title: 'Seuil de catégorie',
+    description: '',
+    avatar: null,
+    type: 'chat_message',
+    createdAt: null,
+    isUnRead: false
+  }]);
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const [categories, setCategories] = useState([{
+    id_categorie : 1,
+    nom_categorie : '',
+    seuil:1
+  }]);
+
+  const getCategories = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/get-categories');
+    setCategories(res.data.categories);
+   };
+   
+   useEffect(() => {
+    getCategories();
+   },[]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -186,6 +211,33 @@ export default function NotificationsPopover() {
     );
   };
 
+  
+  const getSeuilNotifications = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/get-seuil-notifications');
+      const notifications = [];
+      const data = JSON.parse(res.data.seuilNotification.data);
+      Object.keys(data).forEach(key => {
+        const notif = data[key];
+        const categ = categories.map((item) => notif===item.id_categorie ? item.nom_categorie : null );
+        const notification = {
+          id: notif,
+          title: 'Seuil de catégorie',
+          description: `La categorie ${categ} a atteint son seuil`,
+          avatar: null,
+          type: 'chat_message',
+          createdAt: res.data.seuilNotification.created_at,
+          isUnRead: false
+        }
+        notifications.push(notification);
+      });
+      setSeuilNotifications(notifications);
+      console.log(notifications);
+  };
+
+   useEffect(() => {
+    getSeuilNotifications();
+   },[categories]);
+
   return (
     <>
       <IconButton
@@ -199,7 +251,7 @@ export default function NotificationsPopover() {
           })
         }}
       >
-        <Badge badgeContent={totalUnRead} color="error">
+        <Badge badgeContent={Seuilnotifications.length} color="error">
           <Iconify icon="eva:bell-fill" width={20} height={20} />
         </Badge>
       </IconButton>
@@ -229,8 +281,8 @@ export default function NotificationsPopover() {
 
         <Divider />
 
-        <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
-          <List
+        <Scrollbar sx={{ height: 500 }}>
+          {/* <List
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
@@ -238,26 +290,24 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
+            {Seuilnotifications.slice(0, 2).map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
-          </List>
+          </List> */}
 
           <List
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Before that
+                Seuil Notifications
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
+            {Seuilnotifications.slice(0, 7).map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
         </Scrollbar>
-
-        <Divider />
 
         <Box sx={{ p: 1 }}>
           <Button fullWidth disableRipple component={RouterLink} to="#">

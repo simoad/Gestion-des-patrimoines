@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Categorie;
+use App\Models\Bien;
+use App\Models\Gestionnaire;
+use App\Notifications\SeuilNotification;
 
 
 class CategorieController extends Controller
@@ -26,6 +30,46 @@ class CategorieController extends Controller
         return response()->json([
             'status'=> 200,
             'message'=>'le seuil du categorie est mis à jour',
+        ]);
+    }
+
+    function seuilCheck(){
+        $seuilReached = [];
+        $categories =  $categories = Categorie::all();
+        $gestionnaires = Gestionnaire::all();
+
+        foreach ($categories as $categorie) {
+            $bienNonAffecte = Bien::where('statut', 0)->where('id_categorie', $categorie->id_categorie)->get();
+            if (count($bienNonAffecte) <= $categorie->seuil) {
+                array_push($seuilReached, $categorie->id_categorie);
+            }
+        }
+
+        // $seuilReachedJSON = json_encode($seuilReached);
+        $seuilReached  = (object) $seuilReached;
+        DB::table('notifications')
+        ->where('type', 'App\Notifications\SeuilNotification')
+        ->where('notifiable_type', 'App\Models\Gestionnaire')->delete();
+
+        foreach ($gestionnaires as $gestionnaire) {
+            $gestionnaire->notify(new SeuilNotification($seuilReached));
+          }
+
+        return response()->json([
+            'seuilReached'=>$seuilReached,
+        ]);
+    }
+
+    function getSeuilNotifications(){
+        $seuilNotification = DB::table('notifications')
+        ->where('type', 'App\Notifications\SeuilNotification')
+        ->where('notifiable_type', 'App\Models\Gestionnaire')
+        ->latest()
+        ->first();
+
+        return response()->json([
+            'status'=> 200,
+            'seuilNotification'=>$seuilNotification,
         ]);
     }
 }

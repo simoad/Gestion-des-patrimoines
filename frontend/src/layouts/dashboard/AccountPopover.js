@@ -28,7 +28,7 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopover({user}) {
   const anchorRef = useRef(null);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -47,20 +47,12 @@ export default function AccountPopover() {
         if (res.data.status === 200) {
           localStorage.removeItem('auth_token');
           localStorage.removeItem('auth_name');
+          localStorage.removeItem('auth_role');
           navigate('/Login', { replace: true });
         }
             
     });
   };
-
-  const getUser = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/user');
-    console.log(res.data);
-   };
-   
-   useEffect(() => {
-    getUser();
-   },[]);
 
   return (
     <>
@@ -95,10 +87,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {user.nom} {user.prenom}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 
