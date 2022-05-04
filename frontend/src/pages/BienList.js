@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink , useNavigate} from 'react-router-dom';
+import Popover from '@mui/material/Popover';
 // material
 import {
   Card,
@@ -111,6 +112,20 @@ const TABLE_HEAD = [
 
 export default function BienList() {
 
+  // Popover Start
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openPop = Boolean(anchorEl);
+  // Popover End
+
   const navigate = useNavigate();
   const [Biens, setBiens] = useState([]);
   const [categories, setCategories] = useState([{
@@ -158,6 +173,7 @@ export default function BienList() {
             Biens
           </Typography>
           <Button
+          
             variant="contained"
             component={RouterLink}
             to="/gestionnaire/addBien"
@@ -194,13 +210,17 @@ export default function BienList() {
                           hover
                           key={row.code_barre}
                           tabIndex={-1}
+                          aria-owns={openPop ? 'mouse-over-popover' : undefined}
+                          aria-haspopup="true"
+                          onMouseEnter={handlePopoverOpen}
+                          onMouseLeave={handlePopoverClose}
                         >
                           <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.code_barre}</TableCell>
-                          <TableCell align="left">{row.nom}</TableCell>
-                          <TableCell align="left">{categories.map((item) => row.id_categorie===item.id_categorie && item.nom_categorie)}</TableCell>
-                          <TableCell align="left">{row.garantie}</TableCell>
-                          <TableCell align="left">{row.duree_de_vie}</TableCell>
-                          <TableCell align="left">
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.nom}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{categories.map((item) => row.id_categorie===item.id_categorie && item.nom_categorie)}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.garantie}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.duree_de_vie}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>
                           <Label
                               variant="ghost"
                               color={(row.statut === 'non affecté' && 'info') || 
@@ -228,23 +248,46 @@ export default function BienList() {
             </TableContainer>
           </Scrollbar>
           <TablePagination
-          sx={{marginRight : "40px"}}
-          component='div'
-                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                      colSpan={3}
-                      count={Biens.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          'aria-label': 'rows per page',
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
-                    />
+            sx={{marginRight : "40px"}}
+            component='div'
+            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+            colSpan={3}
+            count={Biens.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+              inputProps: {
+                'aria-label': 'rows per page',
+              },
+              native: true,
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+        />
+
+          <Popover
+            id="mouse-over-popover"
+            sx={{
+              pointerEvents: 'none',
+            }}
+            open={openPop}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            onClose={handlePopoverClose}
+            disableRestoreFocus
+          >
+            <Typography sx={{ p:2 , fontSize : '15px', color : '#161C24', fontWeight: 'bold'}}>
+            Veuillez Clicker pour Suivre Le bien
+            </Typography>
+          </Popover>
         </Card>
       </Container>
     </Page>

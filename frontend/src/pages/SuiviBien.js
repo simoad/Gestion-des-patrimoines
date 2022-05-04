@@ -40,11 +40,16 @@ export default function SuiviBien() {
     setBien(res.data.bien);
     setDateRebut(res.data.date_rebut);
    };
+
    useEffect(() => {
     getBien(id);
-    setBienAffectation(Bien.affectations);
     console.log(Bien);
-   },[getBien]);
+   },[]);
+
+   useEffect(() => {
+    setBienAffectation(Bien.affectations);
+    console.log(BienAffectation);
+   },[Bien]);
   return (
     <Page title="Listes Des Biens">
     <Container>
@@ -81,8 +86,8 @@ export default function SuiviBien() {
     }
 
     {/* Affectation */}
-    {BienAffectation.map((row)=>(
-      <TimelineItem>
+    {BienAffectation.reverse().map((row)=>(
+      <TimelineItem key={row.id_affectation}>
       <TimelineOppositeContent
           sx={{ m: 'auto 0' }}
           variant="body2"
