@@ -20,6 +20,6 @@ class Affectation extends Model
 
     public function bureau()
     {
-        return $this->belongsTo(Bureau::class)->with('affectations')->with('departement');
+        return $this->belongsTo(Bureau::class, 'id_bureau', 'id_bureau')->with('departement');
     }
 }

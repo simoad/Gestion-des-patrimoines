@@ -21,6 +21,7 @@ import TableOfReclamationsRepondu from './layouts/ServiceReclamation/Reclamation
 import AddBien from './pages/AddBien';
 import EditBien from './pages/EditBien';
 import BienList from './pages/BienList';
+import SuiviBien from './pages/SuiviBien';
 import Categories from './pages/Categories';
 
 
@@ -29,6 +30,8 @@ import Categories from './pages/Categories';
 
 export default function Router() {
   return useRoutes([
+
+    // Gestionnaire 
     (localStorage.getItem('auth_role') === 'gestionnaire') ?
     {
       path: '/gestionnaire',
@@ -42,20 +45,24 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'blog', element: <Blog /> },
+        { path: 'suiviBien/:id', element: <SuiviBien /> }
       ]
     }
+    : <Navigate to="/login" />,
 
-    
-     : <Typography variant="h4" gutterBottom> Unauthorized </Typography> 
-    , (localStorage.getItem('auth_role') === 'employee') ?
+    // Employee 
+    (localStorage.getItem('auth_role') === 'employee') ?
     {
       path: '/employee',
       element: <EmployeeDashboard />,
       children: [
         { path: 'biens/:id', element: <BienListToReclamer /> },
       ]
-    },
+    } : <Navigate to="/login" />,
+
+    // service_de_reclamation
+    (localStorage.getItem('auth_role') === 'service_de_reclamation') ?
     {
       path: '/reclamation',
       element: <ReclamationDashboard />,
@@ -64,6 +71,8 @@ export default function Router() {
         { path: 'Repondu', element: <TableOfReclamationsRepondu /> },
       ]
     } : <Navigate to="/login" />,
+
+    // Public Route
     {
       path: '/',
       element: <LogoOnlyLayout />,

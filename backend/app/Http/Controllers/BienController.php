@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bien;
+use App\Models\Action;
 
 class BienController extends Controller
 {
@@ -41,6 +42,24 @@ class BienController extends Controller
             'status'=> 200,
             'biens'=>'le Bien est ajouté',
         ]);
+    }
+
+    function suiviBien($id){
+        $bien = Bien::where('code_barre',$id)->with('affectations')->first();
+        if($bien->statut === -1){
+            $rebut = Action::where('code_barre',$id)->where('type_action','rebut')->first();
+            $date_rebut = $rebut->date_action;
+            return response()->json([
+                'status'=> 200,
+                'bien'=>$bien,
+                'date_rebut'=>$date_rebut
+            ]);
+        } else {
+            return response()->json([
+                'status'=> 200,
+                'bien'=>$bien,
+            ]);
+        }
     }
 
     function edit($id){

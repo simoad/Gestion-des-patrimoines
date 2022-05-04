@@ -62,12 +62,23 @@ const [bureaux, setBureaux] = useState([{
       body: JSON.stringify(values)
     });
     const response = await res.json();
-    if (response.status === 200) 
+    if (values.role==='employee' && response.status === 200) 
     {
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('auth_name', response.nom);
-        navigate('/Login', { replace: true });  
-      navigate('/employee/biens', { replace: true });
+      navigate('/Login', { replace: true });  
+    } 
+    else if (values.role==='gestionnaire' && response.status === 200) 
+    {
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom); 
+      navigate('/Login', { replace: true });
+    }
+    else if (values.role==='service_de_reclamation' && response.status === 200) 
+    {
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom); 
+      navigate('/Login', { replace: true });
     }
   }
   });

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink , useNavigate} from 'react-router-dom';
 // material
 import {
   Card,
@@ -111,6 +111,7 @@ const TABLE_HEAD = [
 
 export default function BienList() {
 
+  const navigate = useNavigate();
   const [Biens, setBiens] = useState([]);
   const [categories, setCategories] = useState([{
     id_categorie : 1,
@@ -194,7 +195,7 @@ export default function BienList() {
                           key={row.code_barre}
                           tabIndex={-1}
                         >
-                          <TableCell align="left">{row.code_barre}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.code_barre}</TableCell>
                           <TableCell align="left">{row.nom}</TableCell>
                           <TableCell align="left">{categories.map((item) => row.id_categorie===item.id_categorie && item.nom_categorie)}</TableCell>
                           <TableCell align="left">{row.garantie}</TableCell>

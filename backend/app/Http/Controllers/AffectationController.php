@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Affectation;
 use App\Models\Bien;
-
+use App\Events\seuilNotificationEvent;
 
 class AffectationController extends Controller
 {
@@ -19,10 +19,11 @@ class AffectationController extends Controller
         $bien->update([
             'statut'       => 1
             ]);
-        
         return response()->json([
             'status'=> 200,
             'biens'=>'le Bien est affecté au bureau avec changement de son statut',
         ]);
+        broadcast(new App\Events\seuilNotificationEvent());
+
     }
 }

@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('delete-bien/{id}', 'BienController@delete');
     Route::get('edit-bien/{id}', 'BienController@edit');
     Route::put('update-bien/{id}', 'BienController@update');
+    Route::get('suivi-bien/{id}', 'BienController@suiviBien');
 
     //Affectation Routes
     Route::post('affect-bien', 'AffectationController@affect');
@@ -57,42 +58,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('seuilCheck', 'CategorieController@seuilCheck');
     Route::get('get-seuil-notifications', 'CategorieController@getSeuilNotifications');
 
+    //reclamation
+    Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
+    Route::get('getReclamationsRepondu', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
+    Route::get('get_reclamateurs', 'ReclamationController@get_reclamateurs')->name('get_reclamateurs');
+    Route::get('get_Biens', 'BienController@index')->name('get_Biens');
+    Route::get('get_all_Reclamation_Responses', 'ReclamationController@get_all_Reclamation_Responses')->name('get_all_Reclamation_Responses');
+    Route::post('responceReclamation', 'ReclamationController@responceReclamation');
 
 });
 
-// Bien Routes
-Route::get('bien', 'BienController@index')->name('bien');
-Route::post('add-bien', 'BienController@store');
-Route::delete('delete-bien/{id}', 'BienController@delete');
-Route::get('edit-bien/{id}', 'BienController@edit');
-Route::put('update-bien/{id}', 'BienController@update');
-
-//Affectation Routes
-Route::post('affect-bien', 'AffectationController@affect');
-
-//Departement Routes
-Route::get('get-departements', 'DepartementController@index')->name('get-departements');
-
-//Bureau Routes
-Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
-Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
-
-//Employee Routes
-Route::get('get-employee/{id}', 'EmployeeController@getById');
-Route::post('reclamer', 'ReclamerController@ReclamerBien');
-
-
-
-// Categorie Routes
-Route::get('get-categories', 'CategorieController@index')->name('get-categories');
-Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
-
-//reclamation
-Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
-Route::get('getReclamationsRepondu', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
-Route::get('get_reclamateurs', 'ReclamationController@get_reclamateurs')->name('get_reclamateurs');
-Route::get('get_Biens', 'BienController@index')->name('get_Biens');
-Route::get('get_all_Reclamation_Responses', 'ReclamationController@get_all_Reclamation_Responses')->name('get_all_Reclamation_Responses');
-Route::post('responceReclamation', 'ReclamationController@responceReclamation');
-
-
+Route::get('message', function () {
+    $message['user'] = "Juan Perez";
+    $message['message'] =  "Prueba mensaje desde Pusher";
+    broadcast(new App\Events\seuilNotificationEvent());
+    $success = event(new App\Events\hello());
+    return $success;
+});
