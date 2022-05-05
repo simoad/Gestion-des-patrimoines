@@ -17,3 +17,9 @@ Route::get('/home', function () {
     return view('welcome');
 });
 Route::view('wielcome','welcome');
+
+Route::get('/broadcast', function () {
+
+    broadcast(new App\Events\seuilNotificationEvent());
+
+});

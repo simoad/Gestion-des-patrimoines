@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import Echo from 'laravel-echo';
+
 import { Link as RouterLink } from 'react-router-dom';
 import { set, sub, formatDistanceToNow } from 'date-fns';
 // material
@@ -28,6 +30,18 @@ import { mockImgAvatar } from '../../utils/mockImages';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
 import MenuPopover from '../../components/MenuPopover';
+
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: 'local',
+  wsHost: '127.0.0.1',
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true
+});
 
 // ----------------------------------------------------------------------
 
@@ -168,7 +182,6 @@ export default function NotificationsPopover() {
 
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const [Seuilnotifications, setSeuilNotifications] = useState([{
     id: null,
     title: 'Seuil de catégorie',
@@ -178,6 +191,8 @@ export default function NotificationsPopover() {
     createdAt: null,
     isUnRead: false
   }]);
+  const [notifications, setNotifications] = useState(Seuilnotifications);
+
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
   const [categories, setCategories] = useState([{
     id_categorie : 1,
@@ -226,7 +241,7 @@ export default function NotificationsPopover() {
           avatar: null,
           type: 'chat_message',
           createdAt: res.data.seuilNotification.created_at,
-          isUnRead: false
+          isUnRead: true
         }
         notifications.push(notification);
       });
@@ -237,6 +252,12 @@ export default function NotificationsPopover() {
    useEffect(() => {
     getSeuilNotifications();
    },[categories]);
+
+useEffect(() => {
+
+  window.Echo.channel('channel').listen('hello', (e)=>{ console.log(e); });
+ 
+  }, []);
 
   return (
     <>

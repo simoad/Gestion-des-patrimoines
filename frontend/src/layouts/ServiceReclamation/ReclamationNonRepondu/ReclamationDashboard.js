@@ -42,7 +42,6 @@ export default function ReclamationDashboard() {
     prenom:'',
     email:''
   });
-
   const getUser = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/user');
     setUser(res.data);
