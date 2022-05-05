@@ -38,6 +38,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('update-bien/{id}', 'BienController@update');
     Route::get('suivi-bien/{id}', 'BienController@suiviBien');
 
+    // Notification 
+    Route::post('marqueAsRead/{id}', 'CategorieController@marqueAsRead');
+    Route::get('seuilCheck', 'CategorieController@seuilCheck');
+    Route::get('get-seuil-notifications', 'CategorieController@getSeuilNotifications');
+
     //Affectation Routes
     Route::post('affect-bien', 'AffectationController@affect');
 
@@ -55,8 +60,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Categorie Routes
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');
     Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
-    Route::get('seuilCheck', 'CategorieController@seuilCheck');
-    Route::get('get-seuil-notifications', 'CategorieController@getSeuilNotifications');
 
     //reclamation
     Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
@@ -64,11 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('get_reclamateurs', 'ReclamationController@get_reclamateurs')->name('get_reclamateurs');
     Route::get('get_Biens', 'BienController@index')->name('get_Biens');
     Route::get('get_all_Responses_of_Reclamation', 'ReclamationController@get_all_Responses_of_Reclamation')->name('get_all_Responses_of_Reclamation');
-    Route::post('responceReclamation', 'ReclamationController@responceReclamation');
-
-
-    
-
+    Route::post('responceReclamation', 'ReclamationController@responceReclamation')->name('responceReclamation');
 });
 
 

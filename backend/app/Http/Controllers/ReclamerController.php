@@ -27,9 +27,7 @@ class ReclamerController extends Controller
           'code_barre' => $req->input('code_barre')
         ];
 
-        foreach ($service_reclamation as $service_reclam) {
-          $service_reclam->notify(new ReclamationNotification($reclamation_notification));
-        }
+          $service_reclamation[0]->notify(new ReclamationNotification($reclamation_notification));
 
         return response()->json([
           'status'=> 200,

@@ -38,24 +38,29 @@ class CategorieController extends Controller
         $categories =  $categories = Categorie::all();
         $gestionnaires = Gestionnaire::all();
 
-        foreach ($categories as $categorie) {
-            $bienNonAffecte = Bien::where('statut', 0)->where('id_categorie', $categorie->id_categorie)->get();
-            if (count($bienNonAffecte) <= $categorie->seuil) {
-                array_push($seuilReached, $categorie->id_categorie);
-            }
-        }
-
-        // $seuilReachedJSON = json_encode($seuilReached);
-        $seuilReached  = (object) $seuilReached;
         DB::table('notifications')
         ->where('type', 'App\Notifications\SeuilNotification')
         ->where('notifiable_type', 'App\Models\Gestionnaire')->delete();
 
-        foreach ($gestionnaires as $gestionnaire) {
-            $gestionnaire->notify(new SeuilNotification($seuilReached));
-          }
+        foreach ($categories as $categorie) {
+            $bienNonAffecte = Bien::where('statut', 0)->where('id_categorie', $categorie->id_categorie)->get();
+            if (count($bienNonAffecte) <= $categorie->seuil) {
+                array_push($seuilReached, $categorie->id_categorie);
+                $SeuilNotif = 'La categorie '.$categorie->nom_categorie.' a atteint son seuil';
+                    $gestionnaires[0]->notify(new SeuilNotification($SeuilNotif));
+
+            }
+        }
+
+        // $seuilReachedJSON = json_encode($seuilReached);
+        // $seuilReached  = (object) $seuilReached;
+
+        // foreach ($gestionnaires as $gestionnaire) {
+        //     $gestionnaire->notify(new SeuilNotification($seuilReached));
+        //   }
 
         return response()->json([
+            'status'=>200,
             'seuilReached'=>$seuilReached,
         ]);
     }
@@ -64,12 +69,21 @@ class CategorieController extends Controller
         $seuilNotification = DB::table('notifications')
         ->where('type', 'App\Notifications\SeuilNotification')
         ->where('notifiable_type', 'App\Models\Gestionnaire')
-        ->latest()
-        ->first();
+        ->get();
 
         return response()->json([
             'status'=> 200,
             'seuilNotification'=>$seuilNotification,
+        ]);
+    }
+
+    function marqueAsRead($id){
+        $notification = DB::table('notifications')
+        ->where('id', $id)->update(['read_at' => now()]);
+
+        return response()->json([
+            'status'=> 200,
+            'message'=>'la notification est marqué comme lue',
         ]);
     }
 }

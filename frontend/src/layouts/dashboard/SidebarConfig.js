@@ -14,7 +14,27 @@ const sidebarConfig = [
   {
     title: 'Catégories',
     path: '/gestionnaire/categories',
+    icon: getIcon('bx:category')
+  },
+  {
+    title: 'Biens à envoyés au rebut',
+    path: '/gestionnaire/bienRebut',
     icon: getIcon('eva:shopping-bag-fill')
+  },
+  {
+    title: 'Notifications',
+    path: '/gestionnaire/notifications',
+    icon: getIcon('clarity:notification-line')
+  },
+  {
+    title: 'Historique',
+    path: '/gestionnaire/historique',
+    icon: getIcon('ant-design:history-outlined')
+  },
+  {
+    title: '',
+    path: '/gestionnaire/ffff',
+    icon: getIcon('eva:pie-chart-2-fill')
   },
   {
     title: 'dashboard',

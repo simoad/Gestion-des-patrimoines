@@ -149,7 +149,7 @@ function NotificationItem({ notification }) {
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isUnRead && {
+        ...(notification.isUnRead === null && {
           bgcolor: 'action.selected'
         })
       }}
@@ -191,9 +191,9 @@ export default function NotificationsPopover() {
     createdAt: null,
     isUnRead: false
   }]);
-  const [notifications, setNotifications] = useState(Seuilnotifications);
+  const [notifications, setNotifications] = useState([]);
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = notifications.filter((item) => item.isUnRead === null).length;
   const [categories, setCategories] = useState([{
     id_categorie : 1,
     nom_categorie : '',
@@ -230,21 +230,31 @@ export default function NotificationsPopover() {
   const getSeuilNotifications = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/get-seuil-notifications');
       const notifications = [];
-      const data = JSON.parse(res.data.seuilNotification.data);
-      Object.keys(data).forEach(key => {
-        const notif = data[key];
-        const categ = categories.map((item) => notif===item.id_categorie ? item.nom_categorie : null );
-        const notification = {
-          id: notif,
+      res.data.seuilNotification.map((item)=>( 
+        notifications.push({
+          id: item.id,
           title: 'Seuil de catégorie',
-          description: `La categorie ${categ} a atteint son seuil`,
+          description: item.data.slice(1,item.data.length-1),
           avatar: null,
           type: 'chat_message',
-          createdAt: res.data.seuilNotification.created_at,
-          isUnRead: true
-        }
-        notifications.push(notification);
-      });
+          createdAt: item.created_at,
+          isUnRead: item.read_at
+        })));
+      // const data = JSON.parse(res.data.seuilNotification.data);
+      // Object.keys(data).forEach(key => {
+      //   const notif = data[key];
+      //   const categ = categories.map((item) => notif===item.id_categorie ? item.nom_categorie : null );
+      //   const notification = {
+      //     id: notif,
+      //     title: 'Seuil de catégorie',
+      //     description: `La categorie ${categ} a atteint son seuil`,
+      //     avatar: null,
+      //     type: 'chat_message',
+      //     createdAt: res.data.seuilNotification.created_at,
+      //     isUnRead: true
+      //   }
+      //   notifications.push(notification);
+      // });
       setSeuilNotifications(notifications);
       console.log(notifications);
   };
@@ -252,6 +262,10 @@ export default function NotificationsPopover() {
    useEffect(() => {
     getSeuilNotifications();
    },[categories]);
+
+   useEffect(()=>{
+    setNotifications(Seuilnotifications);
+   },[Seuilnotifications]);
 
 useEffect(() => {
 
@@ -272,7 +286,7 @@ useEffect(() => {
           })
         }}
       >
-        <Badge badgeContent={Seuilnotifications.length} color="error">
+        <Badge badgeContent={totalUnRead} color="error">
           <Iconify icon="eva:bell-fill" width={20} height={20} />
         </Badge>
       </IconButton>
@@ -324,14 +338,14 @@ useEffect(() => {
               </ListSubheader>
             }
           >
-            {Seuilnotifications.slice(0, 7).map((notification) => (
+            {notifications.slice(0, 7).map((notification) => (
               <NotificationItem key={notification.id} notification={notification} />
             ))}
           </List>
         </Scrollbar>
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="#">
+          <Button fullWidth disableRipple component={RouterLink} to="/gestionnaire/notifications">
             View All
           </Button>
         </Box>

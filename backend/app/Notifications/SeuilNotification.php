@@ -33,7 +33,7 @@ class SeuilNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','broadcast'];
+        return ['database'];
     }
 
 
@@ -54,8 +54,8 @@ class SeuilNotification extends Notification
      * @param  mixed  $notifiable
      * @return BroadcastMessage
      */
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage($this->seuilReached);
-    }
+    // public function toBroadcast($notifiable)
+    // {
+    //     return new BroadcastMessage($this->seuilReached);
+    // }
 }

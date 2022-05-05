@@ -74,6 +74,10 @@ class ReclamationController extends Controller
                     'status'=> 400,
                     'message'=>'impossible deja en Rebut'
                 ]);
+            } else {
+                return response()->json([
+                    'status'=> 404
+                ]);
             }
             
             

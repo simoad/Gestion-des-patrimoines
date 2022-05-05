@@ -285,7 +285,7 @@ export default function BienList() {
             disableRestoreFocus
           >
             <Typography sx={{ p:2 , fontSize : '15px', color : '#161C24', fontWeight: 'bold'}}>
-            Veuillez Clicker pour Suivre Le bien
+            Veuillez clicker pour suivre le bien
             </Typography>
           </Popover>
         </Card>

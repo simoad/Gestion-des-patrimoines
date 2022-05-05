@@ -23,6 +23,10 @@ import EditBien from './pages/EditBien';
 import BienList from './pages/BienList';
 import SuiviBien from './pages/SuiviBien';
 import Categories from './pages/Categories';
+import BienRebut from './pages/BienRebut';
+import GestionnaireNotifications from './pages/GestionnaireNotifications';
+import GestionnaireHistory from './pages/GestionnaireHistory';
+
 
 
 
@@ -46,7 +50,10 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'suiviBien/:id', element: <SuiviBien /> }
+        { path: 'suiviBien/:id', element: <SuiviBien /> },
+        { path: 'bienRebut', element: <BienRebut /> },
+        { path: 'notifications', element: <GestionnaireNotifications /> },
+        { path: 'historique', element: <GestionnaireHistory /> }
       ]
     }
     : <Navigate to="/login" />,
