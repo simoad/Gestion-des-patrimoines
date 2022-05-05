@@ -162,14 +162,7 @@ export default function TableOfReclamationsRepondu() {
     getBiens();
    },[]);
 
-   const getAllReclamationResponses = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/get_all_Reclamation_Responses');
-    setResponses(res.data.Responses);
-   };
-
-   useEffect(() => {
-    getAllReclamationResponses();
-   },[]);
+   
  
   // const getcolor =(test)=>{
   //   if(test === 'En Rebut'){
@@ -223,7 +216,7 @@ export default function TableOfReclamationsRepondu() {
                           <TableCell align="left">{row.employe}</TableCell>
                           <TableCell align="left">{row.produit} </TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{moment(row.date_reclamation).format('L')}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format('MMMM Do YYYY, h:mm')}</TableCell>
                           <TableCell align="left">
                           <Label
                               variant="ghost"

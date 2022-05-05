@@ -78,7 +78,14 @@ export default function LoginForm() {
       localStorage.setItem('auth_role', 'gestionnaire'); 
       navigate('/gestionnaire/biens', { replace: true });
     }
-      
+    else if (values.role==='service_de_reclamation' && response.status === 200) 
+    {
+      console.log('hey');
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom); 
+      localStorage.setItem('auth_role', 'service_de_reclamation'); 
+      navigate('/reclamation/NonRepondu', { replace: true });
+    }
   }
   });
 

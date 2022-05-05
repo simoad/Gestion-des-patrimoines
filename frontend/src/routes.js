@@ -29,6 +29,8 @@ import Categories from './pages/Categories';
 
 export default function Router() {
   return useRoutes([
+
+    // Gestionnaire 
     (localStorage.getItem('auth_role') === 'gestionnaire') ?
     {
       path: '/gestionnaire',
@@ -43,19 +45,23 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
+  
       ]
     }
+    : <Navigate to="/login" />,
 
-    
-     : <Typography variant="h4" gutterBottom> Unauthorized </Typography> 
-    , (localStorage.getItem('auth_role') === 'employee') ?
+    // Employee 
+    (localStorage.getItem('auth_role') === 'employee') ?
     {
       path: '/employee',
       element: <EmployeeDashboard />,
       children: [
         { path: 'biens/:id', element: <BienListToReclamer /> },
       ]
-    },
+    } : <Navigate to="/login" />,
+
+    // service_de_reclamation
+    (localStorage.getItem('auth_role') === 'service_de_reclamation') ?
     {
       path: '/reclamation',
       element: <ReclamationDashboard />,
@@ -64,6 +70,8 @@ export default function Router() {
         { path: 'Repondu', element: <TableOfReclamationsRepondu /> },
       ]
     } : <Navigate to="/login" />,
+
+    // Public Route
     {
       path: '/',
       element: <LogoOnlyLayout />,
@@ -78,3 +86,8 @@ export default function Router() {
     { path: '*', element: <Navigate to="/login" replace /> }
   ]);
 }
+
+
+
+
+    

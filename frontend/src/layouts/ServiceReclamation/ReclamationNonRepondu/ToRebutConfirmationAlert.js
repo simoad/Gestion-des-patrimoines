@@ -25,7 +25,7 @@ import {
 
 
 
-export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError,codeBarre,idReclamation, getReclamations}){
+export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError,setalertError,codeBarre,idReclamation, getReclamations}){
 
 
 
@@ -33,8 +33,8 @@ const formik = useFormik({
     initialValues: {
       codeBarre,
       idReclamation,
-      idServiceReclamation: 2,
-      ServiceReponse:'En Rebut'
+      idServiceReclamation: 9,
+      ServiceReponse: 'En Rebut'
     },
     onSubmit: async (values) => {
       const res = await fetch(`http://127.0.0.1:8000/api/responceReclamation`, {
@@ -46,7 +46,14 @@ const formik = useFormik({
           if (response.status === 200){setshowAlert(true);
             getReclamations();
         }
-          else {setshowAlertError(true);}
+        else if(response.status === 400){
+          setalertError(true);
+          getReclamations();
+        }
+        else{
+          setshowAlertError(true);
+          getReclamations();
+        }
     }
   });
 
@@ -62,6 +69,7 @@ const formik = useFormik({
    <Stack spacing={3}>
 
      <Grid container justify="center">
+
        <LoadingButton
          sx={{ mx: 'auto', width: 100   , 
          backgroundColor: '#fff',

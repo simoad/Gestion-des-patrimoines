@@ -27,7 +27,7 @@ class ReclamationController extends Controller
         where B.code_barre=R.code_barre
         and E.id_employe= R.id_employe
         and Res.id_reclamation=R.id_reclamation
-        and Res.id_service_recl=2 
+        and Res.id_service_recl=9 
         and R.status_reponce=1;");
 
         return response()->json([
@@ -45,11 +45,18 @@ class ReclamationController extends Controller
     }
     
     function  responceReclamation(Request $req ){
-
-            Reclamation::where('id_reclamation',$req->input('idReclamation'))->update(['status_reponce' => 1]);
-
-            
-            if(Reponse_reclamation::where('id_reclamation',$req->input('idReclamation'))->where('codeBarre',$req->input('codeBarre'))->get()->isEmpty() ){
+        $test=DB::select(" select id_reclamation from reclamation where code_barre=? and status_reponce=1 order by date_reclamation desc LIMIT 1;",[$req->input('codeBarre')]);
+       if(!empty($test) ){
+        $result=DB::select("select ServiceResponce from reponse_reclamation where id_reclamation=?;",[$test[0]->id_reclamation] );
+        };
+        
+           
+            if(empty($result) || empty($test)  || array_column($result , 'ServiceResponce')[0] == "En Reparation"   ){
+                Reclamation::where('id_reclamation',$req->input('idReclamation'))->update(['status_reponce' => 1]);
+                if($req->input('ServiceReponse') == "En Rebut"){
+                    DB::delete("delete from affectation where code_barre=?",[$req->input('codeBarre')]);
+                    //il faut envoyer une notification à l'employe est l'informer que le bien il est dans le Rebut
+                }
                 $response = new Reponse_reclamation();
                 $response->id_reclamation = $req->input('idReclamation');
                 $response->id_service_recl = $req->input('idServiceReclamation');
@@ -61,18 +68,17 @@ class ReclamationController extends Controller
                 ]);
                 
             }
-            else{
-                
-                Reponse_reclamation::where('codeBarre',$req->input('codeBarre'))->update(['ServiceResponce' =>$req->input('ServiceReponse') ]);
-                $response=Reponse_reclamation::where('id_reclamation',$req->input('idReclamation'))->get();
+            elseif(array_column($result , 'ServiceResponce')[0] == "En Rebut" ){
+                Reclamation::where('id_reclamation',$req->input('idReclamation'))->update(['status_reponce' => 0]);
                 return response()->json([
-                    'status'=> 200,
-                    'response'=>$response
+                    'status'=> 400,
+                    'message'=>'impossible deja en Rebut'
                 ]);
             }
             
+            
       }
-      function get_all_Reclamation_Responses(){
+      function get_all_Responses_of_Reclamation(){
         $Responses = Reponse_reclamation::all();
 
         return response()->json([

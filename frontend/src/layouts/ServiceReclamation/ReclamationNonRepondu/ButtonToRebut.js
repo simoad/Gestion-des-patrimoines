@@ -29,6 +29,7 @@ export default function ButtonToRebut({codeBarre,idEmployee,idReclamation, getRe
   const [open, setOpen] = useState(false);
   const [showAlert, setshowAlert] = useState(false);
   const [showAlertError, setshowAlertError] = useState(false);
+  const [alertError, setalertError] = useState(false);
  
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,6 +70,27 @@ const [fullWidth, setFullWidth] = useState(false);
           <DialogContentText>
           Veuillez confirmer l'envoi de {nomProduit} à rebut 
           </DialogContentText>
+          <Collapse in={alertError} sx={{marginTop : '4px'}}>
+            <Alert
+              severity="error"
+              color='error'
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setalertError(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              le produit est deja en rebut ! 
+            </Alert>
+          </Collapse>
           <Collapse in={showAlertError} sx={{marginTop : '4px'}}>
             <Alert
               severity="error"
@@ -114,7 +136,7 @@ const [fullWidth, setFullWidth] = useState(false);
          
         </DialogContent>
         <DialogActions>
-        <ToRebutConfirmationAlert setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations} />
+        <ToRebutConfirmationAlert setshowAlert={setshowAlert} setalertError={setalertError}  setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations} />
           <Button onClick={handleClose} color='error'>Annuler</Button>
         </DialogActions>
     </Dialog>

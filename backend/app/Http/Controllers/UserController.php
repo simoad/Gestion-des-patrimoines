@@ -43,7 +43,7 @@ class UserController extends Controller
                 'message'=>'gestionnaire Registered successfully'
             ]);
         }
-        if($req->input('role') === 'service de reclamation' ){
+        if($req->input('role') === 'service_de_reclamation' ){
             $service_de_reclamation = new Service_reclamation();
             $service_de_reclamation->nom = $req->input('nom');
             $service_de_reclamation->prenom = $req->input('prenom');
@@ -109,7 +109,7 @@ class UserController extends Controller
         }
 
         // Service Reclamation
-        if($req->input('role') === 'service de reclamation' ){
+        if($req->input('role') === 'service_de_reclamation' ){
             $service_reclamation= Service_reclamation::where('email',$req->input('email'))->first();
             if(!$service_reclamation || ! Hash::check($req->password, $service_reclamation->password))
             {
@@ -123,8 +123,8 @@ class UserController extends Controller
                 $token = $service_reclamation->createToken($service_reclamation->email.'_Token')->plainTextToken;
                 return response()->json([
                     'status'=> 200,
-                    'service_reclamation'=>$service_reclamation,
-                    'nom'=>$service_de_reclamation->nom,
+                    'service_de_reclamation'=>$service_reclamation,
+                    'nom'=>$service_reclamation->nom,
                     'token'=>$token,
                     'message'=>'service_reclamation Logged In successfully'
                 ]);

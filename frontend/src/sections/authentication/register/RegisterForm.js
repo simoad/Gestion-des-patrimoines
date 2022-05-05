@@ -66,8 +66,7 @@ const [bureaux, setBureaux] = useState([{
     {
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('auth_name', response.nom);
-        navigate('/Login', { replace: true });  
-      navigate('/employee/biens', { replace: true });
+        navigate('/Login', { replace: true }); 
     }
   }
   });

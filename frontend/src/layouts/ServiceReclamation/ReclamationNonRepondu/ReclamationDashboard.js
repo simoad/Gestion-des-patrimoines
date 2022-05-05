@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import axios from 'axios';
+
 // material
 import { styled } from '@mui/material/styles';
 //
@@ -10,6 +12,7 @@ import ReclamationDashboardSidebar from './ReclamationDashboardSidebar';
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
+
 
 const RootStyle = styled('div')({
   display: 'flex',
@@ -34,11 +37,26 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function ReclamationDashboard() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user);
+  }
+
+   useEffect(() => {
+    getUser();
+   },[]);
 
   return (
     <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <ReclamationDashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar user={user} onOpenSidebar={() => setOpen(true)} />
+      <ReclamationDashboardSidebar user={user}  isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

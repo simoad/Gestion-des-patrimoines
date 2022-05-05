@@ -33,7 +33,7 @@ const formik = useFormik({
     initialValues: {
       codeBarre,
       idReclamation,
-      idServiceReclamation: 2,
+      idServiceReclamation: 9,
       ServiceReponse: 'En Reparation'
     },
     onSubmit: async (values) => {

@@ -225,7 +225,7 @@ export default function TableOfReclamations() {
                           <TableCell align="left">{reclamateurs.map((item1) => row.id_employe===item1.id_employe && item1.nom)}</TableCell>
                           <TableCell align="left">{biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{moment(row.date_reclamation).format('L')}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format('d/m/Y, h:mm')}</TableCell>
                           <TableCell align="left">
                           <ButtonAlertAccept  codeBarre={row.code_barre} idEmployee={row.id_employe}  idReclamation={row.id_reclamation}  getReclamations={getReclamations} nomProduit={biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}/>
                               

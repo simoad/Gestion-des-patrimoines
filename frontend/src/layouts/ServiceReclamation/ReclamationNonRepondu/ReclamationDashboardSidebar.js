@@ -41,7 +41,7 @@ ReclamationDashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func
 };
 
-export default function ReclamationDashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function ReclamationDashboardSidebar({ user,isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -69,8 +69,8 @@ export default function ReclamationDashboardSidebar({ isOpenSidebar, onCloseSide
           <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                {user.nom} {user.prenom}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}

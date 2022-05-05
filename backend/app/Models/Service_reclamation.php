@@ -12,7 +12,7 @@ class Service_reclamation extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'service_reclamation';
+    protected $table = 'service_reclamations';
     protected $primaryKey = 'id_service_recl';
     public $timestamps = false;
 

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\reclamation;
+use Illuminate\Http\Request;
 use App\Models\Service_reclamation;
 use App\Notifications\ReclamationNotification;
-use Illuminate\Http\Request;
 
 class ReclamerController extends Controller
 {
+
+  
     function  ReclamerBien(Request $req ){
         $reclamation = new reclamation();
         $reclamation->id_employe = $req->input('id_employe');
