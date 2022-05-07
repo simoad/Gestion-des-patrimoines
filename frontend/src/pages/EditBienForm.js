@@ -21,22 +21,42 @@ import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
-export default function EditBienForm() {
+export default function EditBienForm({user}) {
     const [categories, setCategories] = useState([{
       id_categorie : 1,
       nom_categorie : ''
     }]);
+
     const[bienEdit , setbienEdit] = useState({
         code_barre : null,
         id_categorie : null,
         nom : null,
         garantie : null,
         duree_de_vie : null,
-        statut : 0,
-    });
+    }); 
+ 
     const [showAlert, setshowAlert] = useState(false);
     const {id} = useParams();
+      
+    const getCategories = async () => {
+      const res = await axios.get('http://127.0.0.1:8000/api/get-categories');
+      setCategories(res.data.categories);
+     };
   
+     const editBien = async (idBien) => {
+      const res = await axios.get(`http://127.0.0.1:8000/api/edit-bien/${idBien}`);
+      setbienEdit(res.data.bien);
+    };
+        
+     useEffect(() => {
+      getCategories(); 
+     },[]);
+  
+     useEffect(() => {
+      editBien(id);
+      console.log(bienEdit);  
+     },[]);
+
     const BienSchema = Yup.object().shape({
       code_barre : Yup.string().min(2, 'Trop court!').required('Code Barre est requis'),
       id_categorie : Yup.number().required('Categorie est requis'),
@@ -48,13 +68,13 @@ export default function EditBienForm() {
   
     const formik = useFormik({
       initialValues: {
-        code_barre : bienEdit.code_barre || null,
-        id_categorie : bienEdit.id_categorie || null,
-        nom_bien : bienEdit.nom || null,
-        garantie : bienEdit.garantie || null,
-        duree_de_vie : bienEdit.duree_de_vie || null,
-        statut : bienEdit.statut || 0,
-      },
+        id_gestionnaire : user.id_gestionnaire,
+        code_barre : bienEdit.code_barre ,
+        id_categorie : bienEdit.id_categorie,
+        nom_bien : bienEdit.nom,
+        garantie : bienEdit.garantie,
+        duree_de_vie : bienEdit.duree_de_vie,
+      }, 
       validationSchema: BienSchema,
       onSubmit: async (values) => {
         await fetch(`http://127.0.0.1:8000/api/update-bien/${values.code_barre}`, {
@@ -67,22 +87,6 @@ export default function EditBienForm() {
         setshowAlert(true);
       }
     });
-  
-    const getCategories = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/get-categories');
-      setCategories(res.data.categories);
-     };
-  
-     const editBien = async (idBien) => {
-      const res = await axios.get(`http://127.0.0.1:8000/api/edit-bien/${idBien}`);
-      setbienEdit(res.data.bien[0]);
-    };
-     
-     useEffect(() => {
-      getCategories();
-      editBien(id);
-      console.log(bienEdit);
-     },[]);
   
     const ITEM_HEIGHT = 48;
 
@@ -145,12 +149,6 @@ export default function EditBienForm() {
                     {...getFieldProps('duree_de_vie')} 
                     error={Boolean(touched.duree_de_vie && errors.duree_de_vie)}
                     helperText={touched.duree_de_vie && errors.duree_de_vie}
-                  />
-  
-                  <Field  
-                    hidden
-                    name="statut"
-                    value={bienEdit.statut}
                   />
   
                 <LoadingButton

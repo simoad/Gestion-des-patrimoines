@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bien;
+use App\Models\Historique;
+use App\Models\Gestionnaire;
 use App\Models\Action;
 
 class BienController extends Controller
@@ -38,6 +40,13 @@ class BienController extends Controller
         $bien->statut       = $request->input('statut');
         $bien->save();
 
+        //historique
+        $historique = new Historique;
+        $gestionnaire = Gestionnaire::where('id_gestionnaire',$request->input('id_gestionnaire'))->first();
+        $historique->action = "ajout du bien ".$request->input('code_barre')." par le gestionnaire ".$gestionnaire->nom." ".$gestionnaire->prenom;
+        $historique->type_action = "ajout";
+        $historique->save();
+
         return response()->json([
             'status'=> 200,
             'biens'=>'le Bien est ajouté',
@@ -63,7 +72,7 @@ class BienController extends Controller
     }
 
     function edit($id){
-        $bien = Bien::where('code_barre',$id)->get();
+        $bien = Bien::where('code_barre',$id)->first();
         return response()->json([
             'status'=> 200,
             'bien'=>$bien,
@@ -77,9 +86,15 @@ class BienController extends Controller
         'id_categorie' => $request->id_categorie,
         'nom'          => $request->nom_bien,
         'garantie'     => $request->garantie,
-        'duree_de_vie' => $request->duree_de_vie,
-        'statut'       => $request->statut
+        'duree_de_vie' => $request->duree_de_vie
         ]);
+
+        //historique
+        $historique = new Historique;
+        $gestionnaire = Gestionnaire::where('id_gestionnaire',$request->input('id_gestionnaire'))->first();
+        $historique->action = "mise à jour du bien ".$request->input('code_barre')." par le gestionnaire ".$gestionnaire->nom." ".$gestionnaire->prenom;
+        $historique->type_action = "modification";
+        $historique->save();
 
         return response()->json([
             'status'=> 200,

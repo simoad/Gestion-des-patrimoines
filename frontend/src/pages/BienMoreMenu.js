@@ -17,7 +17,7 @@ import AffecterBienDialog from './AffecterBienDialog';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({codeBarre,getBiens}) {
+export default function UserMoreMenu({user,codeBarre,getBiens}) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -57,9 +57,9 @@ export default function UserMoreMenu({codeBarre,getBiens}) {
           <ListItemText primary="Affecter" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <AffecterBienDialog getBiens={getBiens} open={open} setOpen={setOpen} codeBarre={codeBarre}/>
+        <AffecterBienDialog user={user} getBiens={getBiens} open={open} setOpen={setOpen} codeBarre={codeBarre}/>
 
-        <MenuItem component={RouterLink} to={`/dashboard/editBien/${codeBarre}`} sx={{ color: '#0C53B7' }}>
+        <MenuItem component={RouterLink} to={`/gestionnaire/editBien/${codeBarre}`} sx={{ color: '#0C53B7' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>

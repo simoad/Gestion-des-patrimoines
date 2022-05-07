@@ -28,6 +28,8 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 // components
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -106,6 +108,40 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+// ----------------------------------------------------------------------
 
 export default function GestionnaireNotifications() {
 
@@ -158,21 +194,7 @@ export default function GestionnaireNotifications() {
           createdAt: item.created_at,
           isUnRead: item.read_at
         })));
-      // const data = JSON.parse(res.data.seuilNotification.data);
-      // Object.keys(data).forEach(key => {
-      //   const notif = data[key];
-      //   const categ = categories.map((item) => notif===item.id_categorie ? item.nom_categorie : null );
-      //   const notification = {
-      //     id: notif,
-      //     title: 'Seuil de catégorie',
-      //     description: `La categorie ${categ} a atteint son seuil`,
-      //     createdAt: res.data.seuilNotification.created_at,
-      //     readAt: res.data.seuilNotification.read_at
-      //   }
-      //   notifications.push(notification);
-      // });
       setSeuilNotifications(notifications);
-      console.log(notifications);
   };
 
    useEffect(() => {
@@ -181,7 +203,6 @@ export default function GestionnaireNotifications() {
 
    useEffect(()=>{
     setNotifications(Seuilnotifications);
-    console.log('notif',notifications);
    },[Seuilnotifications]);
 
    const [page, setPage] = useState(0);
@@ -198,6 +219,12 @@ export default function GestionnaireNotifications() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
  
 
@@ -217,6 +244,16 @@ export default function GestionnaireNotifications() {
         </Box>
         </Stack>
 
+        <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Tous les notifications" {...a11yProps(0)} />
+          <Tab label="Seuil de catégorie" {...a11yProps(1)} />
+          <Tab label="Envoi du biens au rebut" {...a11yProps(2)} />
+
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -300,6 +337,180 @@ export default function GestionnaireNotifications() {
             ActionsComponent={TablePaginationActions}
         />
         </Card>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+      <Card>
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {TABLE_HEAD.map((headCell) => (
+                      <TableCell
+                        key={headCell.id}
+                        align={headCell.alignRight ? 'right' : 'left'}>
+                          <TableSortLabel hideSortIcon>
+                            {headCell.label}
+                          </TableSortLabel>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {(rowsPerPage > 0
+                      ? notifications.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : notifications
+                    ).map((row) => 
+                         (
+                        <TableRow
+                          hover
+                          key={row.id}
+                          tabIndex={-1}
+                        >
+                          <TableCell align="left" >{row.title}</TableCell>
+                          <TableCell align="left" >{row.description}</TableCell>
+                          <TableCell align="left" >{row.createdAt}</TableCell>
+                          <TableCell align="left">
+                          {row.isUnRead ? 
+                            <TableSortLabel
+                             hideSortIcon 
+                             sx={{ p:2 , fontSize : '15px', color : 'text.primary', fontWeight: 'bold'}}
+                             >
+                                lue le {row.isUnRead}
+                            </TableSortLabel>
+                            :
+                          <TableSortLabel
+                             hideSortIcon 
+                             sx={{ p:2 , fontSize : '15px', color : '#00AB55', fontWeight: 'bold'}}
+                             onClick={()=>marqueLu(row.id)}
+                             >
+                                Marqué comme lue <Iconify icon="eva:done-all-fill" width={20} height={20} />
+                            </TableSortLabel>
+                             }
+                            
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+          <TablePagination
+            sx={{marginRight : "40px"}}
+            component='div'
+            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+            colSpan={3}
+            count={notifications.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+              inputProps: {
+                'aria-label': 'rows per page',
+              },
+              native: true,
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+        />
+        </Card>      
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+      <Card>
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {TABLE_HEAD.map((headCell) => (
+                      <TableCell
+                        key={headCell.id}
+                        align={headCell.alignRight ? 'right' : 'left'}>
+                          <TableSortLabel hideSortIcon>
+                            {headCell.label}
+                          </TableSortLabel>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {(rowsPerPage > 0
+                      ? notifications.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : notifications
+                    ).map((row) => 
+                         (
+                        <TableRow
+                          hover
+                          key={row.id}
+                          tabIndex={-1}
+                        >
+                          <TableCell align="left" >{row.title}</TableCell>
+                          <TableCell align="left" >{row.description}</TableCell>
+                          <TableCell align="left" >{row.createdAt}</TableCell>
+                          <TableCell align="left">
+                          {row.isUnRead ? 
+                            <TableSortLabel
+                             hideSortIcon 
+                             sx={{ p:2 , fontSize : '15px', color : 'text.primary', fontWeight: 'bold'}}
+                             >
+                                lue le {row.isUnRead}
+                            </TableSortLabel>
+                            :
+                          <TableSortLabel
+                             hideSortIcon 
+                             sx={{ p:2 , fontSize : '15px', color : '#00AB55', fontWeight: 'bold'}}
+                             onClick={()=>marqueLu(row.id)}
+                             >
+                                Marqué comme lue <Iconify icon="eva:done-all-fill" width={20} height={20} />
+                            </TableSortLabel>
+                             }
+                            
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+          <TablePagination
+            sx={{marginRight : "40px"}}
+            component='div'
+            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+            colSpan={3}
+            count={notifications.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+              inputProps: {
+                'aria-label': 'rows per page',
+              },
+              native: true,
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+        />
+        </Card>      
+      </TabPanel>
+    </Box>
+
+        
       </Container>
     </Page>
   );

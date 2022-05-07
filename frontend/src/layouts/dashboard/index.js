@@ -34,21 +34,8 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DashboardLayout({user}) {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({
-    nom:'',
-    prenom:'',
-    email:''
-  });
-  const getUser = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/user');
-    setUser(res.data);
-  }
-
-   useEffect(() => {
-    getUser();
-   },[]);
 
   return (
     <RootStyle>

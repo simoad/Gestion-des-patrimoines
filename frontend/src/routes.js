@@ -1,4 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Typography
 } from '@mui/material';
@@ -33,25 +35,39 @@ import GestionnaireHistory from './pages/GestionnaireHistory';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user);
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
   return useRoutes([
 
     // Gestionnaire 
     (localStorage.getItem('auth_role') === 'gestionnaire') ?
     {
       path: '/gestionnaire',
-      element: <DashboardLayout />,
+      element: <DashboardLayout user={user}/>,
       children: [
         { path: '/gestionnaire', element: <Navigate to="/gestionnaire/biens" /> },
-        { path: 'biens', element: <BienList /> },
-        { path: 'categories', element: <Categories /> },
-        { path: 'addBien', element: <AddBien /> },
-        { path: 'editBien/:id', element: <EditBien /> },
+        { path: 'biens', element: <BienList user={user}/> },
+        { path: 'categories', element: <Categories user={user}/> },
+        { path: 'addBien', element: <AddBien user={user}/> },
+        { path: 'editBien/:id', element: <EditBien user={user}/> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'suiviBien/:id', element: <SuiviBien /> },
-        { path: 'bienRebut', element: <BienRebut /> },
+        { path: 'bienRebut', element: <BienRebut user={user}/> },
         { path: 'notifications', element: <GestionnaireNotifications /> },
         { path: 'historique', element: <GestionnaireHistory /> }
       ]

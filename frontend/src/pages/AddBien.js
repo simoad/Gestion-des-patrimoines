@@ -16,7 +16,7 @@ import AddBienForm from './AddBienForm';
 
 // ----------------------------------------------------------------------
 
-export default function AddBien() {
+export default function AddBien({user}) {
   const [categories, setCategories] = useState([{
     id_categorie : 1,
     nom_categorie : ''
@@ -106,7 +106,7 @@ export default function AddBien() {
           Votre bien est ajouté ! 
         </Alert>
       </Collapse>
-        <AddBienForm/>
+        <AddBienForm user={user}/>
       </ContentStyle>
       </Container>
     </Page>

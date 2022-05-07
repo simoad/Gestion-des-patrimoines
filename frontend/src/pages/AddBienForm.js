@@ -18,7 +18,7 @@ import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
-export default function AddBienForm() {
+export default function AddBienForm({user}) {
     const [categories, setCategories] = useState([{
       id_categorie : 1,
       nom_categorie : ''
@@ -37,6 +37,7 @@ export default function AddBienForm() {
   
     const formik = useFormik({
       initialValues: {
+        id_gestionnaire : user.id_gestionnaire,
         code_barre : null,
         id_categorie : null,
         nom_bien : null,

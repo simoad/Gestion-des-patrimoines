@@ -23,68 +23,8 @@ import EditBienForm from './EditBienForm';
 
 // ----------------------------------------------------------------------
 
-export default function EditBien() {
-  const [categories, setCategories] = useState([{
-    id_categorie : 1,
-    nom_categorie : ''
-  }]);
-  const[bienEdit , setbienEdit] = useState({
-      code_barre : null,
-      id_categorie : null,
-      nom : null,
-      garantie : null,
-      duree_de_vie : null,
-      statut : 0,
-  });
+export default function EditBien({user}) {
   const [showAlert, setshowAlert] = useState(false);
-  const {id} = useParams();
-
-  const BienSchema = Yup.object().shape({
-    code_barre : Yup.string().min(2, 'Trop court!').required('Code Barre est requis'),
-    id_categorie : Yup.number().required('Categorie est requis'),
-    nom_bien : Yup.string().min(2, 'Trop court!').required('Nom est requis'),
-    garantie : Yup.number().required('Garantie est requis'),
-    duree_de_vie : Yup.number().required('Duree de vie est requis')
-  });
-
-
-  const formik = useFormik({
-    initialValues: {
-      code_barre : bienEdit.code_barre || null,
-      id_categorie : bienEdit.id_categorie || null,
-      nom_bien : bienEdit.nom || null,
-      garantie : bienEdit.garantie || null,
-      duree_de_vie : bienEdit.duree_de_vie || null,
-      statut : bienEdit.statut || 0,
-    },
-    validationSchema: BienSchema,
-    onSubmit: async (values) => {
-      await fetch(`http://127.0.0.1:8000/api/update-bien/${values.code_barre}`, {
-      method: 'PUT',
-      headers:{"Content-Type": "application/json",
-      "Accept": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem('auth_token')}`},
-      body: JSON.stringify(values)
-      });
-      setshowAlert(true);
-    }
-  });
-
-  const getCategories = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/get-categories');
-    setCategories(res.data.categories);
-   };
-
-   const editBien = async (idBien) => {
-    const res = await axios.get(`http://127.0.0.1:8000/api/edit-bien/${idBien}`);
-    setbienEdit(res.data.bien[0]);
-  };
-   
-   useEffect(() => {
-    getCategories();
-    editBien(id);
-    console.log(bienEdit);
-   },[]);
 
   const ITEM_HEIGHT = 48;
 
@@ -126,7 +66,7 @@ export default function EditBien() {
           Votre bien est modifié ! 
         </Alert>
       </Collapse>
-        <EditBienForm />
+        <EditBienForm user={user}/>
       </ContentStyle>
       </Container>
     </Page>

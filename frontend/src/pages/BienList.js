@@ -110,7 +110,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function BienList() {
+export default function BienList({user}) {
 
   // Popover Start
   const [anchorEl, setAnchorEl] = useState(null);
@@ -231,7 +231,7 @@ export default function BienList() {
                             </Label>
                             </TableCell>
                           <TableCell align="left">
-                            <BienMoreMenu getBiens={getBiens} codeBarre={row.code_barre} />
+                            <BienMoreMenu user={user} getBiens={getBiens} codeBarre={row.code_barre} />
                           </TableCell>
                         </TableRow>
                       )

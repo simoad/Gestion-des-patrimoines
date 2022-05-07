@@ -11,6 +11,8 @@ use App\Http\Controllers\AffectationController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\BureauController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HistoriqueController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -18,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Authentification Routes
 Route::post('register','UserController@register');
-Route::post('login','UserController@login');
+Route::post('login','UserController@login')->name('login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout','UserController@logout');
@@ -68,6 +70,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('get_Biens', 'BienController@index')->name('get_Biens');
     Route::get('get_all_Responses_of_Reclamation', 'ReclamationController@get_all_Responses_of_Reclamation')->name('get_all_Responses_of_Reclamation');
     Route::post('responceReclamation', 'ReclamationController@responceReclamation')->name('responceReclamation');
+
+    //Historique 
+    Route::get('addBien/{idGest}/{codeBarre}', 'HistoriqueController@AddBien');
+    Route::get('updateBien/{idGest}/{codeBarre}', 'HistoriqueController@UpdateBien');
+    Route::get('rebutBien/{idGest}/{codeBarre}', 'HistoriqueController@RebutBien');
+    Route::get('affectationBien/{idGest}/{codeBarre}/{idBureau}/{idDepartement}', 'HistoriqueController@AddBien');
+    Route::get('reclamation/{idEmpl}/{codeBarre}', 'HistoriqueController@Reclamation');
+    Route::get('reponseReclamation/{idservice}/{codeBarre}', 'HistoriqueController@ReponseReclamation');
+    Route::get('adminHistory', 'HistoriqueController@getAdminHistory');
+    Route::get('gestionnaireHistory', 'HistoriqueController@getGestionnaireHistory');
+    Route::get('gestionnaireHistoryRebut', 'HistoriqueController@getGestionnaireHistoryRebut');
+    Route::get('gestionnaireHistoryAjout', 'HistoriqueController@getGestionnaireHistoryAjout');
+    Route::get('gestionnaireHistoryAffectation', 'HistoriqueController@getGestionnaireHistoryAffectation');
+    Route::get('gestionnaireHistoryModification', 'HistoriqueController@getGestionnaireHistoryModification');
+
+
+
 });
 
 

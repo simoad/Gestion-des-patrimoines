@@ -22,7 +22,7 @@ import {
  import CloseIcon from '@mui/icons-material/Close';
  import { LoadingButton } from '@mui/lab';
 
- export default function AffecterBienDialog({getBiens,open,setOpen,codeBarre}){
+ export default function AffecterBienDialog({user,getBiens,open,setOpen,codeBarre}){
 
     const [departements, setDepartements] = useState([{
         id_departement : 1,
@@ -47,6 +47,8 @@ import {
 
     const formik = useFormik({
         initialValues: {
+          id_gestionnaire : user.id_gestionnaire,
+          id_departement : null,
           id_bureau : null,
           code_barre : codeBarre,
         },
