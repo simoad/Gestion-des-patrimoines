@@ -22,7 +22,7 @@ import ToRebutConfirmationAlert from './ToRebutConfirmationAlert';
 
 // ----------------------------------------------------------------------
 
-export default function ButtonToRebut({codeBarre,idEmployee,idReclamation, getReclamations,nomProduit}) {
+export default function ButtonToRebut({codeBarre,idEmployee,idReclamation, getReclamations,nomProduit,user}) {
   const navigate = useNavigate();
   const ref = useRef(null);
 
@@ -136,7 +136,7 @@ const [fullWidth, setFullWidth] = useState(false);
          
         </DialogContent>
         <DialogActions>
-        <ToRebutConfirmationAlert setshowAlert={setshowAlert} setalertError={setalertError}  setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations} />
+        <ToRebutConfirmationAlert user={user} setshowAlert={setshowAlert} setalertError={setalertError}  setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations} />
           <Button onClick={handleClose} color='error'>Annuler</Button>
         </DialogActions>
     </Dialog>

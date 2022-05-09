@@ -25,7 +25,7 @@ import {
 
 
 
-export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError,setalertError,codeBarre,idReclamation, getReclamations}){
+export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError,setalertError,codeBarre,idReclamation, getReclamations,user}){
 
 
 
@@ -33,7 +33,7 @@ const formik = useFormik({
     initialValues: {
       codeBarre,
       idReclamation,
-      idServiceReclamation: 4,
+      idServiceReclamation: user.id_service_recl ,
       ServiceReponse: 'En Rebut'
     },
     onSubmit: async (values) => {

@@ -25,7 +25,7 @@ import {
 
 
 
-export default function ToReparerConfirmationAlert({setshowAlert,setshowAlertError,codeBarre,idReclamation, getReclamations}){
+export default function ToReparerConfirmationAlert({setshowAlert,setshowAlertError,codeBarre,idReclamation, getReclamations,user}){
 
 
 
@@ -33,7 +33,7 @@ const formik = useFormik({
     initialValues: {
       codeBarre,
       idReclamation,
-      idServiceReclamation: 9,
+      idServiceReclamation: user.id_service_recl,
       ServiceReponse: 'En Reparation'
     },
     onSubmit: async (values) => {

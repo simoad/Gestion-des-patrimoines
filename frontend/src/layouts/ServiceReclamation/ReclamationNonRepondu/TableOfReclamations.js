@@ -111,7 +111,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function TableOfReclamations() {
+export default function TableOfReclamations({user}) {
 
   const [reclamations, setReclamations] = useState([]);
   const [reclamateurs, setReclamateurs] = useState([]);
@@ -171,26 +171,8 @@ export default function TableOfReclamations() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Biens
+          les Reclamations
           </Typography>
-          <ButtonGroup variant="contained" aria-label="outlined primary button group">
-          
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-          >
-           Reparer tout
-          </Button>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            color='error'
-          >
-            tout aux rebut
-          </Button>
-          </ButtonGroup>
         </Stack>
 
         <Card>
@@ -227,11 +209,11 @@ export default function TableOfReclamations() {
                           <TableCell align="left">{row.description}</TableCell>
                           <TableCell align="left">{moment(row.date_reclamation).format('d/m/Y, h:mm')}</TableCell>
                           <TableCell align="left">
-                          <ButtonAlertAccept  codeBarre={row.code_barre} idEmployee={row.id_employe}  idReclamation={row.id_reclamation}  getReclamations={getReclamations} nomProduit={biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}/>
+                          <ButtonAlertAccept user={user}  codeBarre={row.code_barre} idEmployee={row.id_employe}  idReclamation={row.id_reclamation}  getReclamations={getReclamations} nomProduit={biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}/>
                               
                           </TableCell>
                           <TableCell align="left">
-                          <ButtonToRebut codeBarre={row.code_barre}  idEmployee={row.id_employe} idReclamation={row.id_reclamation} getReclamations={getReclamations} nomProduit={biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}/>
+                          <ButtonToRebut user={user} codeBarre={row.code_barre}  idEmployee={row.id_employe} idReclamation={row.id_reclamation} getReclamations={getReclamations} nomProduit={biens.map((item2) => row.code_barre===item2.code_barre && item2.nom)}/>
                           </TableCell>
          </TableRow>
                       )

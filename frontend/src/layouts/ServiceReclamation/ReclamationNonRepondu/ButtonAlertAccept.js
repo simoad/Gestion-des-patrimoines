@@ -17,7 +17,7 @@ import ToReparerConfirmationAlert from './ToReparerConfirmationAlert';
 
 // ----------------------------------------------------------------------
 
-export default function ButtonAlertAccept({codeBarre,idReclamation, getReclamations,nomProduit}) {
+export default function ButtonAlertAccept({codeBarre,idReclamation, getReclamations,nomProduit,user}) {
  
   const [open, setOpen] = useState(false);
   const [showAlert, setshowAlert] = useState(false);
@@ -96,7 +96,7 @@ const [fullWidth, setFullWidth] = useState(false);
           </Collapse>
         </DialogContent>
         <DialogActions>
-          <ToReparerConfirmationAlert onClick={handleClose} setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations}/>
+          <ToReparerConfirmationAlert user={user} onClick={handleClose} setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} codeBarre={codeBarre} idReclamation={idReclamation}  getReclamations={getReclamations}/>
           <Button onClick={handleClose} color='error'>Annuler</Button>
         </DialogActions>
     </Dialog>

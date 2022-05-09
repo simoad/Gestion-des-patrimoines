@@ -19,7 +19,7 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import BienListToReclamer from './layouts/employeeDashboard/BienListToReclamer';
 import TableOfReclamations from './layouts/ServiceReclamation/ReclamationNonRepondu/TableOfReclamations';
-import TableOfReclamationsRepondu from './layouts/ServiceReclamation/ReclamationRepondu/TableOfReclamationsRepondu';
+import TableOfRecRepondu from './layouts/ServiceReclamation/ReclamationRepondu/TableOfRecRepondu';
 import AddBien from './pages/AddBien';
 import EditBien from './pages/EditBien';
 import BienList from './pages/BienList';
@@ -88,10 +88,10 @@ export default function Router() {
     (localStorage.getItem('auth_role') === 'service_de_reclamation') ?
     {
       path: '/reclamation',
-      element: <ReclamationDashboard />,
+      element: <ReclamationDashboard user={user}/>,
       children: [
-        { path: 'NonRepondu', element: <TableOfReclamations /> },
-        { path: 'Repondu', element: <TableOfReclamationsRepondu /> },
+        { path: 'NonRepondu', element: <TableOfReclamations user={user}/> },
+        { path: 'Repondu', element: <TableOfRecRepondu user={user}/> },
       ]
     } : <Navigate to="/login" />,
 

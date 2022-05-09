@@ -70,6 +70,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('get_Biens', 'BienController@index')->name('get_Biens');
     Route::get('get_all_Responses_of_Reclamation', 'ReclamationController@get_all_Responses_of_Reclamation')->name('get_all_Responses_of_Reclamation');
     Route::post('responceReclamation', 'ReclamationController@responceReclamation')->name('responceReclamation');
+    Route::get('get_all_biens_En_Rebut/{id}', 'ReclamationController@get_all_biens_En_Rebut')->name('get_all_biens_En_Rebut');
+    Route::get('get_all_biens_En_Reparation/{id}', 'ReclamationController@get_all_biens_En_Reparation')->name('get_all_biens_En_Reparation');
 
     //Historique 
     Route::get('addBien/{idGest}/{codeBarre}', 'HistoriqueController@AddBien');
