@@ -12,6 +12,9 @@ use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\BureauController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HistoriqueController;
+use App\Http\Controllers\DemandeBienContoller;
+
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -39,6 +42,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('edit-bien/{id}', 'BienController@edit');
     Route::put('update-bien/{id}', 'BienController@update');
     Route::get('suivi-bien/{id}', 'BienController@suiviBien');
+    Route::get('bien-au-rebut', 'BienController@getBienAEnvoyerRebut');
+    Route::get('envoyer-au-rebut', 'BienController@EnvoyezAuRebut');
+
 
     // Notification 
     Route::post('marqueAsRead/{id}', 'CategorieController@marqueAsRead');
@@ -56,8 +62,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
 
     //Employee Routes
+    Route::get('get-employees', 'EmployeeController@getEmployees');
     Route::get('get-employee/{id}', 'EmployeeController@getById');
     Route::post('reclamer', 'ReclamerController@ReclamerBien');
+
+    //Service-Reclamation
+    Route::get('get-services-reclamation', 'ReclamerController@getServices');
+
+
+    //Demandes des biens
+    Route::post('add-demande/{id}','DemandeBienContoller@store');
+    Route::get('get-demande-bien/{id}', 'DemandeBienContoller@getById');
+    Route::get('get-demandes', 'DemandeBienContoller@getDemandes');
 
     // Categorie Routes
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');

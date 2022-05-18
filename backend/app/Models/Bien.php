@@ -24,4 +24,9 @@ class Bien extends Model
     {
         return $this->HasMany(Affectation::class, 'code_barre', 'code_barre')->with('bureau');
     }
+
+    public function reclamations()
+    {
+        return $this->HasMany(reclamation::class, 'code_barre', 'code_barre');
+    }
 }

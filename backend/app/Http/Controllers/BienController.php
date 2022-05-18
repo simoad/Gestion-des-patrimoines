@@ -8,6 +8,7 @@ use App\Models\Bien;
 use App\Models\Historique;
 use App\Models\Gestionnaire;
 use App\Models\Action;
+use App\Models\Reponse_reclamation;
 
 class BienController extends Controller
 {
@@ -115,5 +116,34 @@ class BienController extends Controller
                 'result'=>'le Bien n est pas supprimé',
             ]);
         }
+    }
+
+    function getBienAEnvoyerRebut(){
+        $biens = Reponse_reclamation::where('ServiceResponce', 'En Rebut')->with('reclamation')->get();
+
+        return response()->json([
+            'status'=> 200,
+            'biens'=>$biens,
+        ]);
+    }
+
+    function EnvoyezAuRebut(Request $request){
+        $bien = Bien::where('code_barre',$request->code_barre);
+
+        //historique
+        $historique = new Historique;
+        $gestionnaire = Gestionnaire::where('id_gestionnaire',$request->input('id_gestionnaire'))->first();
+        $historique->action = "Envoie au rebut du bien ".$request->input('code_barre')." par le gestionnaire ".$gestionnaire->nom." ".$gestionnaire->prenom;
+        $historique->type_action = "rebut";
+        $historique->save();
+
+        $bien->update([
+        'statut'          => -1,
+        ]);
+
+        return response()->json([
+            'status'=> 200,
+            'message'=>'Bien envoyez au rebut',
+        ]);
     }
 }

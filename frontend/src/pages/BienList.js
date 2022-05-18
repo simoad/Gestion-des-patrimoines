@@ -173,7 +173,11 @@ export default function BienList({user}) {
             Biens
           </Typography>
           <Button
-          
+            sx={{
+                '&:hover': {
+                color: '#fff',
+                },
+              }}
             variant="contained"
             component={RouterLink}
             to="/gestionnaire/addBien"

@@ -15,15 +15,10 @@ import account from '../../_mocks_/account';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Acceuil',
     icon: 'eva:home-fill',
-    linkTo: '/'
+    linkTo: '/gestionnaire'
   },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#'
-  }
 ];
 
 // ----------------------------------------------------------------------

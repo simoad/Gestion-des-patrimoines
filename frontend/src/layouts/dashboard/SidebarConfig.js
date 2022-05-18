@@ -17,6 +17,11 @@ const sidebarConfig = [
     icon: getIcon('bx:category')
   },
   {
+    title: 'Demandes des biens',
+    path: '/gestionnaire/demandes',
+    icon: getIcon('fluent:task-list-square-add-24-regular')
+  },
+  {
     title: 'Biens à envoyés au rebut',
     path: '/gestionnaire/bienRebut',
     icon: getIcon('eva:shopping-bag-fill')
@@ -30,46 +35,6 @@ const sidebarConfig = [
     title: 'Historique',
     path: '/gestionnaire/historique',
     icon: getIcon('ant-design:history-outlined')
-  },
-  {
-    title: '',
-    path: '/gestionnaire/ffff',
-    icon: getIcon('eva:pie-chart-2-fill')
-  },
-  {
-    title: 'dashboard',
-    path: '/gestionnaire/app',
-    icon: getIcon('eva:pie-chart-2-fill')
-  },
-  {
-    title: 'user',
-    path: '/gestionnaire/user',
-    icon: getIcon('eva:people-fill')
-  },
-  {
-    title: 'product',
-    path: '/gestionnaire/products',
-    icon: getIcon('eva:shopping-bag-fill')
-  },
-  {
-    title: 'blog',
-    path: '/gestionnaire/blog',
-    icon: getIcon('eva:file-text-fill')
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill')
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill')
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill')
   }
 ];
 

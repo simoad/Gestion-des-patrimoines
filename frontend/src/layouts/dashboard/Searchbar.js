@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
+
 // material
 import { styled, alpha } from '@mui/material/styles';
 import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+
 // component
 import Iconify from '../../components/Iconify';
 
@@ -34,6 +38,16 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
 
 export default function Searchbar() {
   const [isOpen, setOpen] = useState(false);
+  const [Biens, setBiens] = useState([]);
+
+  const getBiens = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/bien');
+    setBiens(res.data.biens);
+   };
+
+   useEffect(() => {
+    getBiens();
+   },[]);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);

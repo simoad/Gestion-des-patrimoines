@@ -14,6 +14,10 @@ class Reponse_reclamation extends Model
         'id_reclamation',
         'id_service_recl',
         'ServiceResponce'
-
     ];
+
+    public function reclamation()
+    {
+        return $this->BelongsTo(reclamation::class, 'id_reclamation', 'id_reclamation')->with('bien');
+    }
 }
