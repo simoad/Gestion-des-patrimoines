@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bureau;
+use Illuminate\Support\Facades\DB;
 
 class BureauController extends Controller
 {
@@ -23,4 +24,19 @@ class BureauController extends Controller
             'bureaux'=>$bureaux,
         ]);
     }
+
+
+    function registerbureau(Request $req){
+        $test = DB::insert("insert into bureau (`id_bureau`, `id_departement`) VALUES (?,?)" ,[$req->input('numerob'), $req->input('numerod')]);
+        
+       
+
+        return response()->json([
+            'status'=> 200,
+           
+            // 'bureau'=>$bureau,
+            // 'departement'=>$departement
+        ]);
+       
+}
 }

@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
 import axios from 'axios';
-
+import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
-import DashboardNavbar from '../../dashboard/DashboardNavbar';
-import ReclamationDashboardSidebar from './ReclamationDashboardSidebar';
+import DashboardNavbar from '../dashboard/DashboardNavbar';
+import AdminDashboardSidebar from './AdminDashboardSidebar';
 
 // ----------------------------------------------------------------------
 
+
+
+
+
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
-
-
 const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
@@ -35,14 +36,31 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ReclamationDashboard({user}) {
+export default function AdminDashboard() {
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user);
+  }
+  useEffect(() => {
+    getUser();
+   },[]);
+
+
+
+
   const [open, setOpen] = useState(false);
-  
 
   return (
     <RootStyle>
-      <DashboardNavbar user={user} onOpenSidebar={() => setOpen(true)} />
-      <ReclamationDashboardSidebar user={user}  isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar onOpenSidebar={() => setOpen(true)} user={user}/>
+      <AdminDashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} user={user}/>
       <MainStyle>
         <Outlet />
       </MainStyle>

@@ -345,7 +345,7 @@ useEffect(() => {
         </Scrollbar>
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="/gestionnaire/notifications">
+          <Button fullWidth disableRipple component={RouterLink} to="/admin/notification">
             View All
           </Button>
         </Box>
