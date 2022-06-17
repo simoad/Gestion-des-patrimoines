@@ -21,7 +21,8 @@ class Gestionnaire extends Authenticatable
         'nom',
         'prenom',
         'email',
-        'password'
+        'password',
+        'etat'
     ];
 
    

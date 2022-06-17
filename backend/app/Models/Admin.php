@@ -10,12 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Employee extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'employe';
-    protected $primaryKey = 'id_employe';
+    protected $table = 'administrateur';
+    protected $primaryKey = 'id_administrateur';
     public $timestamps = false;
 
 
@@ -23,9 +23,8 @@ class Employee extends Authenticatable
         'nom',
         'prenom',
         'email',
-        'password',
-        'id_bureau',
-        'etat'
+        'password'
+       
     ];
    
     protected $hidden = [
@@ -38,8 +37,5 @@ class Employee extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bureau()
-    {
-        return $this->belongsTo(Bureau::class, 'id_bureau', 'id_bureau')->with(['affectations','departement']);
-    }
+   
 }

@@ -35,6 +35,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ], 200);
     });
 
+    //adminstructure
+    Route::get('getstructure', 'DepartementController@getstructure')->name('getstructure');
+    //admingestionnaire
+    Route::get('get-allgestionnaire', 'GestionnaireController@getAll')->name('get-allgestionnaire');
+    Route::post('deletegestionnaire', 'GestionnaireController@deletegestionnaire')->name('deletegestionnaire');
+
+    //adminservice
+    Route::get('get-allservice', 'ServiceControllers@getAll')->name('get-allservice');
+    Route::post('deleteservicerecl', 'ServiceControllers@deleteservicerecl')->name('deleteservicerecl');
+
+    //adminemploye
+    Route::get('get-allemployee', 'EmployeeController@getAll')->name('get-allemployee');
+    Route::post('deleteemploye', 'EmployeeController@deleteemploye')->name('deleteemploye');
     // Bien Routes
     Route::get('bien', 'BienController@index')->name('bien');
     Route::post('add-bien', 'BienController@store');
@@ -56,10 +69,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Departement Routes
     Route::get('get-departements', 'DepartementController@index')->name('get-departements');
+    Route::post('registerdepartement', 'DepartementController@registerdepartement')->name('registerdepartement');
 
     //Bureau Routes
     Route::get('get-bureaux/{id}', 'BureauController@getByIdDepartement');
     Route::get('get-bureaux', 'BureauController@index')->name('get-bureaux');
+
+    Route::post('registerbureau', 'BureauController@registerbureau')->name('registerbureau');
+
 
     //Employee Routes
     Route::get('get-employees', 'EmployeeController@getEmployees');
@@ -78,6 +95,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Categorie Routes
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');
     Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
+//Employee Routes
+Route::get('get-employee/{id}', 'EmployeeController@getById');
+Route::post('reclamer', 'ReclamerController@ReclamerBien');
+
 
     //reclamation
     Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
@@ -102,6 +123,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('gestionnaireHistoryAjout', 'HistoriqueController@getGestionnaireHistoryAjout');
     Route::get('gestionnaireHistoryAffectation', 'HistoriqueController@getGestionnaireHistoryAffectation');
     Route::get('gestionnaireHistoryModification', 'HistoriqueController@getGestionnaireHistoryModification');
+    Route::get('gestionnaireHistoryReclamation', 'HistoriqueController@getGestionnaireHistoryReclamation')->name('gestionnaireHistoryReclamation');
 
 
 });

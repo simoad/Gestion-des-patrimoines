@@ -21,7 +21,8 @@ class Service_reclamation extends Authenticatable
         'nom',
         'prenom',
         'email',
-        'password'
+        'password',
+        'etat'
     ];
 
    

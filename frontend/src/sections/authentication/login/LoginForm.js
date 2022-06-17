@@ -45,8 +45,8 @@ export default function LoginForm() {
   
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email:'',
+      password:'',
       role:''
     },
     validationSchema: LoginSchema,
@@ -60,10 +60,12 @@ export default function LoginForm() {
       body:  JSON.stringify(values)
     });
     const response = await res.json();
+    console.log(response);
     if(response.status === 401) 
     {
       console.log('different de ');
-    } 
+    }
+    
     else if (values.role==='employee' && response.status === 200) 
     {
       localStorage.setItem('auth_token', response.token);
@@ -86,7 +88,18 @@ export default function LoginForm() {
       localStorage.setItem('auth_role', 'service_de_reclamation'); 
       navigate('/reclamation/NonRepondu', { replace: true });
     }
+    else if (values.role === 'admin' && response.status === 200) 
+    {
+      
+      console.log('hey');
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('auth_name', response.nom); 
+      localStorage.setItem('auth_role', 'admin'); 
+      navigate('/admin/fonctionnels', { replace: true });
+    }
+    
   }
+  
   });
 
   const getToken = async () => {
@@ -111,7 +124,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="username"
             type="email"
-            label="Email address"
+            label="Adresse e-mail"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
@@ -126,9 +139,10 @@ export default function LoginForm() {
               label="Role"
               
             >
-              <MenuItem value="employee">employee</MenuItem>
-              <MenuItem value="gestionnaire">gestionnaire</MenuItem>
-              <MenuItem value="service_de_reclamation">service de reclamation</MenuItem>
+              <MenuItem value="employee">Employee</MenuItem>
+              <MenuItem value="gestionnaire">Gestionnaire</MenuItem>
+              <MenuItem value="service_de_reclamation">Service de reclamation</MenuItem>
+              <MenuItem value="admin">Administrateur</MenuItem>
             </Select>
           </FormControl>
 
@@ -136,7 +150,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label="Password"
+            label="Mot de passe"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
@@ -161,7 +175,7 @@ export default function LoginForm() {
           variant="contained"
           loading={isSubmitting}
         >
-          Login
+          Se connecter
         </LoadingButton>
         </Stack>
         

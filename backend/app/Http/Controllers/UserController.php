@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\Admin;
 use App\Models\Gestionnaire;
 use App\Models\Service_reclamation;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,9 @@ class UserController extends Controller
             $employee->prenom = $req->input('prenom');
             $employee->email = $req->input('email');
             $employee->id_bureau = $req->input('id_bureau');
+            $employee->etat = 1;
             $employee->password = Hash::make($req->input('password'));
+            
             $employee->save();
             $token = $employee->createToken($employee->email.'_Token')->plainTextToken;
             return response()->json([
@@ -33,6 +36,7 @@ class UserController extends Controller
             $gestionnaire->nom = $req->input('nom');
             $gestionnaire->prenom = $req->input('prenom');
             $gestionnaire->email = $req->input('email');
+            $gestionnaire->etat =1;
             $gestionnaire->password = Hash::make($req->input('password'));
             $gestionnaire->save();
             $token = $gestionnaire->createToken($gestionnaire->email.'_Token')->plainTextToken;
@@ -48,6 +52,7 @@ class UserController extends Controller
             $service_de_reclamation->nom = $req->input('nom');
             $service_de_reclamation->prenom = $req->input('prenom');
             $service_de_reclamation->email = $req->input('email');
+            $service_de_reclamation->email = 1;
             $service_de_reclamation->password = Hash::make($req->input('password'));
             $service_de_reclamation->save();
             $token = $service_de_reclamation->createToken($service_de_reclamation->email.'_Token')->plainTextToken;
@@ -88,7 +93,9 @@ class UserController extends Controller
         // Gestionnaire
         if($req->input('role') === 'gestionnaire' ){
             $gestionnaire= Gestionnaire::where('email',$req->input('email'))->first();
-            if(!$gestionnaire || ! Hash::check($req->password, $gestionnaire->password))
+           
+            if(!$gestionnaire )
+            //|| ! Hash::check($req->password, $gestionnaire->password)
             {
                 return response()->json([
                     'status'=> 401,
@@ -127,6 +134,30 @@ class UserController extends Controller
                     'nom'=>$service_reclamation->nom,
                     'token'=>$token,
                     'message'=>'service_reclamation Logged In successfully'
+                ]);
+            }
+        }  
+        if($req->input('role') === 'admin' ){
+            $admin=Admin::where('email',$req->input('email'))->first();
+
+            if(!$admin )
+            //|| ! Hash::check($req->password, $admin->password)
+            {
+                
+                return response()->json([
+                    'status'=> 401,
+                    'message'=>'Invalid Credentials'
+                ]);
+            } 
+            else 
+            {
+                $token = $admin->createToken($admin->email.'_Token')->plainTextToken;
+                return response()->json([
+                    'status'=> 200,
+                    'admin'=>$admin,
+                    'nom'=>$admin->nom,
+                    'token'=>$token,
+                    'message'=>'admin Logged In successfully'
                 ]);
             }
         }  

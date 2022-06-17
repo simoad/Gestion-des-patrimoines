@@ -35,8 +35,16 @@ import Demandes from './pages/Demandes';
 
 
 
-
-
+import AdminDashboard from './layouts/adminDashboard/AdminDashboard';
+import EmployeesList from './layouts/adminDashboard/EmployeesList';
+import FonctionnelList from './layouts/adminDashboard/FonctionnelList';
+import Ajoutfonctionnel from './layouts/adminDashboard/Ajoutfonctionnel';
+import Adminhistorique from './layouts/adminDashboard/Adminhistorique';
+import Adminnotification from './layouts/adminDashboard/Adminnotification';
+import Adminbien from './layouts/adminDashboard/Adminbien';
+import Adminsuivibien from './layouts/adminDashboard/Adminsuivibien';
+import Adminstructure from './layouts/adminDashboard/Adminstructure';
+import Ajoutbureau from './layouts/adminDashboard/Ajoutbureau';
 
 // ----------------------------------------------------------------------
 
@@ -81,18 +89,38 @@ export default function Router() {
     }
     : <Navigate to="/login" />,
 
-    // Employee 
-    (localStorage.getItem('auth_role') === 'employee') ?
+    // admin 
+    (localStorage.getItem('auth_role') === 'admin') ?
     {
-      path: '/employee',
-      element: <EmployeeDashboard user={user}/>,
+      path: '/admin',
+      element: <AdminDashboard />,
       children: [
-        { path: '/employee', element: <Navigate to="/employe/demande" /> },
-        { path: 'biens', element: <BienListToReclamer user={user}/> },
-        { path: 'demande', element: <DemandeList user={user}/> },
-        { path: 'addDemande', element: <AddDemande /> },
+        { path: 'bien', element: <Adminbien /> },
+        { path: 'fonctionnels', element: <FonctionnelList/> },
+        { path: 'ajout', element: <Ajoutfonctionnel /> },
+        { path: 'historique', element: <Adminhistorique /> },
+        { path: 'notification', element: <Adminnotification /> },
+        { path: 'suiviBien/:id', element: <Adminsuivibien /> },
+        { path: 'structure', element: <Adminstructure /> },
+        { path: 'ajoutbureau', element: <Ajoutbureau /> },
+       
       ]
+
     } : <Navigate to="/login" />,
+    
+
+   // Employee 
+   (localStorage.getItem('auth_role') === 'employee') ?
+   {
+     path: '/employee',
+     element: <EmployeeDashboard user={user} />,
+     children: [
+       { path: '/employee', element: <Navigate to="/employe/demande" /> },
+       { path: 'biens', element: <BienListToReclamer user={user}/> },
+       { path: 'demande', element: <DemandeList user={user}/> },
+       { path: 'addDemande', element: <AddDemande /> },
+     ]
+   } : <Navigate to="/login" />,
 
     // service_de_reclamation
     (localStorage.getItem('auth_role') === 'service_de_reclamation') ?

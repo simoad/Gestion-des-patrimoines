@@ -107,6 +107,7 @@ class HistoriqueController extends Controller
         ->orWhere('type_action','ajout')
         ->orWhere('type_action','modification')
         ->orWhere('type_action','affectation')
+        ->orWhere('type_action','reclamation')
         ->orderBy('date_action', 'desc')->get();
         
         return response()->json([
@@ -117,6 +118,15 @@ class HistoriqueController extends Controller
 
     function getGestionnaireHistoryAjout(){
         $historique = Historique::where('type_action','ajout')->get();
+        
+        return response()->json([
+            'status'=> 200,
+            'historique'=>$historique,
+        ]);
+    }
+
+    function getGestionnaireHistoryReclamation(){
+        $historique = Historique::where('type_action','reclamation')->get();
         
         return response()->json([
             'status'=> 200,
