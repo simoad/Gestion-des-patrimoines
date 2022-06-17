@@ -61,7 +61,9 @@ export default function ReclamationDashboardSidebar({ user,isOpenSidebar, onClos
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
+          <Typography variant="h5" sx={{ color: '#00AB55' }}>
+                Service de réclamation
+            </Typography>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>

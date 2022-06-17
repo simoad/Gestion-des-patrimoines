@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
+
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // components
-import Iconify from '../../../components/Iconify';
+import Iconify from '../../components/Iconify';
 //
-import Searchbar from '../../dashboard/Searchbar';
-import AccountPopover from '../../dashboard/AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from '../../dashboard/NotificationsPopover';
+import Searchbar from '../dashboard/Searchbar';
+import AccountPopover from '../dashboard/AccountPopover';
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +35,11 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-DashboardNavbar.propTypes = {
+DashboardNavbarEmployeeService.propTypes = {
   onOpenSidebar: PropTypes.func
 };
 
-export default function DashboardNavbarReclamation({ onOpenSidebar }) {
+export default function DashboardNavbarEmployeeService({ user,onOpenSidebar }) {
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -57,9 +56,10 @@ export default function DashboardNavbarReclamation({ onOpenSidebar }) {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           {/* <LanguagePopover /> */}
           {/* <NotificationsPopover /> */}
-          <AccountPopover />
+          <AccountPopover user={user} />
         </Stack>
       </ToolbarStyle>
     </RootStyle>
   );
 }
+

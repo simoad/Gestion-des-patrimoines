@@ -81,7 +81,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //reclamation
     Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
-    Route::get('getReclamationsRepondu', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
+    Route::get('getReclamationsRepondu/{id}', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
     Route::get('get_reclamateurs', 'ReclamationController@get_reclamateurs')->name('get_reclamateurs');
     Route::get('get_Biens', 'BienController@index')->name('get_Biens');
     Route::get('get_all_Responses_of_Reclamation', 'ReclamationController@get_all_Responses_of_Reclamation')->name('get_all_Responses_of_Reclamation');
@@ -102,7 +102,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('gestionnaireHistoryAjout', 'HistoriqueController@getGestionnaireHistoryAjout');
     Route::get('gestionnaireHistoryAffectation', 'HistoriqueController@getGestionnaireHistoryAffectation');
     Route::get('gestionnaireHistoryModification', 'HistoriqueController@getGestionnaireHistoryModification');
-
 
 
 });

@@ -69,7 +69,7 @@ export default function LoginForm() {
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('auth_name', response.nom);
       localStorage.setItem('auth_role', 'employee');
-      navigate(`/employee/biens/${response.employee.id_employe}`, { replace: true });
+      navigate('/employee/biens', { replace: true });
     } 
     else if (values.role==='gestionnaire' && response.status === 200) 
     {

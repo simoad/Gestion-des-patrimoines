@@ -152,9 +152,10 @@ function TabPanel(props) {
 export default function TableOfRecReponduTest({user}) {
 
     //----------------------------
+    const [reclamations, setReclamations] = useState([]);
     const [biensEnRebut, setbiensEnRebut] = useState([]);
     const [biensEnReparation, setbiensEnReparation] = useState([]);
-    const [reclamations, setReclamations] = useState([]);
+    
 
      const getbiensEnRebut = async () => {
       const res = await axios.get(`http://127.0.0.1:8000/api/get_all_biens_En_Rebut/${user.id_service_recl}`);
@@ -167,7 +168,7 @@ export default function TableOfRecReponduTest({user}) {
      };
 
      const getReclamations = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/getReclamationsRepondu');
+      const res = await axios.get(`http://127.0.0.1:8000/api/getReclamationsRepondu/${user.id_service_recl}`);
       setReclamations(res.data.reclamations);
      };
   
@@ -175,7 +176,7 @@ export default function TableOfRecReponduTest({user}) {
       getReclamations();
       getbiensEnReparation();
       getbiensEnRebut();
-     },[]);
+     },[biensEnReparation,reclamations]);
 
     //-------------------------------
 
@@ -230,7 +231,7 @@ export default function TableOfRecReponduTest({user}) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Tous" {...a11yProps(0)} />
-          <Tab label="Biens En Reparation" {...a11yProps(1)} />
+          <Tab label="Biens Réparer" {...a11yProps(1)} />
           <Tab label="Biens En Rebut" {...a11yProps(2)} />
         </Tabs>
       </Box>

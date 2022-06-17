@@ -87,7 +87,8 @@ export default function Router() {
       path: '/employee',
       element: <EmployeeDashboard user={user}/>,
       children: [
-        { path: 'biens/:id', element: <BienListToReclamer /> },
+        { path: '/employee', element: <Navigate to="/employe/demande" /> },
+        { path: 'biens', element: <BienListToReclamer user={user}/> },
         { path: 'demande', element: <DemandeList user={user}/> },
         { path: 'addDemande', element: <AddDemande /> },
       ]

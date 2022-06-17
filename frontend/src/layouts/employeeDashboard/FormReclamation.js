@@ -11,13 +11,13 @@ import {
 
 
 
-export default function FormReclamerBien({setshowAlert,setshowAlertError,codeBarre,id}){
+export default function FormReclamerBien({setshowAlert,setshowAlertError,codeBarre,user}){
 
 
 
 const formik = useFormik({
     initialValues: {
-      id_employe: id,
+      id_employe: user.id_employe,
       code_barre : codeBarre,
       description: null,
       status: -1

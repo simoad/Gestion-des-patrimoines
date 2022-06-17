@@ -107,7 +107,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function BienListToReclamer() {
+export default function BienListToReclamer({user}) {
 
   const [Biens, setBiens] = useState([]);
 
@@ -128,15 +128,16 @@ export default function BienListToReclamer() {
     setPage(0);
   };
 
-  const {id} = useParams();
-
-  const getBiens = async (idEmploye) => {
-    const res = await axios.get(`http://127.0.0.1:8000/api/get-employee/${idEmploye}`);
+  
+ 
+  const getBiens = async () => {
+   
+    const res = await axios.get(`http://127.0.0.1:8000/api/get-employee/${user.id_employe}`);
     setBiens(res.data.employe.bureau.affectations);
    };
    
    useEffect(() => {
-    getBiens(id);
+    getBiens();
    },[]);
  
 
@@ -186,7 +187,7 @@ export default function BienListToReclamer() {
                          
                           <TableCell align="left">
                            
-                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} id={id} />
+                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} user={user} />
                           </TableCell>
                         </TableRow>
                       )
