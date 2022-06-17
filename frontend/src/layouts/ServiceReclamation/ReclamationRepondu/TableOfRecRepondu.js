@@ -267,7 +267,7 @@ export default function TableOfRecReponduTest({user}) {
                           <TableCell align="left">{row.employe}</TableCell>
                           <TableCell align="left">{row.produit} </TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{moment(row.date_reclamation).format('MMMM Do YYYY, h:mm')}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format("DD/MM/YYYY")}</TableCell>
                           <TableCell align="left">
                           <Label
                               variant="ghost"
@@ -344,7 +344,7 @@ export default function TableOfRecReponduTest({user}) {
                           <TableCell align="left">{row.employe}</TableCell>
                           <TableCell align="left">{row.produit} </TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{moment(row.date_reclamation).format('MMMM Do YYYY, h:mm')}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format("DD/MM/YYYY")}</TableCell>
                           <TableCell align="left">
                           <Label
                               variant="ghost"
@@ -421,7 +421,7 @@ export default function TableOfRecReponduTest({user}) {
                           <TableCell align="left">{row.employe}</TableCell>
                           <TableCell align="left">{row.produit} </TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{moment(row.date_reclamation).format('MMMM Do YYYY, h:mm')}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format("DD/MM/YYYY")}</TableCell>
                           <TableCell align="left">
                           <Label
                               variant="ghost"

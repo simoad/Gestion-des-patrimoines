@@ -67,7 +67,7 @@ export default function SuiviBien() {
           variant="body2"
           color="text.secondary"
         >
-          {moment(DateRebut).format("LLL")}
+          {moment(DateRebut).format("DD/MM/YYYY")}
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector />
@@ -93,7 +93,7 @@ export default function SuiviBien() {
           variant="body2"
           color="text.secondary"
         >
-          {moment(row.date_affectation).format('LLL')}
+          {moment(row.date_affectation).format("DD/MM/YYYY")}
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector />
@@ -118,7 +118,7 @@ export default function SuiviBien() {
           variant="body2"
           color="text.secondary"
         >
-          {moment(Bien.created_at).format('LLL')}
+          {moment(Bien.created_at).format('d/m/Y, h:mm')}
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector/>

@@ -50,7 +50,7 @@ export default function UserMoreMenu({user,codeBarre,getBiens}) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'green' }} onClick={handleClickOpen}>
+        <MenuItem component={RouterLink} to="#" sx={{color : 'green', '&:hover': { color: 'green', },}} onClick={handleClickOpen}>
           <ListItemIcon>
             <Iconify icon="fluent:send-20-filled" width={24} height={24} />
           </ListItemIcon>

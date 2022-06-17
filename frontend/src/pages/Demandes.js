@@ -32,7 +32,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import ButtonToRebut from './ButtonToRebut';
+import Iconify from '../components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -98,20 +98,20 @@ TablePaginationActions.propTypes = {
 };
 
 const TABLE_HEAD = [
-  { id: 'nom_service', label: 'Nom d\'employé de service de reclamation', alignRight: false },
-  { id: 'code_barre', label: 'Code Barre', alignRight: false },
+  { id: 'nom_employee', label: 'Nom d\'employé', alignRight: false },
   { id: 'nom_bien', label: 'Nom Bien', alignRight: false },
-  { id: 'date_envoi', label: 'Date de réponse du service de reclamation', alignRight: false },
-  { id: '', label: 'Envoyez au rebut', alignRight: false }
+  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'date_demande', label: 'Date de la demande', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
 
 
-export default function BienRebut({user}) {
-    const navigate = useNavigate();
-  const [BiensRebut, setBiensRebut] = useState([]);
-  const [services, setServices] = useState([]);
+export default function DemandeList({user}) {
+
+  const navigate = useNavigate();
+  const [Demande, setDemande] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -122,7 +122,7 @@ export default function BienRebut({user}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - BiensRebut.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Demande.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -133,34 +133,29 @@ export default function BienRebut({user}) {
     setPage(0);
   };
 
-  const getBiensRebut = async () => {
-    const res = await axios.get(`http://127.0.0.1:8000/api/bien-au-rebut`);
-    setBiensRebut(res.data.biens);
+  const getDemande = async () => {
+    const res = await axios.get(`http://127.0.0.1:8000/api/get-demandes`);
+    setDemande(res.data.demandeBien);
    };
 
-   const getService = async () => {
-    const res = await axios.get(`http://127.0.0.1:8000/api/get-services-reclamation`);
-    setServices(res.data.services);
-   };
-
-   const envoyerAuRebut = async (idBien) => {
-    const res = await axios.post(`http://127.0.0.1:8000/api/envoyer-au-rebut/${idBien}`);
-    getBiensRebut();
+   const getEmployees = async () => {
+    const res = await axios.get(`http://127.0.0.1:8000/api/get-employees`);
+    setEmployees(res.data.employees);
    };
    
    useEffect(() => {
-    getBiensRebut();
-    getService();
-   },[]); 
+    getDemande();
+    getEmployees();
+   },[user]); 
 
  
 
   return (
-    <Page title="Listes Des Biens A Envoyer Au Rebut">
+    <Page title="Listes Des Demande">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Biens à envoyer au rebut
+            Demandes des biens
           </Typography>
         </Stack>
 
@@ -183,23 +178,19 @@ export default function BienRebut({user}) {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                      ? BiensRebut.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : BiensRebut
-                    ).map((row) => 
+                      ? Demande.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : Demande
+                    ).reverse().map((row) => 
                          (
                         <TableRow
                           hover
-                          key={row.code_barre}
+                          key={row.id_demande_bien}
                           tabIndex={-1}
                         >
-                        <TableCell align="left">{services.map((item) => row.id_service_recl===item.id_service_recl && `${item.nom} ${item.prenom}`)}</TableCell>
-                        <TableCell align="left">{row.reclamation.bien.code_barre}</TableCell>
-                          <TableCell align="left">{row.reclamation.bien.nom}</TableCell>
-                          <TableCell align="left">{moment(row.date_reponse).format("DD/MM/YYYY")}</TableCell>
-                          <TableCell align="left">
-                          {/* <Button variant="contained" onClick={envoyerAuRebut(row.reclamation.bien.code_barre)} color='error'>Envoyez au rebut</Button> */}
-                          <ButtonToRebut user={user} getBiensRebut={getBiensRebut} codeBarre={row.reclamation.bien.code_barre} nomProduit={row.reclamation.bien.nom}/>
-                          </TableCell>
+                        <TableCell align="left">{employees.map((item) => row.id_employe===item.id_employe && `${item.nom} ${item.prenom}`)}</TableCell>
+                          <TableCell align="left">{row.nom_bien}</TableCell>
+                          <TableCell align="left">{row.description}</TableCell>
+                          <TableCell align="left">{moment(row.date_demande).format("DD/MM/YYYY")}</TableCell>
                         </TableRow>
                       )
                     )}
@@ -219,7 +210,7 @@ export default function BienRebut({user}) {
             component='div'
             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
             colSpan={3}
-            count={BiensRebut.length}
+            count={Demande.length}
             rowsPerPage={rowsPerPage}
             page={page}
             SelectProps={{

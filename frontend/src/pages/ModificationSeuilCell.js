@@ -15,7 +15,7 @@ export default function ModificationSeuilCell({getCategories,idCat,seuilCategori
 
   return (
     <>
-    <Button variant="contained" component={RouterLink} to="#" onClick={handleClickOpen}>Modifier Seuil</Button>
+    <Button variant="contained" sx={{'&:hover': {color: '#fff',},}} component={RouterLink} to="#" onClick={handleClickOpen}>Modifier Seuil</Button>
     <ModifSeuilDialog getCategories={getCategories} open={open} setOpen={setOpen} idCat={idCat} seuilCategorie={seuilCategorie}/>
     </>
   );

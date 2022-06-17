@@ -60,8 +60,10 @@ export default function DashboardSidebar({user, isOpenSidebar, onCloseSidebar })
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' }
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
+      <Box sx={{ px: 4, py: 3, display: 'inline-flex', textAlign:'center' }}>
+        <Typography variant="h5" sx={{ color: '#00AB55' }}>
+            Gestionnaire de stock
+        </Typography>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>

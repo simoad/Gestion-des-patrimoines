@@ -17,6 +17,15 @@ class reclamation extends Model
         'description',
         'date_reclamation',
         'status_reponce'
-
     ];
+
+    public function reponse_reclamation()
+    {
+        return $this->HasMany(Reponse_reclamation::class, 'id_reclamation', 'id_reclamation');
+    }
+
+    public function bien()
+    {
+        return $this->belongsTo(Bien::class, 'code_barre', 'code_barre');
+    }
 }

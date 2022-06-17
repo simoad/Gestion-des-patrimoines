@@ -35,6 +35,16 @@ class ReclamerController extends Controller
       ]);
   }
 
+    function getServices(){
+
+      $service_reclamation = Service_reclamation::all();
+
+      return response()->json([
+        'status'=> 200,
+        'services'=>$service_reclamation,
+    ]);
+    }
+
 
   
 }

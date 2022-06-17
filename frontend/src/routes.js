@@ -28,6 +28,12 @@ import Categories from './pages/Categories';
 import BienRebut from './pages/BienRebut';
 import GestionnaireNotifications from './pages/GestionnaireNotifications';
 import GestionnaireHistory from './pages/GestionnaireHistory';
+import AddDemande from './layouts/employeeDashboard/AddDemande';
+import DemandeList from './layouts/employeeDashboard/DemandeList';
+import Demandes from './pages/Demandes';
+
+
+
 
 import AdminDashboard from './layouts/adminDashboard/AdminDashboard';
 import EmployeesList from './layouts/adminDashboard/EmployeesList';
@@ -51,7 +57,7 @@ export default function Router() {
   const getUser = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/user');
     setUser(res.data);
-    console.log(user);
+    console.log(user); 
   }
 
    useEffect(() => { 
@@ -63,7 +69,7 @@ export default function Router() {
     (localStorage.getItem('auth_role') === 'gestionnaire') ?
     {
       path: '/gestionnaire',
-      element: <DashboardLayout user={user}/>,
+      element: <DashboardLayout />,
       children: [
         { path: '/gestionnaire', element: <Navigate to="/gestionnaire/biens" /> },
         { path: 'biens', element: <BienList user={user}/> },
@@ -77,7 +83,8 @@ export default function Router() {
         { path: 'suiviBien/:id', element: <SuiviBien /> },
         { path: 'bienRebut', element: <BienRebut user={user}/> },
         { path: 'notifications', element: <GestionnaireNotifications /> },
-        { path: 'historique', element: <GestionnaireHistory /> }
+        { path: 'historique', element: <GestionnaireHistory /> },
+        { path: 'demandes', element: <Demandes /> }
       ]
     }
     : <Navigate to="/login" />,

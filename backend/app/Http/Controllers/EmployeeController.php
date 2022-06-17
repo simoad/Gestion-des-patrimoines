@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
+    function getEmployees(){
+        $employees = Employee::all();
+        
+        return response()->json([
+            'status'=> 200,
+            'employees'=>$employees,
+        ]);
+    }
+
     function getById($id){
         $employee = Employee::where('id_employe',$id)->with('bureau')->first();
         // $bureau = Bureau::where('id_bureau',$employee->id_bureau)->with('affectations')->with('departement')->first();
