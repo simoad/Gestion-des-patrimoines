@@ -60,7 +60,7 @@ export default function EmployeeDashboardSidebar({ user,isOpenSidebar, onCloseSi
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' }
       }}
     >
-      <Box sx={{ px: 12, py: 3, display: 'inline-flex', textAlign:'center' }}>
+      <Box sx={{ px: 12, py: 3, display: 'inline-flex' }}>
         <Typography variant="h5" sx={{ color: '#00AB55' }}>
             Employé
         </Typography>

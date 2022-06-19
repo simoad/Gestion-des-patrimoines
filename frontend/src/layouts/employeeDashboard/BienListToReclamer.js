@@ -128,7 +128,10 @@ export default function BienListToReclamer({user}) {
     setPage(0);
   };
 
+  
+ 
   const getBiens = async () => {
+   
     const res = await axios.get(`http://127.0.0.1:8000/api/get-employee/${user.id_employe}`);
     setBiens(res.data.employe.bureau.affectations);
    };
@@ -183,7 +186,7 @@ export default function BienListToReclamer({user}) {
                          
                           <TableCell align="left">
                            
-                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} id={user.id_employe} />
+                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} user={user} />
                           </TableCell>
                         </TableRow>
                       )

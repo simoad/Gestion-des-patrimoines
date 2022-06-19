@@ -95,7 +95,6 @@ export default function Router() {
       path: '/admin',
       element: <AdminDashboard />,
       children: [
-
         { path: 'bien', element: <Adminbien /> },
         { path: 'fonctionnels', element: <FonctionnelList/> },
         { path: 'ajout', element: <Ajoutfonctionnel /> },
@@ -114,11 +113,12 @@ export default function Router() {
    (localStorage.getItem('auth_role') === 'employee') ?
    {
      path: '/employee',
-     element: <EmployeeDashboard />,
+     element: <EmployeeDashboard user={user} />,
      children: [
-       { path: 'biens', element: <BienListToReclamer user={user} /> },
-        { path: 'demande', element: <DemandeList user={user}/> },
-        { path: 'addDemande', element: <AddDemande /> },
+       { path: '/employee', element: <Navigate to="/employe/demande" /> },
+       { path: 'biens', element: <BienListToReclamer user={user}/> },
+       { path: 'demande', element: <DemandeList user={user}/> },
+       { path: 'addDemande', element: <AddDemande /> },
      ]
    } : <Navigate to="/login" />,
 
