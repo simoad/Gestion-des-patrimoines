@@ -180,7 +180,7 @@ export default function GestionnaireHistory() {
     getGestionnaireHistoryAjout();
     getGestionnaireHistoryAffectation();
     getGestionnaireHistoryModification();
-   },[]);
+   },[]); 
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -262,7 +262,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -337,7 +337,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -412,7 +412,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -487,7 +487,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -562,7 +562,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>

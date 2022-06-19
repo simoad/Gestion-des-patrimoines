@@ -20,6 +20,18 @@ class CategorieController extends Controller
         ]);
     }
 
+    function store(Request $request){
+        $Categorie = new Categorie;
+        $Categorie->nom_categorie   = $request->input('categorie');
+        $Categorie->seuil = $request->input('seuil');
+        $Categorie->save();
+
+        return response()->json([
+            'status'=> 200,
+            'Categorie'=>'Categorie est ajouté',
+        ]);
+    }
+
     function updateSeuil($id, Request $request){
         $categorie = Categorie::where('id_categorie',$id);
 

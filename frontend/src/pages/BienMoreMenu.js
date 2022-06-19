@@ -66,12 +66,7 @@ export default function UserMoreMenu({user,codeBarre,getBiens}) {
           <ListItemText primary="Modifier" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem onClick={() => deleteBien(codeBarre)}  sx={{ color: 'red' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" color="red" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Supprimer" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        
       </Menu>
     </>
   );

@@ -84,7 +84,7 @@ export default function Router() {
         { path: 'bienRebut', element: <BienRebut user={user}/> },
         { path: 'notifications', element: <GestionnaireNotifications /> },
         { path: 'historique', element: <GestionnaireHistory /> },
-        { path: 'demandes', element: <Demandes /> }
+        { path: 'demandes', element: <Demandes user={user}/> }
       ]
     }
     : <Navigate to="/login" />,
@@ -116,7 +116,9 @@ export default function Router() {
      path: '/employee',
      element: <EmployeeDashboard />,
      children: [
-       { path: 'biens/:id', element: <BienListToReclamer /> },
+       { path: 'biens', element: <BienListToReclamer user={user} /> },
+        { path: 'demande', element: <DemandeList user={user}/> },
+        { path: 'addDemande', element: <AddDemande /> },
      ]
    } : <Navigate to="/login" />,
 

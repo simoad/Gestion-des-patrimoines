@@ -22,7 +22,7 @@ const sidebarConfig = [
     icon: getIcon('fluent:task-list-square-add-24-regular')
   },
   {
-    title: 'Biens à envoyés au rebut',
+    title: 'Biens à envoyer au rebut',
     path: '/gestionnaire/bienRebut',
     icon: getIcon('eva:shopping-bag-fill')
   },

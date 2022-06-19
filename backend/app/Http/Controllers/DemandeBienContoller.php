@@ -14,6 +14,7 @@ class DemandeBienContoller extends Controller
         $demandeBien = new demandeBien;
         $demandeBien->description = $request->input('description');
         $demandeBien->nom_bien    = $request->input('nom_bien');
+        $demandeBien->etat    = 0;
         $demandeBien->id_employe = $id;
         $demandeBien->save();
 
@@ -31,7 +32,7 @@ class DemandeBienContoller extends Controller
     }
 
     function getById($id){
-        $demandeBien = demandeBien::where('id_employe',$id)->get();
+        $demandeBien = demandeBien::where('id_employe',$id)->orderBy('id_demande_bien', 'desc')->get();
         return response()->json([
             'status'=> 200,
             'demandeBien'=>$demandeBien,
@@ -39,10 +40,23 @@ class DemandeBienContoller extends Controller
     }
 
     function getDemandes(){
-        $demandeBien = demandeBien::all();
+        $demandeBien = demandeBien::orderBy('id_demande_bien', 'desc')->get();
         return response()->json([
             'status'=> 200,
             'demandeBien'=>$demandeBien,
+        ]);
+    }
+
+    function confirmerConsulterDemande(Request $request){
+        $demande = demandeBien::where('id_demande_bien',$request->demande);
+
+        $demande->update([
+        'etat'          => 1,
+        ]);
+
+        return response()->json([
+            'status'=> 200,
+            'message'=>'Demande est bien consultée',
         ]);
     }
 }

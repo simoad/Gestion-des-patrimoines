@@ -101,7 +101,9 @@ TablePaginationActions.propTypes = {
 const TABLE_HEAD = [
   { id: 'nom_bien', label: 'Nom Bien', alignRight: false },
   { id: 'description', label: 'Description', alignRight: false },
-  { id: 'date_demande', label: 'Date de la demande', alignRight: false }
+  { id: 'date_demande', label: 'Date de la demande', alignRight: false },
+  { id: 'consultation', label: 'Etat de consultation', alignRight: false }
+
 ];
 
 // ----------------------------------------------------------------------
@@ -191,6 +193,18 @@ export default function DemandeList({user}) {
                           <TableCell align="left">{row.nom_bien}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
                           <TableCell align="left">{moment(row.date_demande).format("DD/MM/YYYY")}</TableCell>
+                          <TableCell align="left">
+                          
+                          {row.etat === 1 ? <Label
+                          variant="ghost"
+                          color='success'
+                        >bien consulté</Label> : 
+                          <Label
+                          variant="ghost"
+                          color='info'
+                        >non consulté</Label>}
+                        
+                        </TableCell>
                         </TableRow>
                       )
                     )}
