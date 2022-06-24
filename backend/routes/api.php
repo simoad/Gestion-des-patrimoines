@@ -2,17 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
-use App\Http\Controllers\BienController;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AffectationController;
-use App\Http\Controllers\DepartementController;
-use App\Http\Controllers\BureauController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\HistoriqueController;
-use App\Http\Controllers\DemandeBienContoller;
 
 
 
@@ -81,6 +70,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Employee Routes
     Route::get('get-employees', 'EmployeeController@getEmployees');
     Route::get('get-employee/{id}', 'EmployeeController@getById');
+    Route::get('get_reclamation/{id}', 'EmployeeController@getReclamation');
     Route::post('reclamer', 'ReclamerController@ReclamerBien');
 
     //Service-Reclamation
@@ -95,9 +85,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Categorie Routes
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');
     Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
-//Employee Routes
-Route::get('get-employee/{id}', 'EmployeeController@getById');
-Route::post('reclamer', 'ReclamerController@ReclamerBien');
+
 
 
     //reclamation

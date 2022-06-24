@@ -21,6 +21,21 @@ class EmployeeController extends Controller
         ]);
     }
 
+     function getReclamation($id){
+
+        $result=DB::select("select R.id_reclamation , B.code_barre as codebarre , R.description as description  , B.nom as produit  , R.date_reclamation as date_reclamation 
+        from reclamation as R ,  bien as B , employe as E 
+        where R.code_barre=B.code_barre
+        and E.id_employe=R.id_employe
+        and R.id_employe=?
+        order by date_reclamation desc;",[$id]);
+
+        return response()->json([
+            'status'=> 200,
+            'reclamations'=>$result
+        ]);
+    }
+
     function getById($id){
         $employee = Employee::where('id_employe',$id)->with('bureau')->first();
         // $bureau = Bureau::where('id_bureau',$employee->id_bureau)->with('affectations')->with('departement')->first();

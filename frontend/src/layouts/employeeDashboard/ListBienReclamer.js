@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { sentenceCase } from 'change-case';
+import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
@@ -14,10 +15,13 @@ import {
   Typography,
   TableContainer,
   TableSortLabel,
+  ButtonGroup,
   TableHead, TableFooter,
   TablePagination, Grid
 } from '@mui/material';
-//
+
+// 
+import * as moment from 'moment';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -28,10 +32,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
-import Iconify from '../../components/Iconify';
-import ReclamationDes from './ReclamationDes';
 // ----------------------------------------------------------------------
 
 function TablePaginationActions(props) {
@@ -96,63 +97,50 @@ TablePaginationActions.propTypes = {
 };
 
 const TABLE_HEAD = [
-  { id: 'code_barre', label: 'Code Barre', alignRight: false },
-  { id: 'nom', label: 'Nom', alignRight: false },
-  { id: 'categorie', label: 'Categorie', alignRight: false },
-  { id: 'garanttie', label: 'Garantie', alignRight: false },
-  { id: 'duree_de_vie', label: 'Duree de vie', alignRight: false },
-  { id: 'reclamation', label: 'reclamation', alignRight: false }
+  { id: 'code_barre', label: 'code barre', alignRight: false },
+  { id: 'produit', label: 'produit', alignRight: false },
+  { id: 'description', label: 'description', alignRight: false },
+  { id: 'date_reclamation', label: 'date_reclamation', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
 
 
-export default function BienListToReclamer() {
+export default function ListBienReclamer({user}) {
 
-  const [Biens, setBiens] = useState([]);
+  const [reclamations, setReclamations] = useState([]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  
-  
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Biens.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - reclamations.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const [user, setUser] = useState({
-    nom:'',
-    prenom:'',
-    email:''
-  });
-  const getUser = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/user');
-    setUser(res.data);
-    console.log(user);
-  }
-
-   useEffect(() => { 
-    getUser();
-   },[]);
  
-  const getBiens = async () => {
-   
-    const res = await axios.get(`http://127.0.0.1:8000/api/get-employee/${user.id_employe}`);
-    setBiens(res.data.employe.bureau.affectations);
+  
+
+   const getReclamations = async () => {
+    const res = await axios.get(`http://127.0.0.1:8000/api/get_reclamation/${user.id_employe}`);
+    setReclamations(res.data.reclamations);
    };
-   
+  
    useEffect(() => {
-    getBiens();
+    getReclamations();
    },[user]);
+
+   
+
  
 
   return (
@@ -160,14 +148,13 @@ export default function BienListToReclamer() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-             reclamation des équipement
+          l'historique des Reclamations
           </Typography>
-         
         </Stack>
 
         <Card>
           <Scrollbar>
-            <TableContainer sx={{  minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -184,25 +171,19 @@ export default function BienListToReclamer() {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                      ? Biens.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : Biens
+                      ? reclamations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : reclamations
                     ).map((row) => 
                          (
                         <TableRow
                           hover
-                          key={row.code_barre}
+                          key={row.id_reclamation}
                           tabIndex={-1}
                         >
-                          <TableCell align="left">{row.bien.code_barre}</TableCell>
-                          <TableCell align="left">{row.bien.nom}</TableCell>
-                          <TableCell align="left">{row.bien.id_categorie}</TableCell>
-                          <TableCell align="left">{row.bien.garantie}</TableCell>
-                          <TableCell align="left">{row.bien.duree_de_vie}</TableCell>
-                         
-                          <TableCell align="left">
-                           
-                            <ReclamationDes getBiens={getBiens} codeBarre={row.bien.code_barre} user={user} />
-                          </TableCell>
+                          <TableCell align="left">{row.codebarre}</TableCell>
+                          <TableCell align="left">{row.produit}</TableCell>
+                          <TableCell align="left">{row.description}</TableCell>
+                          <TableCell align="left">{moment(row.date_reclamation).format("DD/MM/YYYY")}</TableCell>
                         </TableRow>
                       )
                     )}
@@ -222,7 +203,7 @@ export default function BienListToReclamer() {
           component='div'
                       rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                       colSpan={3}
-                      count={Biens.length}
+                      count={reclamations.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{

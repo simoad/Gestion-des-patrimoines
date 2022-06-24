@@ -9,6 +9,7 @@ import DashboardLayout from './layouts/dashboard';
 import EmployeeDashboard from './layouts/employeeDashboard/EmployeeDashboard';
 import ReclamationDashboard from './layouts/ServiceReclamation/ReclamationNonRepondu/ReclamationDashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
+import ListBienReclamer from './layouts/employeeDashboard/ListBienReclamer'
 //
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -45,6 +46,7 @@ import Adminbien from './layouts/adminDashboard/Adminbien';
 import Adminsuivibien from './layouts/adminDashboard/Adminsuivibien';
 import Adminstructure from './layouts/adminDashboard/Adminstructure';
 import Ajoutbureau from './layouts/adminDashboard/Ajoutbureau';
+
 
 // ----------------------------------------------------------------------
 
@@ -103,7 +105,7 @@ export default function Router() {
         { path: 'suiviBien/:id', element: <Adminsuivibien /> },
         { path: 'structure', element: <Adminstructure /> },
         { path: 'ajoutbureau', element: <Ajoutbureau /> },
-       
+        { path: 'register', element: <Register /> },
       ]
 
     } : <Navigate to="/login" />,
@@ -113,10 +115,11 @@ export default function Router() {
    (localStorage.getItem('auth_role') === 'employee') ?
    {
      path: '/employee',
-     element: <EmployeeDashboard user={user} />,
+     element: <EmployeeDashboard/>,
      children: [
-       { path: '/employee', element: <Navigate to="/employe/demande" /> },
-       { path: 'biens', element: <BienListToReclamer user={user}/> },
+       { path: '/employee', element: <Navigate to="/employee/biens" /> },
+       { path: 'biens', element: <BienListToReclamer /> },
+       { path: 'Reclamations', element: <ListBienReclamer user={user}/> },
        { path: 'demande', element: <DemandeList user={user}/> },
        { path: 'addDemande', element: <AddDemande /> },
      ]
@@ -140,7 +143,6 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/login" /> }
       ]

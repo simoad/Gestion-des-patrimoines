@@ -37,6 +37,11 @@ const sidebarConfig = [
     title: 'Demande des biens',
     path: '/employee/demande',
     icon: getIcon('eva:shopping-bag-fill')
+  },
+  {
+    title: 'reclamations',
+    path: '/employee/Reclamations',
+    icon: getIcon('eva:shopping-bag-fill')
   }
 ];
 
