@@ -273,6 +273,7 @@ export default function GestionnaireHistory() {
                               color={(row.type_action === 'ajout' && 'info') || 
                               (row.type_action === 'modification' && 'warning') ||
                               (row.type_action === 'affectation' && 'success') || 
+                              
                               (row.type_action === 'rebut' && 'error')}
                             >
                               {row.type_action}

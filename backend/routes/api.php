@@ -124,7 +124,7 @@ Route::post('reclamer', 'ReclamerController@ReclamerBien');
     Route::get('gestionnaireHistoryAffectation', 'HistoriqueController@getGestionnaireHistoryAffectation');
     Route::get('gestionnaireHistoryModification', 'HistoriqueController@getGestionnaireHistoryModification');
     Route::get('gestionnaireHistoryReclamation', 'HistoriqueController@getGestionnaireHistoryReclamation')->name('gestionnaireHistoryReclamation');
-
+    Route::get('gestionnaireHistoryForAdmin', 'HistoriqueController@getGestionnaireHistoryForAdmin');
 
 
 });

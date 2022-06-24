@@ -50,7 +50,7 @@ import {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setshowAlert(false);
+                    setshowAlertError(false);
                   }}
                 >
                   <CloseIcon fontSize="inherit" />

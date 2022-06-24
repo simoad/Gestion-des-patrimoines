@@ -114,7 +114,7 @@ export default function Router() {
    (localStorage.getItem('auth_role') === 'employee') ?
    {
      path: '/employee',
-     element: <EmployeeDashboard />,
+     element: <EmployeeDashboard user={user} />,
      children: [
        { path: 'biens/:id', element: <BienListToReclamer /> },
      ]
