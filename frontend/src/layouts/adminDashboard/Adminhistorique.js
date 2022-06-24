@@ -152,7 +152,7 @@ export default function Adminhistorique() {
 
 
   const getGestionnaireHistory = async () => {
-    const res = await axios.get('http://127.0.0.1:8000/api/gestionnaireHistory');
+    const res = await axios.get('http://127.0.0.1:8000/api/gestionnaireHistoryForAdmin');
     setHistorique(res.data.historique);
    };
 

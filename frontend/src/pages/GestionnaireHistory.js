@@ -180,7 +180,7 @@ export default function GestionnaireHistory() {
     getGestionnaireHistoryAjout();
     getGestionnaireHistoryAffectation();
     getGestionnaireHistoryModification();
-   },[]);
+   },[]); 
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -262,7 +262,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -273,6 +273,7 @@ export default function GestionnaireHistory() {
                               color={(row.type_action === 'ajout' && 'info') || 
                               (row.type_action === 'modification' && 'warning') ||
                               (row.type_action === 'affectation' && 'success') || 
+                              
                               (row.type_action === 'rebut' && 'error')}
                             >
                               {row.type_action}
@@ -337,7 +338,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -412,7 +413,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -487,7 +488,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>
@@ -562,7 +563,7 @@ export default function GestionnaireHistory() {
                          (
                         <TableRow
                           hover
-                          key={row.id}
+                          key={row.id_historique}
                           tabIndex={-1}
                         >
                           <TableCell align="left" >{row.action}</TableCell>

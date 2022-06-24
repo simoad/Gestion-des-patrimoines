@@ -86,7 +86,7 @@ export default function Router() {
         { path: 'bienRebut', element: <BienRebut user={user}/> },
         { path: 'notifications', element: <GestionnaireNotifications /> },
         { path: 'historique', element: <GestionnaireHistory /> },
-        { path: 'demandes', element: <Demandes /> }
+        { path: 'demandes', element: <Demandes user={user}/> }
       ]
     }
     : <Navigate to="/login" />,

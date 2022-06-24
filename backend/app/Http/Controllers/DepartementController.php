@@ -30,16 +30,37 @@ class DepartementController extends Controller
 
     }
     function registerdepartement(Request $req){
+
+
+        $condition=DB::select("select nom_departement   from departement where nom_departement like (?)" ,[$req->input('departement')]);
+
+       
+        
+        
+
+        if(!$condition ){
         $test = DB::insert("insert into departement (`nom_departement`) VALUES (?)" ,[$req->input('departement')]);
         
-       
-
         return response()->json([
             'status'=> 200,
            
-            // 'bureau'=>$bureau,
-            // 'departement'=>$departement
+        
         ]);
+
+        
+    
+    
+    }
+    else{
+        return response()->json([
+            'status'=> 400,
+           
+        
+        ]);
+
+    }
+    
+   
        
 }
 

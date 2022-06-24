@@ -3,7 +3,6 @@ import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-
 // material
 import { 
   MenuItem,
@@ -16,9 +15,9 @@ import {
   Collapse, Alert, IconButton,
  } from '@mui/material';
  import CloseIcon from '@mui/icons-material/Close';
- import FormDepartement from './FormDepartement';
+ import FormBureau from './FormBureau';
 
- export default function AjoutDepartementDialog({open,setOpen}){
+ export default function AjoutBureauDialog({open,setOpen}){
 
     const [showAlert, setshowAlert] = useState(false);
     const [showAlertError, setshowAlertError] = useState(false);
@@ -36,10 +35,10 @@ import {
 
     return(
     <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth={fullWidth}>
-        <DialogTitle>Ajout du departement</DialogTitle>
+        <DialogTitle>Ajout du bureau</DialogTitle>
         <DialogContent>
           <DialogContentText>
-           Veuillez inserer le nouveau departement. 
+           Veuillez inserer le nouveau bureau. 
           </DialogContentText>
           <Collapse in={showAlertError} sx={{marginTop : '4px'}}>
             <Alert
@@ -59,11 +58,12 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              L'ajout de departement  a reconnu un problème ! 
+              L'ajout du bureau  a reconnu un problème ! 
             </Alert>
           </Collapse>
           <Collapse in={showAlert} sx={{marginTop : '4px'}}>
             <Alert
+           
               color='primary'
               action={
                 <IconButton
@@ -79,12 +79,11 @@ import {
               }
               sx={{ mb: 2 }}
             >
-             le departement est  bien ajouté ! 
+             le bureau est  bien ajouté ! 
             </Alert>
-           
           </Collapse>
           <MyComponent>
-               <FormDepartement  setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} />
+               <FormBureau  setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} />
           </MyComponent>
         </DialogContent>
         <DialogActions>

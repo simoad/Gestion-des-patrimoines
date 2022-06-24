@@ -107,6 +107,20 @@ class HistoriqueController extends Controller
         ->orWhere('type_action','ajout')
         ->orWhere('type_action','modification')
         ->orWhere('type_action','affectation')
+       
+        ->orderBy('date_action', 'desc')->get();
+        
+        return response()->json([
+            'status'=> 200,
+            'historique'=>$historique,
+        ]);
+    }
+
+    function getGestionnaireHistoryForAdmin(){
+        $historique = Historique::where('type_action','rebut')
+        ->orWhere('type_action','ajout')
+        ->orWhere('type_action','modification')
+        ->orWhere('type_action','affectation')
         ->orWhere('type_action','reclamation')
         ->orderBy('date_action', 'desc')->get();
         

@@ -11,7 +11,7 @@ export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError
 
   const formik = useFormik({
     initialValues: {
-      codeBarre,
+      code_barre : codeBarre,
       id_gestionnaire : user.id_gestionnaire,
     },
     onSubmit: async (values) => {

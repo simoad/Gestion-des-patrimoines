@@ -12,16 +12,26 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Stack,  
+  Select ,
+  InputLabel,
+  TextField,
+  FormControl,
+  Grid,
   Collapse, Alert, IconButton,
  } from '@mui/material';
+ import { LoadingButton } from '@mui/lab';
  import CloseIcon from '@mui/icons-material/Close';
- import FormModifSeuil from './FormModifSeuil';
+ import FormAjoutCategorie from './FormAjoutCategorie';
 
- export default function ModifSeuilDialog({getCategories,open,setOpen,idCat,seuilCategorie}){
+ export default function AjoutCategorieDialog({getCategories,open,setOpen}){
+
 
     const [showAlert, setshowAlert] = useState(false);
     const [showAlertError, setshowAlertError] = useState(false);
 
+
+    const ITEM_HEIGHT = 48;
     const [maxWidth, setMaxWidth] = useState('md');
     const [fullWidth, setFullWidth] = useState(false);
 
@@ -35,10 +45,10 @@ import {
 
     return(
     <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth={fullWidth}>
-        <DialogTitle>Modifier le seuil de votre catégorie</DialogTitle>
+        <DialogTitle>Ajouter une catégorie des biens</DialogTitle>
         <DialogContent>
           <DialogContentText>
-           Veuillez inserer le nouveau seuil. 
+           Veuillez ajouter la nouvelle catégorie des biens
           </DialogContentText>
           <Collapse in={showAlertError} sx={{marginTop : '4px'}}>
             <Alert
@@ -58,7 +68,7 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              La modification du seuil a reconnu un problème ! 
+              L'ajout du catégorie a reconnu un problème ! 
             </Alert>
           </Collapse>
           <Collapse in={showAlert} sx={{marginTop : '4px'}}>
@@ -78,11 +88,11 @@ import {
               }
               sx={{ mb: 2 }}
             >
-              Le seuil de votre catégorie est modifié ! 
+              Votre catégorie est ajoutée ! 
             </Alert>
           </Collapse>
           <MyComponent>
-               <FormModifSeuil getCategories={getCategories} setshowAlert={setshowAlert} setshowAlertError={setshowAlertError} idCat={idCat} seuilCat={seuilCategorie}/>
+            <FormAjoutCategorie getCategories={getCategories} setshowAlert={setshowAlert} setshowAlertError={setshowAlertError}/>
           </MyComponent>
         </DialogContent>
         <DialogActions>

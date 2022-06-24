@@ -34,6 +34,7 @@ import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
 import Ajoutdepartement from './Ajoutdepartement';
 import Scrollbar from '../../components/Scrollbar';
+import Ajoutbureau2 from './Ajoutbureau2';
 
 
 // ----------------------------------------------------------------------
@@ -172,7 +173,8 @@ export default function Adminstructure({user}) {
 
           <Stack direction="row" alignItems="center" justifyContent="flex-end">
         <Ajoutdepartement     />
-          <Button
+        <Ajoutbureau2     />
+          {/* <Button
         sx={{ml:5}}
           variant="contained"
           component={RouterLink}
@@ -180,7 +182,7 @@ export default function Adminstructure({user}) {
           startIcon={<Iconify icon="eva:plus-fill" />}
         >
           Ajouter Bureau
-        </Button>
+        </Button> */}
         </Stack>
 
          

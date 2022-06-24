@@ -154,7 +154,6 @@ export default function BienListToReclamer() {
     getBiens();
    },[user]);
  
-
   return (
     <Page title="Listes Des Biens">
       <Container>
