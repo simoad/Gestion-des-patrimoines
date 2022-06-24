@@ -45,7 +45,7 @@ const [fullWidth, setFullWidth] = useState(false);
           backgroundColor: '#228B22',
           color: '#fff',
         },
-        }}> à reparer </Button>
+        }}> bien réparer </Button>
       
       <Dialog open={open} onClose={handleClose} maxWidth={maxWidth} fullWidth={fullWidth}>
         <DialogTitle>confirmation</DialogTitle>

@@ -16,7 +16,7 @@ import ReclamerBien from './ReclamerBien';
 
 // ----------------------------------------------------------------------
 
-export default function ReclamationDes({codeBarre,id}) {
+export default function ReclamationDes({codeBarre,user}) {
   const navigate = useNavigate();
   const ref = useRef(null);
 
@@ -32,7 +32,7 @@ export default function ReclamationDes({codeBarre,id}) {
     <>
         <Button variant="contained" component={RouterLink} to="#" onClick={handleClickOpen}> reclamer </Button>
 
-        <ReclamerBien open={open} setOpen={setOpen} codeBarre={codeBarre} id={id}/>
+        <ReclamerBien open={open} setOpen={setOpen} codeBarre={codeBarre} user={user}/>
 
        
 

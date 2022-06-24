@@ -20,15 +20,15 @@ class ReclamationController extends Controller
             'reclamations'=>$reclamations
         ]);
     }
-    function get_all_reclamations_Repondu(){
+    function get_all_reclamations_Repondu($id){
 
         $result=DB::select("select E.nom as employe,R.id_reclamation , B.nom as produit , R.description , R.date_reclamation , R.code_barre , Res.ServiceResponce  
         from reclamation as R ,  bien as B , employe as E  , reponse_reclamation as Res
         where B.code_barre=R.code_barre
         and E.id_employe= R.id_employe
         and Res.id_reclamation=R.id_reclamation
-        and Res.id_service_recl=9 
-        and R.status_reponce=1;");
+        and Res.id_service_recl=? 
+        and R.status_reponce=1;",[$id]);
 
         return response()->json([
             'status'=> 200,
@@ -51,7 +51,7 @@ class ReclamationController extends Controller
         };
         
            
-            if(empty($result) || empty($test)  || array_column($result , 'ServiceResponce')[0] == "En Reparation"   ){
+            if(empty($result) || empty($test)  || array_column($result , 'ServiceResponce')[0] == "bien réparer"   ){
                 Reclamation::where('id_reclamation',$req->input('idReclamation'))->update(['status_reponce' => 1]);
                 if($req->input('ServiceReponse') == "En Rebut"){
                     DB::delete("delete from affectation where code_barre=?",[$req->input('codeBarre')]);
@@ -107,14 +107,14 @@ class ReclamationController extends Controller
         ]);
     }
       function get_all_biens_En_Reparation($id){
-        // $Responses = Reponse_reclamation::where('ServiceResponce','En Reparation')->where('id_service_recl', $req->input('idServiceReclamation'))->get();
+    
         $result=DB::select("select E.nom as employe,R.id_reclamation , B.nom as produit , R.description , R.date_reclamation , R.code_barre , Res.ServiceResponce  
         from reclamation as R ,  bien as B , employe as E  , reponse_reclamation as Res
         where B.code_barre=R.code_barre
         and E.id_employe= R.id_employe
         and Res.id_reclamation=R.id_reclamation
         and Res.id_service_recl=? 
-        and Res.ServiceResponce='En Reparation'
+        and Res.ServiceResponce='bien réparer'
         and R.status_reponce=1;",[$id]);
 
         return response()->json([

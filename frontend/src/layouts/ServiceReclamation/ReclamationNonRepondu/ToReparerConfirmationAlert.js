@@ -34,7 +34,7 @@ const formik = useFormik({
       codeBarre,
       idReclamation,
       idServiceReclamation: user.id_service_recl,
-      ServiceReponse: 'En Reparation'
+      ServiceReponse: 'bien réparer'
     },
     onSubmit: async (values) => {
       const res = await fetch(`http://127.0.0.1:8000/api/responceReclamation`, {

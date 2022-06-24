@@ -22,7 +22,7 @@ import {
  import CloseIcon from '@mui/icons-material/Close';
  import { LoadingButton } from '@mui/lab';
 
- export default function AffecterBienDialog({getDemande,open,setOpen}){
+ export default function AddDemande({getDemande,open,setOpen}){
     const [showAlert, setshowAlert] = useState(false);
     const [showAlertError, setshowAlertError] = useState(false);
     const [maxWidth, setMaxWidth] = useState('md');

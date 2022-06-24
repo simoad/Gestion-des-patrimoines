@@ -29,8 +29,11 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 // components
 import Page from '../components/Page';
+import Iconify from '../components/Iconify';
 import Scrollbar from '../components/Scrollbar';
 import ModificationSeuilCell from './ModificationSeuilCell';
+import AjoutCategorieDialog from './AjoutCategorieDialog';
+
 // ----------------------------------------------------------------------
 
 function TablePaginationActions(props) {
@@ -112,6 +115,12 @@ export default function BienList() {
     seuil:1
   }]);
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -146,7 +155,24 @@ export default function BienList() {
           <Typography variant="h4" gutterBottom>
             Catégorie des biens
           </Typography>
+          <Button
+            sx={{
+                '&:hover': {
+                color: '#fff',
+                },
+              }}
+            variant="contained"
+            component={RouterLink}
+            to="#"
+            onClick={handleClickOpen}
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            Ajouter Catégorie
+          </Button>
+          <AjoutCategorieDialog getCategories={getCategories} open={open} setOpen={setOpen}/>
         </Stack>
+
+        
 
         <Card>
           <Scrollbar>

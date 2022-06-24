@@ -1,10 +1,14 @@
 import { useState,useEffect } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // material
 import { styled, alpha } from '@mui/material/styles';
 import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { useFormik, Form, FormikProvider, Field } from 'formik';
+
 
 // component
 import Iconify from '../../components/Iconify';
@@ -35,10 +39,13 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
+const filter = createFilterOptions();
 
 export default function Searchbar() {
+  const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false);
   const [Biens, setBiens] = useState([]);
+  const [value, setValue] = useState(null);
 
   const getBiens = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/bien');
@@ -47,6 +54,7 @@ export default function Searchbar() {
 
    useEffect(() => {
     getBiens();
+    console.log(Biens);
    },[]);
 
   const handleOpen = () => {
@@ -56,6 +64,13 @@ export default function Searchbar() {
   const handleClose = () => {
     setOpen(false);
   };
+  const formik = useFormik({
+    initialValues: {
+      search : null,
+    },
+    onSubmit: async (values) => { navigate(`suiviBien/${values.search}`, { replace: true }) }
+  });
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
@@ -66,28 +81,38 @@ export default function Searchbar() {
           </IconButton>
         )}
 
-        <Slide direction="down" in={isOpen} mountOnEnter unmountOnExit>
+        
+
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Slide direction="down" in={isOpen} mountOnEnter unmountOnExit>
           <SearchbarStyle>
-            <Input
-              autoFocus
-              fullWidth
-              disableUnderline
-              placeholder="Search…"
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify
-                    icon="eva:search-fill"
-                    sx={{ color: 'text.disabled', width: 20, height: 20 }}
-                  />
-                </InputAdornment>
-              }
-              sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
-            />
-            <Button variant="contained" onClick={handleClose}>
-              Search
+          <Autocomplete
+        freeSolo
+        fullWidth
+        id="free-solo-2-demo"
+        disableClearable
+        options={Biens.map((option) => `${option.code_barre} : ${option.nom}`)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            {...getFieldProps('search')}
+            label="Recherche"
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+      />
+    <Button type="submit" sx={{ ml: 4, py:1, px:3}} variant="contained" onClick={handleClose}>
+              rechercher
             </Button>
-          </SearchbarStyle>
+            </SearchbarStyle>
         </Slide>
+            </Form>
+            </FormikProvider>
       </div>
     </ClickAwayListener>
   );

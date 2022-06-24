@@ -5,7 +5,7 @@ import axios from 'axios';
 // material
 import { styled } from '@mui/material/styles';
 //
-import DashboardNavbar from '../../dashboard/DashboardNavbar';
+import DashboardNavbarEmployeeService from '../../employeeDashboard/DashboardNavbarEmployeeService';
 import ReclamationDashboardSidebar from './ReclamationDashboardSidebar';
 
 // ----------------------------------------------------------------------
@@ -41,7 +41,7 @@ export default function ReclamationDashboard({user}) {
 
   return (
     <RootStyle>
-      <DashboardNavbar user={user} onOpenSidebar={() => setOpen(true)} />
+      <DashboardNavbarEmployeeService user={user} onOpenSidebar={() => setOpen(true)} />
       <ReclamationDashboardSidebar user={user}  isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />

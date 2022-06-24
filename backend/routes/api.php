@@ -25,15 +25,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register','UserController@register');
 Route::post('login','UserController@login')->name('login');
 
+
+Route::get('chekingAuthenticated', function(){
+    return response()->json([
+        'message' => 'You are authenticated',
+        'status' => 200
+    ], 200);
+});
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout','UserController@logout');
-
-    Route::get('chekingAuthenticated', function(){
-        return response()->json([
-            'message' => 'You are authenticated',
-            'status' => 200
-        ], 200);
-    });
 
     //adminstructure
     Route::get('getstructure', 'DepartementController@getstructure')->name('getstructure');
@@ -56,7 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('update-bien/{id}', 'BienController@update');
     Route::get('suivi-bien/{id}', 'BienController@suiviBien');
     Route::get('bien-au-rebut', 'BienController@getBienAEnvoyerRebut');
-    Route::get('envoyer-au-rebut', 'BienController@EnvoyezAuRebut');
+    Route::post('envoyer-au-rebut', 'BienController@EnvoyezAuRebut');
 
 
     // Notification 
@@ -91,18 +92,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('add-demande/{id}','DemandeBienContoller@store');
     Route::get('get-demande-bien/{id}', 'DemandeBienContoller@getById');
     Route::get('get-demandes', 'DemandeBienContoller@getDemandes');
+    Route::post('confirmer-consulter-demande', 'DemandeBienContoller@confirmerConsulterDemande');
 
     // Categorie Routes
     Route::get('get-categories', 'CategorieController@index')->name('get-categories');
     Route::post('modifier-seuil/{id}', 'CategorieController@updateSeuil');
-//Employee Routes
-Route::get('get-employee/{id}', 'EmployeeController@getById');
-Route::post('reclamer', 'ReclamerController@ReclamerBien');
+    Route::post('ajout-categorie', 'CategorieController@store');
+
+    //Employee Routes
+    Route::get('get-employee/{id}', 'EmployeeController@getById');
+    Route::post('reclamer', 'ReclamerController@ReclamerBien');
 
 
     //reclamation
     Route::get('getReclamationsNonRepondu', 'ReclamationController@get_all_reclamations_Non_Repondu')->name('getReclamationsNonRepondu');
-    Route::get('getReclamationsRepondu', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
+    Route::get('getReclamationsRepondu/{id}', 'ReclamationController@get_all_reclamations_Repondu')->name('getReclamationsRepondu');
     Route::get('get_reclamateurs', 'ReclamationController@get_reclamateurs')->name('get_reclamateurs');
     Route::get('get_Biens', 'BienController@index')->name('get_Biens');
     Route::get('get_all_Responses_of_Reclamation', 'ReclamationController@get_all_Responses_of_Reclamation')->name('get_all_Responses_of_Reclamation');

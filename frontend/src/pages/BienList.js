@@ -222,8 +222,8 @@ export default function BienList({user}) {
                           <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.code_barre}</TableCell>
                           <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.nom}</TableCell>
                           <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{categories.map((item) => row.id_categorie===item.id_categorie && item.nom_categorie)}</TableCell>
-                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.garantie}</TableCell>
-                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.duree_de_vie}</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.garantie} mois</TableCell>
+                          <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>{row.duree_de_vie} mois</TableCell>
                           <TableCell align="left" onClick={()=>{navigate(`/gestionnaire/suiviBien/${row.code_barre}`, { replace: true });}}>
                           <Label
                               variant="ghost"
@@ -235,7 +235,8 @@ export default function BienList({user}) {
                             </Label>
                             </TableCell>
                           <TableCell align="left">
-                            <BienMoreMenu user={user} getBiens={getBiens} codeBarre={row.code_barre} />
+                          {row.statut !== 'rébut' && 
+                            <BienMoreMenu user={user} getBiens={getBiens} codeBarre={row.code_barre} />}
                           </TableCell>
                         </TableRow>
                       )

@@ -32,7 +32,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
+import ButtonReadDemande from './ButtonReadDemande';
 
 // ----------------------------------------------------------------------
 
@@ -99,9 +99,11 @@ TablePaginationActions.propTypes = {
 
 const TABLE_HEAD = [
   { id: 'nom_employee', label: 'Nom d\'employé', alignRight: false },
+  { id: 'bureau', label: 'Bureau', alignRight: false },
   { id: 'nom_bien', label: 'Nom Bien', alignRight: false },
   { id: 'description', label: 'Description', alignRight: false },
-  { id: 'date_demande', label: 'Date de la demande', alignRight: false }
+  { id: 'date_demande', label: 'Date de la demande', alignRight: false },
+  { id: 'consulter', label: 'Confirmer Consultation', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -141,6 +143,7 @@ export default function DemandeList({user}) {
    const getEmployees = async () => {
     const res = await axios.get(`http://127.0.0.1:8000/api/get-employees`);
     setEmployees(res.data.employees);
+    console.log(employees);
    };
    
    useEffect(() => {
@@ -180,7 +183,7 @@ export default function DemandeList({user}) {
                   {(rowsPerPage > 0
                       ? Demande.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       : Demande
-                    ).reverse().map((row) => 
+                    ).map((row) => 
                          (
                         <TableRow
                           hover
@@ -188,9 +191,19 @@ export default function DemandeList({user}) {
                           tabIndex={-1}
                         >
                         <TableCell align="left">{employees.map((item) => row.id_employe===item.id_employe && `${item.nom} ${item.prenom}`)}</TableCell>
+                        <TableCell align="left">{employees.map((item) => row.id_employe===item.id_employe && `${item.id_bureau}`)}</TableCell>
                           <TableCell align="left">{row.nom_bien}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
                           <TableCell align="left">{moment(row.date_demande).format("DD/MM/YYYY")}</TableCell>
+                          <TableCell align="left">
+                          
+                              {row.etat === 0 ? <ButtonReadDemande getDemande={getDemande} demande={row.id_demande_bien} user={user} /> : 
+                              <Label
+                              variant="ghost"
+                              color='success'
+                            >bien consulté</Label>}
+                            
+                            </TableCell>
                         </TableRow>
                       )
                     )}

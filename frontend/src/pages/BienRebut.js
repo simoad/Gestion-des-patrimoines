@@ -186,8 +186,8 @@ export default function BienRebut({user}) {
                       ? BiensRebut.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       : BiensRebut
                     ).map((row) => 
-                         (
-                        <TableRow
+                         (row.reclamation.bien.statut !== -1 && 
+                         <TableRow
                           hover
                           key={row.code_barre}
                           tabIndex={-1}

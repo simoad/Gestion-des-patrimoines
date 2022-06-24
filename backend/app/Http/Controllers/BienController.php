@@ -137,6 +137,13 @@ class BienController extends Controller
         $historique->type_action = "rebut";
         $historique->save();
 
+        //Action
+        $action = new Action;
+        $action->code_barre = $request->input('code_barre');
+        $action->id_gestionnaire = $request->input('id_gestionnaire');
+        $action->type_action = "rebut";
+        $action->save();
+
         $bien->update([
         'statut'          => -1,
         ]);
