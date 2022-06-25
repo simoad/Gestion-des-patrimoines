@@ -28,7 +28,8 @@ class ReclamationController extends Controller
         and E.id_employe= R.id_employe
         and Res.id_reclamation=R.id_reclamation
         and Res.id_service_recl=? 
-        and R.status_reponce=1;",[$id]);
+        and R.status_reponce=1
+        order by date_reclamation desc;",[$id]);
 
         return response()->json([
             'status'=> 200,
@@ -55,7 +56,7 @@ class ReclamationController extends Controller
                 Reclamation::where('id_reclamation',$req->input('idReclamation'))->update(['status_reponce' => 1]);
                 if($req->input('ServiceReponse') == "En Rebut"){
                     DB::delete("delete from affectation where code_barre=?",[$req->input('codeBarre')]);
-                    //il faut envoyer une notification à l'employe est l'informer que le bien il est dans le Rebut
+                    
                 }
                 $response = new Reponse_reclamation();
                 $response->id_reclamation = $req->input('idReclamation');
@@ -99,7 +100,8 @@ class ReclamationController extends Controller
         and Res.id_reclamation=R.id_reclamation
         and Res.id_service_recl=? 
         and Res.ServiceResponce='En Rebut'
-        and R.status_reponce=1;",[$id]);
+        and R.status_reponce=1
+        order by date_reclamation desc;",[$id]);
 
         return response()->json([
             'status'=> 200,
@@ -115,7 +117,8 @@ class ReclamationController extends Controller
         and Res.id_reclamation=R.id_reclamation
         and Res.id_service_recl=? 
         and Res.ServiceResponce='bien réparer'
-        and R.status_reponce=1;",[$id]);
+        and R.status_reponce=1
+        order by date_reclamation desc;",[$id]);
 
         return response()->json([
             'status'=> 200,

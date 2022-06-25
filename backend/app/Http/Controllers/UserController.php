@@ -52,7 +52,7 @@ class UserController extends Controller
             $service_de_reclamation->nom = $req->input('nom');
             $service_de_reclamation->prenom = $req->input('prenom');
             $service_de_reclamation->email = $req->input('email');
-            $service_de_reclamation->email = 1;
+            $service_de_reclamation->etat = 1;
             $service_de_reclamation->password = Hash::make($req->input('password'));
             $service_de_reclamation->save();
             $token = $service_de_reclamation->createToken($service_de_reclamation->email.'_Token')->plainTextToken;

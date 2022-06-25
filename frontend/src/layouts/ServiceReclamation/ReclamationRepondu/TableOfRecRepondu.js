@@ -149,13 +149,27 @@ function TabPanel(props) {
 // ----------------------------------------------------------------------
 
 
-export default function TableOfRecReponduTest({user}) {
+export default function TableOfRecReponduTest() {
 
     //----------------------------
     const [reclamations, setReclamations] = useState([]);
     const [biensEnRebut, setbiensEnRebut] = useState([]);
     const [biensEnReparation, setbiensEnReparation] = useState([]);
     
+
+    const [user, setUser] = useState({
+      nom:'',
+      prenom:'',
+      email:''
+    });
+    const getUser = async () => {
+      const res = await axios.get('http://127.0.0.1:8000/api/user');
+      setUser(res.data);
+    }
+  
+     useEffect(() => { 
+      getUser();
+     },[]);
 
      const getbiensEnRebut = async () => {
       const res = await axios.get(`http://127.0.0.1:8000/api/get_all_biens_En_Rebut/${user.id_service_recl}`);
@@ -176,7 +190,7 @@ export default function TableOfRecReponduTest({user}) {
       getReclamations();
       getbiensEnReparation();
       getbiensEnRebut();
-     },[biensEnReparation,reclamations]);
+     },[reclamations]);
 
     //-------------------------------
 

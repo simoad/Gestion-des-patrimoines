@@ -64,20 +64,14 @@ const [bureaux, setBureaux] = useState([{
     const response = await res.json();
     if (values.role==='employee' && response.status === 200) 
     {
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('auth_name', response.nom);
       navigate('/admin/fonctionnels', { replace: true });  
     } 
     else if (values.role==='gestionnaire' && response.status === 200) 
     {
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('auth_name', response.nom); 
       navigate('/admin/fonctionnels', { replace: true });
     }
     else if (values.role==='service_de_reclamation' && response.status === 200) 
     {
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('auth_name', response.nom); 
       navigate('/admin/fonctionnels', { replace: true });
     }
   }

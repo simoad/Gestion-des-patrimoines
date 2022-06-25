@@ -59,7 +59,6 @@ export default function Router() {
   const getUser = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/user');
     setUser(res.data);
-    console.log(user); 
   }
 
    useEffect(() => { 
@@ -119,8 +118,8 @@ export default function Router() {
      children: [
        { path: '/employee', element: <Navigate to="/employee/biens" /> },
        { path: 'biens', element: <BienListToReclamer /> },
-       { path: 'Reclamations', element: <ListBienReclamer user={user}/> },
-       { path: 'demande', element: <DemandeList user={user}/> },
+       { path: 'Reclamations', element: <ListBienReclamer /> },
+       { path: 'demande', element: <DemandeList /> },
        { path: 'addDemande', element: <AddDemande /> },
      ]
    } : <Navigate to="/login" />,
@@ -129,10 +128,10 @@ export default function Router() {
     (localStorage.getItem('auth_role') === 'service_de_reclamation') ?
     {
       path: '/reclamation',
-      element: <ReclamationDashboard user={user}/>,
+      element: <ReclamationDashboard />,
       children: [
-        { path: 'NonRepondu', element: <TableOfReclamations user={user}/> },
-        { path: 'Repondu', element: <TableOfRecRepondu user={user}/> },
+        { path: 'NonRepondu', element: <TableOfReclamations /> },
+        { path: 'Repondu', element: <TableOfRecRepondu/> },
       ]
     } : <Navigate to="/login" />,
 

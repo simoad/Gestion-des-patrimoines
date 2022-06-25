@@ -106,7 +106,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function ListBienReclamer({user}) {
+export default function ListBienReclamer() {
 
   const [reclamations, setReclamations] = useState([]);
 
@@ -127,6 +127,21 @@ export default function ListBienReclamer({user}) {
     setPage(0);
   };
 
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user);
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
  
   
 
