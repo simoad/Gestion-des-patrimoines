@@ -117,6 +117,21 @@ export default function TableOfReclamations() {
   const [reclamateurs, setReclamateurs] = useState([]);
   const [biens, setBiens] = useState([]);
 
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user);
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [date, setDate] = useState();
@@ -158,18 +173,14 @@ export default function TableOfReclamations() {
     setReclamations(res.data.reclamations);
    };
   
-   useEffect(() => {
-    getReclamations();
-   },[]);
+  
 
    const getReclamateurs = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/get_reclamateurs');
      setReclamateurs(res.data.reclamateurs);
    };
    
-   useEffect(() => {
-    getReclamateurs();
-   },[]);
+   
 
    const getBiens = async () => {
     const res = await axios.get('http://127.0.0.1:8000/api/get_Biens');
@@ -177,6 +188,8 @@ export default function TableOfReclamations() {
    };
 
    useEffect(() => {
+    getReclamations();
+    getReclamateurs();
     getBiens();
    },[]);
  

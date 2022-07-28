@@ -67,7 +67,7 @@ const [bureaux, setBureaux] = useState([{
       navigate('/admin/fonctionnels', { replace: true });  
     } 
     else if (values.role==='gestionnaire' && response.status === 200) 
-    { 
+    {
       navigate('/admin/fonctionnels', { replace: true });
     }
     else if (values.role==='service_de_reclamation' && response.status === 200) 

@@ -172,6 +172,20 @@ export default function TableOfRecReponduTest() {
      },[]);
     
 
+    const [user, setUser] = useState({
+      nom:'',
+      prenom:'',
+      email:''
+    });
+    const getUser = async () => {
+      const res = await axios.get('http://127.0.0.1:8000/api/user');
+      setUser(res.data);
+    }
+  
+     useEffect(() => { 
+      getUser();
+     },[]);
+
      const getbiensEnRebut = async () => {
       const res = await axios.get(`http://127.0.0.1:8000/api/get_all_biens_En_Rebut/${user.id_service_recl}`);
       setbiensEnRebut(res.data.Biens_Rebut);
@@ -191,7 +205,7 @@ export default function TableOfRecReponduTest() {
       getReclamations();
       getbiensEnReparation();
       getbiensEnRebut();
-     },[biensEnReparation,reclamations]);
+     },[reclamations]);
 
     //-------------------------------
 

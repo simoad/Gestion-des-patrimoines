@@ -194,7 +194,6 @@ export default function FonctionnelList() {
    const rolegestionnaire="deletegestionnaire";
 
 
-   const [roles, setRoles] = useState('');
 
 
 

@@ -38,6 +38,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //adminemploye
     Route::get('get-allemployee', 'EmployeeController@getAll')->name('get-allemployee');
     Route::post('deleteemploye', 'EmployeeController@deleteemploye')->name('deleteemploye');
+
+    
     // Bien Routes
     Route::get('bien', 'BienController@index')->name('bien');
     Route::post('add-bien', 'BienController@store');
