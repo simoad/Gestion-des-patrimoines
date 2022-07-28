@@ -74,19 +74,19 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: '/gestionnaire', element: <Navigate to="/gestionnaire/biens" /> },
-        { path: 'biens', element: <BienList user={user}/> },
-        { path: 'categories', element: <Categories user={user}/> },
-        { path: 'addBien', element: <AddBien user={user}/> },
+        { path: 'biens', element: <BienList /> },
+        { path: 'categories', element: <Categories /> },
+        { path: 'addBien', element: <AddBien /> },
         { path: 'editBien/:id', element: <EditBien user={user}/> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'suiviBien/:id', element: <SuiviBien /> },
-        { path: 'bienRebut', element: <BienRebut user={user}/> },
+        { path: 'bienRebut', element: <BienRebut /> },
         { path: 'notifications', element: <GestionnaireNotifications /> },
         { path: 'historique', element: <GestionnaireHistory /> },
-        { path: 'demandes', element: <Demandes user={user}/> }
+        { path: 'demandes', element: <Demandes /> }
       ]
     }
     : <Navigate to="/login" />,
@@ -119,8 +119,8 @@ export default function Router() {
      children: [
        { path: '/employee', element: <Navigate to="/employee/biens" /> },
        { path: 'biens', element: <BienListToReclamer /> },
-       { path: 'Reclamations', element: <ListBienReclamer user={user}/> },
-       { path: 'demande', element: <DemandeList user={user}/> },
+       { path: 'Reclamations', element: <ListBienReclamer /> },
+       { path: 'demande', element: <DemandeList /> },
        { path: 'addDemande', element: <AddDemande /> },
      ]
    } : <Navigate to="/login" />,
@@ -129,10 +129,10 @@ export default function Router() {
     (localStorage.getItem('auth_role') === 'service_de_reclamation') ?
     {
       path: '/reclamation',
-      element: <ReclamationDashboard user={user}/>,
+      element: <ReclamationDashboard />,
       children: [
-        { path: 'NonRepondu', element: <TableOfReclamations user={user}/> },
-        { path: 'Repondu', element: <TableOfRecRepondu user={user}/> },
+        { path: 'NonRepondu', element: <TableOfReclamations /> },
+        { path: 'Repondu', element: <TableOfRecRepondu /> },
       ]
     } : <Navigate to="/login" />,
 

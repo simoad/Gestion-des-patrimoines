@@ -108,13 +108,28 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function BienRebut({user}) {
+export default function BienRebut() {
     const navigate = useNavigate();
   const [BiensRebut, setBiensRebut] = useState([]);
   const [services, setServices] = useState([]);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user); 
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -198,7 +213,7 @@ export default function BienRebut({user}) {
                           <TableCell align="left">{moment(row.date_reponse).format("DD/MM/YYYY")}</TableCell>
                           <TableCell align="left">
                           {/* <Button variant="contained" onClick={envoyerAuRebut(row.reclamation.bien.code_barre)} color='error'>Envoyez au rebut</Button> */}
-                          <ButtonToRebut user={user} getBiensRebut={getBiensRebut} codeBarre={row.reclamation.bien.code_barre} nomProduit={row.reclamation.bien.nom}/>
+                          <ButtonToRebut user={user.id_gestionnaire} getBiensRebut={getBiensRebut} codeBarre={row.reclamation.bien.code_barre} nomProduit={row.reclamation.bien.nom}/>
                           </TableCell>
                         </TableRow>
                       )

@@ -110,7 +110,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function BienList({user}) {
+export default function BienList() {
 
   // Popover Start
   const [anchorEl, setAnchorEl] = useState(null);
@@ -132,6 +132,21 @@ export default function BienList({user}) {
     id_categorie : 1,
     nom_categorie : ''
   }]);
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user); 
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -236,7 +251,7 @@ export default function BienList({user}) {
                             </TableCell>
                           <TableCell align="left">
                           {row.statut !== 'rébut' && 
-                            <BienMoreMenu user={user} getBiens={getBiens} codeBarre={row.code_barre} />}
+                            <BienMoreMenu user={user.id_gestionnaire} getBiens={getBiens} codeBarre={row.code_barre} />}
                           </TableCell>
                         </TableRow>
                       )

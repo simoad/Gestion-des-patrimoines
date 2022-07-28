@@ -149,12 +149,27 @@ function TabPanel(props) {
 // ----------------------------------------------------------------------
 
 
-export default function TableOfRecReponduTest({user}) {
+export default function TableOfRecReponduTest() {
 
     //----------------------------
     const [reclamations, setReclamations] = useState([]);
     const [biensEnRebut, setbiensEnRebut] = useState([]);
     const [biensEnReparation, setbiensEnReparation] = useState([]);
+
+    const [user, setUser] = useState({
+      nom:'',
+      prenom:'',
+      email:''
+    });
+    const getUser = async () => {
+      const res = await axios.get('http://127.0.0.1:8000/api/user');
+      setUser(res.data);
+      console.log(user); 
+    }
+  
+     useEffect(() => { 
+      getUser();
+     },[]);
     
 
      const getbiensEnRebut = async () => {

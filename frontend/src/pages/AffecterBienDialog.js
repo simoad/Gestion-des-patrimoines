@@ -47,7 +47,7 @@ import {
 
     const formik = useFormik({
         initialValues: {
-          id_gestionnaire : user.id_gestionnaire,
+          id_gestionnaire : user,
           id_departement : null,
           id_bureau : null,
           code_barre : codeBarre,

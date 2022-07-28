@@ -109,13 +109,28 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function DemandeList({user}) {
+export default function DemandeList() {
 
   const navigate = useNavigate();
   const [Demande, setDemande] = useState([]);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user); 
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
 
   const handleClickOpen = () => {
     setOpen(true);

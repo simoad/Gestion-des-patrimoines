@@ -16,6 +16,7 @@ class AffectationController extends Controller
         $affectation = new Affectation;
         $affectation->code_barre = $request->input('code_barre');
         $affectation->id_bureau  = $request->input('id_bureau');
+        $affectation->id_gestionnaire = $request->input('id_gestionnaire');
         $affectation->save();
 
         //Historique

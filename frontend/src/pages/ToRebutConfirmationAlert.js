@@ -12,7 +12,7 @@ export default function ToRebutConfirmationAlert({setshowAlert,setshowAlertError
   const formik = useFormik({
     initialValues: {
       code_barre : codeBarre,
-      id_gestionnaire : user.id_gestionnaire,
+      id_gestionnaire : user,
     },
     onSubmit: async (values) => {
       const res = await fetch(`http://127.0.0.1:8000/api/envoyer-au-rebut`, {

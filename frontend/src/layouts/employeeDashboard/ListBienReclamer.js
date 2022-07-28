@@ -106,12 +106,27 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 
-export default function ListBienReclamer({user}) {
+export default function ListBienReclamer() {
 
   const [reclamations, setReclamations] = useState([]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [user, setUser] = useState({
+    nom:'',
+    prenom:'',
+    email:''
+  });
+  const getUser = async () => {
+    const res = await axios.get('http://127.0.0.1:8000/api/user');
+    setUser(res.data);
+    console.log(user); 
+  }
+
+   useEffect(() => { 
+    getUser();
+   },[]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
